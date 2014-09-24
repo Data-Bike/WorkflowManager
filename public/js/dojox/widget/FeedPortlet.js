@@ -415,27 +415,4 @@ dojo.declare("dojox.widget.PortletFeedSettings",
 				dojo.attr(opt, "selected", index == this.selectedIndex);
 			}));
 		}
-		var url = this.portlet.attr("url");
-		if(url){
-			// If a SELECT node is used to choose a URL, ensure that the Portlet's URL
-			// is one of the options.
-			if(this.text.tagName == "SELECT"){
-				if(!this.urls && dojo.query("option[value='" + url + "']", this.text).length < 1){
-					dojo.place(dojo.create("option", {
-						value: url,
-						innerHTML: url,
-						selected: "true"
-					}), this.text, "first");
-				}
-			}else{
-				this.text.attr("value", url);
-			}
-		}else{
-			this.portlet.attr("url", this.get("feedPortletUrl"));
-		}
-	},
-
-	_getFeedPortletUrlAttr: function(){
-		return this.text.value;
-	}
-});
+		var url = this.portlet.attr
