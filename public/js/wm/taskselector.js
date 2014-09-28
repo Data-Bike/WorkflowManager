@@ -30,28 +30,32 @@ define([
     "dijit/_OnDijitClickMixin",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "dijit/form/Button",
-    "dijit/form/TextBox",
-    "dijit/form/Textarea",
-    "dijit/form/TimeTextBox",
-    "dijit/form/DateTextBox",
-    "dijit/layout/ContentPane",
-    "dijit/layout/BorderContainer",
-    "dojo/text!./templates/task.html"
-], function(parser,declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, template) {
+    "wm/task",
+    "dojo/data/ItemFileReadStore",
+    "dojox/grid/DataGrid",
+    'dojo/_base/lang',
+    "dojo/text!./templates/taskselector.html"
+], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+        _WidgetsInTemplateMixin, Task, ItemFileReadStore, DataGrid, lang, template) {
 
-    return declare("task", [_WidgetBase, _OnDijitClickMixin,
+    return declare("taskselector", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
-        code: 'задача не создана',
-        name: 'укажите имя',
-        about: 'укажите информация о задаче',
-        startDate: 0,
-        startTime: 0,
-        finishDate: 0,
-        finishTime: 0,
+        layout: [
+            {type: 'dojox.grid._RadioSelector'},
+            [
+                {name: 'Название', width: '10%', field: 'name'},
+                {name: 'Описание', width: '10%', field: 'about'},
+                {name: 'Начало выполнения', width: '10%', field: 'start'},
+                {name: 'Окончание выполнения', width: '10%', field: 'finish'},
+                {name: 'Исполнители', width: '10%', field: 'executors'},
+                {name: 'Кураторы', width: '10%', field: 'curators'},
+                {name: 'Необходимо для выполнения', width: '10%', field: 'necessity'},
+                {name: 'Достаточно для выполнения', width: '10%', field: 'sufficiency'}
+
+            ]
+        ],
         getJS: function() {
             return {
                 name: this.name.get('value'),
@@ -72,11 +76,58 @@ define([
             this.finishTime.set('value', data.finishTime);
             this.code = data.code;
         },
-        postCreate: function(){
+        myGrid:{},
+        postCreate: function() {
             this.inherited(arguments);
+            var self = this;
+//            this.dataGrid.getContactName = function(colIndex, item) {
+//                alert('adsad');
+//                return item.name;
+//            };
+            
+            var data_list = [
+                {name: '2010-01-01', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
+                {name: '2011-03-04', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
+                {name: '2011-03-08', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
+                {name: '2007-02-14', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
+                {name: '2008-12-26', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''}
+            ];
+            var data = {
+                identifier: "id",
+                items: []
+            };
+
+            var rows = 60;
+            for (var i = 0, l = data_list.length; i < rows; i++) {
+                data.items.push(lang.mixin({id: i + 1}, data_list[i % l]));
+            }
+
+            var store = new ItemFileReadStore({
+                data: data
+            });
+//            this.dataGrid.store = tasksStore;
+//            self.structure = [
+//                {type: 'dojox.grid._RadioSelector'},
+//                [
+//                    {name: 'Название', width: '10%', field: 'name'},
+//                    {name: 'Описание', width: '10%', field: 'about'},
+//                    {name: 'Начало выполнения', width: '10%', field: 'start'},
+//                    {name: 'Окончание выполнения', width: '10%', field: 'finish'},
+//                    {name: 'Исполнители', width: '10%', field: 'executors'},
+//                    {name: 'Кураторы', width: '10%', field: 'curators'},
+//                    {name: 'Необходимо для выполнения', width: '10%', field: 'necessity'},
+//                    {name: 'Достаточно для выполнения', width: '10%', field: 'sufficiency'}
+//
+//                ]
+//            ];
+            this.store=store;
+//            this.dataGrid.structure = this.layout;
+            this.dataGrid.setStore(store);
+            this.dataGrid.id = 'grid';
+            this.dataGrid.rowSelector = '20px';
+//            this.dataGrid.render();
+            console.log(this.dataGrid);
         }
     });
-
     parser.parse();
-
 });
