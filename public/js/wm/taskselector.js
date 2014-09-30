@@ -61,13 +61,17 @@ define([
             });
             this.dg.on('SelectionChanged', function() {
                 console.log(self.dg.selection.getSelected());
-                console.log(ioQuery.objectToQuery(self.dg.selection.getSelected()[0]));
-
+                self.value=self.dg.selection.getSelected()[0];
             });
             this.dg.on('', function() {
                 console.log(self.dg.selection.getSelected());
                 alert(0);
 
+            });
+            this.st.viewButton.on('click',function(){
+                console.log(self.st.getJS());
+                console.log(ioQuery.objectToQuery(self.st.getJS()));
+                self.dg.setQuery('?'+ioQuery.objectToQuery(self.st.getJS()));
             });
         },
         startup: function() {
