@@ -30,103 +30,31 @@ define([
     "dijit/_OnDijitClickMixin",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "wm/task",
+    "wm/shorttask",
     "dojo/data/ItemFileReadStore",
     "dojox/grid/DataGrid",
     'dojo/_base/lang',
+    'dojox/grid/_RadioSelector',
+    "dijit/layout/BorderContainer",
+    "dijit/Dialog",
+    "dijit/form/Button",
+    "dojox/data/JsonRestStore",
     "dojo/text!./templates/taskselector.html"
 ], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, Task, ItemFileReadStore, DataGrid, lang, template) {
+        _WidgetsInTemplateMixin, ShortTask, ItemFileReadStore, DataGrid, lang, RadioSelector, BorderContainer, Dialog, Button, JsonRestStore, template) {
 
     return declare("taskselector", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
-        layout: [
-            {type: 'dojox.grid._RadioSelector'},
-            [
-                {name: 'Название', width: '10%', field: 'name'},
-                {name: 'Описание', width: '10%', field: 'about'},
-                {name: 'Начало выполнения', width: '10%', field: 'start'},
-                {name: 'Окончание выполнения', width: '10%', field: 'finish'},
-                {name: 'Исполнители', width: '10%', field: 'executors'},
-                {name: 'Кураторы', width: '10%', field: 'curators'},
-                {name: 'Необходимо для выполнения', width: '10%', field: 'necessity'},
-                {name: 'Достаточно для выполнения', width: '10%', field: 'sufficiency'}
-
-            ]
-        ],
-        getJS: function() {
-            return {
-                name: this.name.get('value'),
-                about: this.about.get('value'),
-                startDate: this.startDate.get('value'),
-                startTime: this.startTime.get('value'),
-                finishDate: this.finishDate.get('value'),
-                finishTime: this.finishTime.get('value'),
-                code: this.code
-            };
-        },
-        setJS: function(data) {
-            this.name.set('value', data.name);
-            this.about.set('value', data.about);
-            this.startDate.set('value', data.startDate);
-            this.startTime.set('value', data.startTime);
-            this.finishDate.set('value', data.finishDate);
-            this.finishTime.set('value', data.finishTime);
-            this.code = data.code;
-        },
-        myGrid:{},
+        widgetInTemplate: true,
         postCreate: function() {
             this.inherited(arguments);
-            var self = this;
-//            this.dataGrid.getContactName = function(colIndex, item) {
-//                alert('adsad');
-//                return item.name;
-//            };
-            
-            var data_list = [
-                {name: '2010-01-01', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
-                {name: '2011-03-04', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
-                {name: '2011-03-08', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
-                {name: '2007-02-14', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''},
-                {name: '2008-12-26', about: '', start: '', finish: '', executors: '', curators: '', necessity: '', suficiency: ''}
-            ];
-            var data = {
-                identifier: "id",
-                items: []
-            };
-
-            var rows = 60;
-            for (var i = 0, l = data_list.length; i < rows; i++) {
-                data.items.push(lang.mixin({id: i + 1}, data_list[i % l]));
-            }
-
-            var store = new ItemFileReadStore({
-                data: data
-            });
-//            this.dataGrid.store = tasksStore;
-//            self.structure = [
-//                {type: 'dojox.grid._RadioSelector'},
-//                [
-//                    {name: 'Название', width: '10%', field: 'name'},
-//                    {name: 'Описание', width: '10%', field: 'about'},
-//                    {name: 'Начало выполнения', width: '10%', field: 'start'},
-//                    {name: 'Окончание выполнения', width: '10%', field: 'finish'},
-//                    {name: 'Исполнители', width: '10%', field: 'executors'},
-//                    {name: 'Кураторы', width: '10%', field: 'curators'},
-//                    {name: 'Необходимо для выполнения', width: '10%', field: 'necessity'},
-//                    {name: 'Достаточно для выполнения', width: '10%', field: 'sufficiency'}
-//
-//                ]
-//            ];
-            this.store=store;
-//            this.dataGrid.structure = this.layout;
-            this.dataGrid.setStore(store);
-            this.dataGrid.id = 'grid';
-            this.dataGrid.rowSelector = '20px';
-//            this.dataGrid.render();
-            console.log(this.dataGrid);
+        },
+        startup: function() {
+            this.inherited(arguments);
+            var store = new JsonRestStore({target: '/proba/'});
+            this.dg.setStore(store);
         }
     });
     parser.parse();
