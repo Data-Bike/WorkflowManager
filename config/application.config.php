@@ -3,6 +3,7 @@ return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
         'Application',
+        'v1'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
@@ -45,7 +46,7 @@ return array(
         // Whether or not to enable modules dependency checking.
         // Enabled by default, prevents usage of modules that depend on other modules
         // that weren't loaded.
-        // 'check_dependencies' => true,
+        'check_dependencies' => true,
     ),
 
     // Used to create an own service manager. May contain one or more child arrays.

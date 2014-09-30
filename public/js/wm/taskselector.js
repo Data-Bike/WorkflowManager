@@ -39,21 +39,40 @@ define([
     "dijit/Dialog",
     "dijit/form/Button",
     "dojox/data/JsonRestStore",
+    "dojo/io-query",
     "dojo/text!./templates/taskselector.html"
 ], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, ShortTask, ItemFileReadStore, DataGrid, lang, RadioSelector, BorderContainer, Dialog, Button, JsonRestStore, template) {
+        _WidgetsInTemplateMixin, ShortTask, ItemFileReadStore, DataGrid, lang, RadioSelector, BorderContainer, Dialog, Button, JsonRestStore, ioQuery, template) {
 
     return declare("taskselector", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
         widgetInTemplate: true,
+        _getValueAttr: function() {
+            console.log(this.dr.selection.getSelected());
+        },
         postCreate: function() {
             this.inherited(arguments);
+            var self = this;
+            this.selectButton.on('click', function() {
+                console.log(self.dg);
+                self.dg.setQuery('?asd');
+            });
+            this.dg.on('SelectionChanged', function() {
+                console.log(self.dg.selection.getSelected());
+                console.log(ioQuery.objectToQuery(self.dg.selection.getSelected()[0]));
+
+            });
+            this.dg.on('', function() {
+                console.log(self.dg.selection.getSelected());
+                alert(0);
+
+            });
         },
         startup: function() {
             this.inherited(arguments);
-            var store = new JsonRestStore({target: '/proba/'});
+            var store = new JsonRestStore({target: '/api/v1/'});
             this.dg.setStore(store);
         }
     });
