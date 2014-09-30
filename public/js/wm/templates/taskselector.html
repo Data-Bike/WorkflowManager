@@ -1,10 +1,18 @@
-<body class="claro">
-        <table data-dojo-type="dojox/grid/DataGrid" data-dojo-attach-point="dataGrid" >
-            <thead>
-                <tr>
-                    <th field="id">ID</th>
-                    <th field="name">Name</th>
-                </tr>
-            </thead>
-        </table>
-</body>     
+<div>
+    <div data-dojo-type="wm/shorttask" data-dojo-props="region:'top'" style="width: 100%;height: 50%"></div>
+    <table data-dojo-type="dojox/grid/DataGrid"
+           data-dojo-attach-point="dg"
+            data-dojo-props="region:'bottom'"
+           style="width: 100%; height: 30%;">
+        <thead>
+            <tr>
+                <th  field="name">Название</th>
+                <th field="about" >Описание</th>
+                <th  field="start">Начало</th>
+                <th field="finish">Окончание</th>
+            </tr>
+        </thead>
+    </table>
+    <div data-dojo-type="dijit/form/Button">Выбрать</div>
+    <div data-dojo-type="dijit/form/Button">Отмена</div>
+</div>     
