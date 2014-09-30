@@ -48,12 +48,15 @@ define([
     ], {
         templateString: template,
         widgetInTemplate: true,
+        _getValueAttr: function(){
+            console.log(this.dr.selection.getSelected());
+        },
         postCreate: function() {
             this.inherited(arguments);
         },
         startup: function() {
             this.inherited(arguments);
-            var store = new JsonRestStore({target: '/proba/'});
+            var store = new JsonRestStore({target: '/api/v1/'});
             this.dg.setStore(store);
         }
     });
