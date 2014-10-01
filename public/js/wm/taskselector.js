@@ -49,9 +49,6 @@ define([
     ], {
         templateString: template,
         widgetInTemplate: true,
-        _getValueAttr: function() {
-            console.log(this.dr.selection.getSelected());
-        },
         postCreate: function() {
             this.inherited(arguments);
             var self = this;
