@@ -37,9 +37,11 @@ define([
     "dijit/form/DateTextBox",
     "dijit/layout/ContentPane",
     "dijit/layout/BorderContainer",
+    "wm/taskslist",
+    "wm/userslist",
     "dojo/text!./templates/task.html"
-], function(parser,declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, template) {
+], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, taskslist, userslist, template) {
 
     return declare("task", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -72,7 +74,7 @@ define([
             this.finishTime.set('value', data.finishTime);
             this.code = data.code;
         },
-        postCreate: function(){
+        postCreate: function() {
             this.inherited(arguments);
         }
     });
