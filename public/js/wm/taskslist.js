@@ -70,6 +70,11 @@ define([
             this.selectButton.onClick = function() {
                 self.dialog.show();
             };
+            this.ts.selectButton.on('click',function(){
+                self.selected=self.ts.value;
+                self.addJS({name:self.selected.name,position: self.selected.about});
+                self.dialog.hide();
+            });
         }
     });
 
