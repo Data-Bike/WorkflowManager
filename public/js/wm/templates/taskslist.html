@@ -1,3 +1,12 @@
 <div>
-    <div data-dojo-type="dijit/layout/AccordionContainer" data-dojo-attach-point="list"></div>
+    <div>${title}</div><br>
+    <div data-dojo-type="dijit/layout/BorderContainer" style="max-height: 160px; overflow: auto" data-dojo-attach-point="list">
+
+    </div><br>
+    <div data-dojo-type="dijit/Dialog" data-dojo-attach-point="dialog" data-dojo-props='style:{width:"80%",height:"80%"}'>
+        <div data-dojo-type="dijit/layout/BorderContainer" style='height: 400px'>
+            <div data-dojo-type="wm/taskselector" style='height: 400px' data-dojo-props="region: 'center'" ></div>
+        </div>
+    </div>
+    <div data-dojo-type="dijit/form/Button" data-dojo-attach-point="selectButton">Выбрать</div>
 </div>

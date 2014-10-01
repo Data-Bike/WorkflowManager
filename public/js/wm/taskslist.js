@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2014, newworld
+ * Copyright (c) 2014, Alexander Platonov
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,49 +24,55 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 define([
+    "dojo/parser",
     "dojo/_base/declare",
     "dijit/_WidgetBase",
     "dijit/_OnDijitClickMixin",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "wm/task",
     "dijit/layout/AccordionContainer",
     "dijit/layout/ContentPane",
+    "dijit/layout/BorderContainer",
+    "dijit/form/FilteringSelect",
+    "dojo/store/Memory",
+    "wm/user",
+    "dijit/Dialog",
     "dojo/text!./templates/taskslist.html"
-], function(declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-            _WidgetsInTemplateMixin, task, AccordionContainer, ContentPane, template) {
- 
-    return declare("taskslist", [_WidgetBase, _OnDijitClickMixin,
+], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, Dialog, template) {
+
+    return declare("userslist", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
-        selected:{},
-        onSelect:function(js){
-            console.log(js);
+        userStore: '',
+        addUser: function() {
+
         },
-        clear:function(){
-            var childs=this.list.getChildren();
-            for (var child in childs){
-                this.list.removeChild(childs[child]);
+        setJS: function(js) {
+            for (var key in js) {
+                var obj = js[key];
+                var usr = new user({label: obj.name, position: obj.position});
+                usr.setJS(obj);
+                this.list.appendChild(usr.domNode);
             }
         },
-        setJS:function(objs){
-            this.clear();
-            var self=this;
-            for(var obj in objs){
-                var newtask=new task(objs[obj]);
-                self.list.addChild(new ContentPane({
-                    content:newtask,
-                    title:objs[obj].name,
-                    JS:objs[obj],
-                    onSelected:function(){
-                        self.selected=this.JS;
-                        self.onSelect(this.JS);
-                    }
-                }));
-                newtask.setJS(obj);
-            }
+        addJS: function(js) {
+            var usr = new user({label: js.name, position: js.position});
+            usr.setJS(js);
+            this.list.domNode.appendChild(usr.domNode);
+        },
+        postCreate: function() {
+
+            this.inherited(arguments);
+            var self = this;
+//            this.select.store = this.userStore;
+            this.selectButton.onClick = function() {
+                self.dialog.show();
+            };
         }
     });
- 
+
+    parser.parse();
+
 });
