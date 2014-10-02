@@ -66,7 +66,6 @@ define([
 
             this.inherited(arguments);
             var self = this;
-//            this.select.store = this.userStore;
             this.selectButton.onClick = function() {
                 self.dialog.show();
             };
