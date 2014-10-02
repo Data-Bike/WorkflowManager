@@ -48,8 +48,8 @@ POSSIBILITY OF SUCH DAMAGE.
 <body class="claro" style="width: 100%; height: 100%; margin:0px;">
     <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true,liveSplitters:true" style="width: 100%; height: 100%; margin:0px;">
         <!--<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'leading',splitter:true" style="width: 100px;"><div data-dojo-type="dijit/Tree" id="myTree"></div></div>-->
-        <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'leading',splitter:true" id="contentForm" style="width:45%; height: 90%; margin:0px;"><div data-dojo-type="wm/task"  data-dojo-props="userStore:users" style="width: 100%; height: 100%; margin:0px;"></div></div>
-        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center',splitter:true"><div data-dojo-type="wm/tasksgrid"  data-dojo-props="userStore:users" style="width: 100%; height: 100%; margin:0px;"></div></div>
+        <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'leading',splitter:true" style="width:45%; height: 90%; margin:0px;"><div data-dojo-type="wm/task"  id="taskForm" style="width: 100%; height: 100%; margin:0px;"></div></div>
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center',splitter:true"><div data-dojo-type="wm/tasksgrid"  id="taskGrid" style="width: 100%; height: 100%; margin:0px;"></div></div>
     </div>
     <script>
         require([
@@ -58,27 +58,30 @@ POSSIBILITY OF SUCH DAMAGE.
             "dijit/layout/ContentPane",
             "wm/task",
             "wm/user",
+            "wm/tasksgrid",
             "dijit/Tree",
             "dojox/form/ListInput",
             "dojo/store/Memory",
             "wm/userslist",
             "wm/taskselector",
+            "dojo/io-query",
             "dojo/dom",
             "dojo/dom-construct"
-        ], function(parser, BorderContainer, ContentPane, task, user, Tree, ListInput, Memory, userslist, taskselector, dom, domConstruct) {
+        ], function(parser, BorderContainer, ContentPane, task, user, tasksgrid, Tree, ListInput, Memory, userslist, taskselector, ioQuery, dom, domConstruct) {
             // Invoke the dojo/parser
-            this.users = new Memory({data: [
-                    {id: 1, name: "Синдряшко Николай Витальевич151", label: "<b>Синдряшко Николай Витальевич</b><i>нач отдела</i>", position: 'нач отдела'},
-                    {id: 2, name: "Купцов Виталий Семёнович151", label: "<b>Купцов Виталий Семёнович</b><i>нач отдела</i>", position: 'нач отдела'},
-                    {id: 3, name: "Сковородов Сергей Михайлович151", label: "<b>Сковородов Сергей Михайлович</b><i>нач отдела</i>", position: 'нач отдела'}
-                ]});
-            var ts = new taskselector();
-            ts.startup();
-//                var task1 = new task({}, domConstruct.create('div'));
-//                task1.placeAt(dom.byId('contentForm'));
-//                task1.startup();
+
             parser.parse();
+
+            var self = this;
+            var taskForm = dijit.byId('taskForm');
+            var taskGrid = dijit.byId('taskGrid');
+            console.log(taskForm.getJS());
+            taskForm.viewButton.on('click', function() {
+                taskGrid.dg.setQuery('?'+ioQuery.objectToQuery(taskForm.getJS()));
+            });
+
         });
     </script>
+    <!--<script src="js/wm/application.js"></script>-->
 </body>
 </html>
