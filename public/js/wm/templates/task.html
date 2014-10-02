@@ -5,8 +5,8 @@
             <b>Описание:</b><br><div data-dojo-type="dijit/form/Textarea" data-dojo-attach-point="about" data-dojo-props="value:'${about}'"></div><br>
             <b>Начало выполнения:</b><br><div data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="startDate" data-dojo-props="value:'${startDate}'"></div><div data-dojo-type="dijit/form/TimeTextBox"  data-dojo-attach-point="startTime" data-dojo-props="value:'${startTime}'"></div><br>
             <b>Окончание выполнения:</b><br><div data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="finishDate" data-dojo-props="value:'${finishDate}'"></div><div data-dojo-type="dijit/form/TimeTextBox" data-dojo-attach-point="finishTime" data-dojo-props="value:'${finishTime}'"></div><br>
-            <div data-dojo-type="wm/userslist" data-dojo-props="title:'Исполнители'"></div>
-            <div data-dojo-type="wm/userslist" data-dojo-props="title:'Кураторы'"></div>
+            <div data-dojo-type="wm/userslist" data-dojo-attach-point="executorsList" data-dojo-props="title:'Исполнители'"></div>
+            <div data-dojo-type="wm/userslist" data-dojo-attach-point="curatorsList" data-dojo-props="title:'Кураторы'"></div>
             <div data-dojo-type="wm/taskslist" data-dojo-props="title:'Необходимо выполнить все задачи'"></div>
             <div data-dojo-type="wm/taskslist" data-dojo-props="title:'Достаточно выполнить одну из задач'"></div>
             <div data-dojo-type="wm/taskslist" data-dojo-props="title:'Задача является следствием'"></div><br>

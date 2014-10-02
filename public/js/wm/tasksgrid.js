@@ -37,10 +37,11 @@ define([
     "dojo/store/Memory",
     "wm/user",
     "dojox/grid/DataGrid",
+    "dojox/data/JsonRestStore",
     "dijit/Dialog",
     "dojo/text!./templates/tasksgrid.html"
 ], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, DataGrid, Dialog, template) {
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, DataGrid, JsonRestStore, Dialog, template) {
 
     return declare("tasksgrid", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -51,6 +52,8 @@ define([
 
             this.inherited(arguments);
             var self = this;
+            var store = new JsonRestStore({target: '/api/v1/'});
+            this.dg.setStore(store);
 
         }
     });
