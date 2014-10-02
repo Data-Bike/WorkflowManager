@@ -50,7 +50,7 @@ define([
         templateString: template,
         code: 'задача не создана',
         name: 'укажите имя',
-        about: 'укажите информация о задаче',
+        about: 'укажите информацию о задаче',
         startDate: 0,
         startTime: 0,
         finishDate: 0,
@@ -91,4 +91,3 @@ define([
     parser.parse();
 
 });
-

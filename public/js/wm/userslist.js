@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2014, newworld
+ * Copyright (c) 2014, Alexander Platonov
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,6 @@ define([
             var self = this;
             this.select.store = this.userStore;
             this.addUserButton.onClick = function() {
-                console.log(self.select.item);
                 self.addJS(self.select.item);
             };
         }

@@ -53,21 +53,12 @@ define([
             this.inherited(arguments);
             var self = this;
             this.selectButton.on('click', function() {
-                console.log(self.dg);
                 self.dg.setQuery('?asd');
             });
             this.dg.on('SelectionChanged', function() {
-                console.log(self.dg.selection.getSelected());
                 self.value=self.dg.selection.getSelected()[0];
             });
-            this.dg.on('', function() {
-                console.log(self.dg.selection.getSelected());
-                alert(0);
-
-            });
             this.st.viewButton.on('click',function(){
-                console.log(self.st.getJS());
-                console.log(ioQuery.objectToQuery(self.st.getJS()));
                 self.dg.setQuery('?'+ioQuery.objectToQuery(self.st.getJS()));
             });
         },
