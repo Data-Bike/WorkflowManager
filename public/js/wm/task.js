@@ -37,12 +37,14 @@ define([
     "dijit/form/DateTextBox",
     "dijit/layout/ContentPane",
     "dijit/layout/BorderContainer",
-    "dojox/data/JsonRestStore",
+    "dojo/store/JsonRest",
     "wm/taskslist",
     "wm/userslist",
+    "dojo/store/Memory",
+    "dojo/store/Cache",
     "dojo/text!./templates/task.html"
 ], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, JsonRestStore, taskslist, userslist, template) {
+        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, JsonRest, taskslist, userslist,Memory,Cache, template) {
 
     return declare("task", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -81,8 +83,8 @@ define([
         postCreate: function() {
             this.inherited(arguments);
 
-            var store = new JsonRestStore({target: '/api/v1/user'});
-            
+            var store = new JsonRest({target: '/api/v1/user'});
+            store.query('');
             this.executorsList.select.store = store;
             this.curatorsList.select.store = store;
         }
