@@ -60,6 +60,9 @@ define([
         __getAttrValue: function() {
             return this.getJS();
         },
+        __setAttrValue: function() {
+            return this.setJS();
+        },
         getJS: function() {
             return {
                 name: this.name.get('value'),
