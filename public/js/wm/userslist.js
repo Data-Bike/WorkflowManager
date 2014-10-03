@@ -58,6 +58,7 @@ define([
         addJS: function(js) {
             var usr = new user({label: js.name, position:js.position});
             usr.setJS(js);
+            usr.region='top';
             this.list.domNode.appendChild(usr.domNode);
         },
         postCreate: function() {
