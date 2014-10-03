@@ -89,7 +89,6 @@ define([
             };
             this.ts.selectButton.on('click', function() {
                 self.selected = self.ts.value;
-                console.log(self.selected);
                 self.addJS({name: self.selected.name, position: self.selected.about, id: self.selected.id});
                 self.taskStore.put(self.selected);
                 self.dialog.hide();
