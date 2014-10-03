@@ -71,6 +71,11 @@ define([
                 startTime: this.startTime.get('value'),
                 finishDate: this.finishDate.get('value'),
                 finishTime: this.finishTime.get('value'),
+                executorsList: this.executorsList.get('value'),
+                curatorsList: this.curatorsList.get('value'),
+                necessaryList: this.necessaryList.get('value'),
+                sufficientlyList: this.sufficientlyList.get('value'),
+                consequenceList: this.consequenceList.get('value'),
                 code: this.code
             };
         },
@@ -81,6 +86,11 @@ define([
             this.startTime.set('value', data.startTime);
             this.finishDate.set('value', data.finishDate);
             this.finishTime.set('value', data.finishTime);
+            this.executorsList.set('value', data.executorsList);
+            this.curatorsList.set('value', data.curatorsList);
+            this.necessaryList.set('value', data.necessaryList);
+            this.sufficientlyList.set('value', data.sufficientlyList);
+            this.consequenceList.set('value', data.consequenceList);
             this.code = data.code;
         },
         postCreate: function() {
