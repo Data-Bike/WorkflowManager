@@ -73,7 +73,6 @@ define([
             var self = this;
             usr.data = js;
             usr.onDelete = function(data) {
-                console.log(self.taskStore);
                 self.taskStore.remove(data.id);
             };
             this.list.domNode.appendChild(usr.domNode);
