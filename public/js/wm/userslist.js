@@ -44,28 +44,49 @@ define([
     ], {
         templateString: template,
         userStore: '',
+        taskStore: '',
         addUser: function() {
 
         },
+        __getValueAttr: function() {
+            return this.taskStore.data;
+        },
+        __setValueAttr: function(value) {
+            this.setJS(value);
+        },
         setJS: function(js) {
+            var self = this;
             for (var key in js) {
                 var obj = js[key];
-                var usr = new user({label: obj.name, position:obj.position});
+                var usr = new user({label: obj.name, position: obj.position});
+                usr.data = obj;
+                usr.onDelete = function(data) {
+                    self.taskStore.remove(data.id);
+                };
                 usr.setJS(obj);
                 this.list.appendChild(usr.domNode);
             }
         },
         addJS: function(js) {
-            var usr = new user({label: js.name, position:js.position});
-            usr.setJS(js);
-            usr.region='top';
+            var usr = new user({label: js.name, position: js.position});
+            usr.region = 'top';
+            var self = this;
+            usr.data = js;
+            usr.onDelete = function(data) {
+                console.log(self.taskStore);
+                self.taskStore.remove(data.id);
+            };
             this.list.domNode.appendChild(usr.domNode);
         },
         postCreate: function() {
+            this.inherited(arguments);
+
+            this.taskStore = new Memory();
             var self = this;
             this.select.store = this.userStore;
             this.addUserButton.onClick = function() {
                 self.addJS(self.select.item);
+                self.taskStore.put(self.select.item);
             };
         }
     });

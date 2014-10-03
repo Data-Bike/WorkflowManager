@@ -38,7 +38,7 @@ define([
     "dijit/layout/ContentPane",
     "dijit/layout/BorderContainer",
     "dojo/text!./templates/shorttask.html"
-], function(parser,declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, template) {
 
     return declare("shorttask", [_WidgetBase, _OnDijitClickMixin,
@@ -52,6 +52,12 @@ define([
         startTime: 0,
         finishDate: 0,
         finishTime: 0,
+        __getValueAttr: function() {
+            return this.getJS();
+        },
+        __setValueAttr: function(value) {
+            return this.setJS(value);
+        },
         getJS: function() {
             return {
                 name: this.name.get('value'),
@@ -72,7 +78,7 @@ define([
             this.finishTime.set('value', data.finishTime);
             this.code = data.code;
         },
-        postCreate: function(){
+        postCreate: function() {
             this.inherited(arguments);
         }
     });

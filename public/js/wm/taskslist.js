@@ -46,32 +46,52 @@ define([
     ], {
         templateString: template,
         userStore: '',
+        taskStore: '',
         addUser: function() {
 
         },
+        __getValueAttr:function(){
+            return this.taskStore.data;
+        },
+        __setValueAttr:function(value){
+            this.setJS(value);
+        },
         setJS: function(js) {
+            var self = this;
             for (var key in js) {
                 var obj = js[key];
                 var usr = new user({label: obj.name, position: obj.position});
+                usr.data = obj;
+                usr.onDelete = function(data) {
+                    self.taskStore.remove(data.id);
+                };
                 usr.setJS(obj);
                 this.list.appendChild(usr.domNode);
             }
         },
         addJS: function(js) {
             var usr = new user({label: js.name, position: js.position});
-            usr.setJS(js);
+            usr.region='top';
+            var self = this;
+            usr.data = js;
+            usr.onDelete = function(data) {
+                self.taskStore.remove(data.id);
+            };
             this.list.domNode.appendChild(usr.domNode);
         },
         postCreate: function() {
 
             this.inherited(arguments);
+            this.taskStore = new Memory();
             var self = this;
             this.selectButton.onClick = function() {
                 self.dialog.show();
             };
-            this.ts.selectButton.on('click',function(){
-                self.selected=self.ts.value;
-                self.addJS({name:self.selected.name,position: self.selected.about});
+            this.ts.selectButton.on('click', function() {
+                self.selected = self.ts.value;
+                console.log(self.selected);
+                self.addJS({name: self.selected.name, position: self.selected.about, id: self.selected.id});
+                self.taskStore.put(self.selected);
                 self.dialog.hide();
             });
         }
