@@ -28,7 +28,7 @@ class IndexController extends AbstractRestfulController {
     }
 
     public function userAction() {
-
+        
         //да не очень хорошее решение, но просто показать подойдет
         $array[] = array('name' => 'Антон', 'label' => 'Антон', 'position' => 'Нач. отдела', 'id' => '1');
         $array[] = array('name' => 'Александр', 'label' => 'Александр', 'position' => 'Директор', 'id' => '2');
