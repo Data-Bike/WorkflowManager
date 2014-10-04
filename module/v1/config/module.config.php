@@ -40,6 +40,19 @@ return array(
         'display_exceptions' => true,
         'doctype' => 'HTML5'
     ),
+    'doctrine' => array(
+        'driver' => array(
+            'myblog_entity' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'paths' => array(__DIR__ . '/../src/v1/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'v1\Entity' => 'myblog_entity',
+                )
+            )
+        )
+    ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(
