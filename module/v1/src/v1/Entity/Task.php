@@ -31,6 +31,7 @@ namespace v1\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+/** @ORM\Entity */
 class Task {
 
     public function __construct() {
@@ -259,41 +260,48 @@ class Task {
     protected $about;
 
     /**
-     * @ManyToMany(targetEntity="User", inversedBy="executeTasks")
-     * @JoinTable(name="tasks_executors")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="executeTasks") 
+     * @ORM\JoinTable(name="executors_tasks",
+     *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="executor_task_id", referencedColumnName="id")}
+     *      )
      * */
     protected $executors;
 
     /**
-     * @ManyToMany(targetEntity="User", inversedBy="curateTasks")
-     * @JoinTable(name="users_curators")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="curateTasks")
+     * @ORM\JoinTable(name="curators_tasks",
+     *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="curator_task_id", referencedColumnName="id")}
+     *      )
      * */
     protected $curators;
 
     /**
-     * @ManyToMany(targetEntity="Task", mappedBy="invNecessary")
+     * @ORM\ManyToMany(targetEntity="Task", mappedBy="invNecessary")
+     * 
      * */
     protected $necessary;
 
     /**
-     * @ManyToMany(targetEntity="Task", mappedBy="invSufficiently")
+     * @ORM\ManyToMany(targetEntity="Task", mappedBy="invSufficiently")
      * */
     protected $sufficiently;
 
     /**
-     * @ManyToMany(targetEntity="Task", inversedBy="necessary")
-     * @JoinTable(name="necessarys",
-     *      joinColumns={@JoinColumn(name="task_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="necessary_task_id", referencedColumnName="id")}
+     * @ORM\ManyToMany(targetEntity="Task", inversedBy="necessary")
+     * @ORM\JoinTable(name="necessarys",
+     *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="necessary_task_id", referencedColumnName="id")}
      *      )
      * */
     protected $invNecessary;
 
     /**
-     * @ManyToMany(targetEntity="Task", inversedBy="sufficiently")
-     * @JoinTable(name="sufficientlys",
-     *      joinColumns={@JoinColumn(name="task_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="sufficiently_task_id", referencedColumnName="id")}
+     * @ORM\ManyToMany(targetEntity="Task", inversedBy="sufficiently")
+     * @ORM\JoinTable(name="sufficientlys",
+     *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="sufficiently_task_id", referencedColumnName="id")}
      *      )
      * */
     protected $invSufficiently;
