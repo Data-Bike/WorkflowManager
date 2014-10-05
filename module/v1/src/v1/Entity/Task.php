@@ -250,12 +250,14 @@ class Task {
     protected $about;
 
     /**
-     * @ManyToMany(targetEntity="User", mappedBy="executeTasks")
+     * @ManyToMany(targetEntity="User", inversedBy="executeTasks")
+     * @JoinTable(name="tasks_executors")
      * */
     protected $executors;
 
     /**
-     * @ManyToMany(targetEntity="User", mappedBy="curateTasks")
+     * @ManyToMany(targetEntity="User", inversedBy="curateTasks")
+     * @JoinTable(name="users_curators")
      * */
     protected $curators;
 

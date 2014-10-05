@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Copyright (c) 2014, Alexander Platonov
  * All rights reserved.
  *
@@ -31,64 +31,134 @@ namespace v1\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-class User
-{
-  /**
-   * @var int
-   * @ORM\Id
-   * @ORM\Column(type="integer")
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  protected $id;
+class User {
 
-  /**
-   * @var string
-   * @ORM\Column(type="string", length=255, nullable=false)
-   */
-  protected $title;
+    /**
+     * 
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
+    }
 
-  /**
-   * Get id.
-   *
-   * @return int
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * 
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
 
-  /**
-   * Set id.
-   *
-   * @param int $id
-   *
-   * @return void
-   */
-  public function setId($id)
-  {
-    $this->id = (int) $id;
-  }
+    /**
+     * 
+     * @return string
+     */
+    public function getPosition() {
+        return $this->position;
+    }
 
-  /**
-   * Get title.
-   *
-   * @return string
-   */
-  public function getTitle()
-  {
-    return $this->title;
-  }
+    /**
+     * 
+     * @return string
+     */
+    public function getEmail() {
+        return $this->email;
+    }
 
-  /**
-   * Set title.
-   *
-   * @param string $title
-   *
-   * @return void
-   */
-  public function setTitle($title)
-  {
-    $this->title = $title;
-  }
+    /**
+     * 
+     * @return array
+     */
+    public function getExecuteTasks() {
+        return $this->executeTasks;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function getCurateTasks() {
+        return $this->curateTasks;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function setPosition($position) {
+        $this->position = $position;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function setExecuteTasks($executeTasks) {
+        $this->executeTasks = $executeTasks;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function setCurateTasks($curateTasks) {
+        $this->curateTasks = $curateTasks;
+    }
+
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $name;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $position;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    protected $email;
+
+    /**
+     * @ManyToMany(targetEntity="Task", mappedBy="executors")
+     * */
+    protected $executeTasks;
+
+    /**
+     * @ManyToMany(targetEntity="Task", mappedBy="curators")
+     * */
+    protected $curateTasks;
 
 }
