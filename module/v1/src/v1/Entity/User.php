@@ -31,6 +31,7 @@ namespace v1\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
+/** @ORM\Entity */
 class User {
 
     public function __construct() {
@@ -157,12 +158,12 @@ class User {
     protected $email;
 
     /**
-     * @ManyToMany(targetEntity="Task", mappedBy="executors")
+     * @ORM\ManyToMany(targetEntity="Task", mappedBy="executors")
      * */
     protected $executeTasks;
 
     /**
-     * @ManyToMany(targetEntity="Task", mappedBy="curators")
+     * @ORM\ManyToMany(targetEntity="Task", mappedBy="curators")
      * */
     protected $curateTasks;
 
