@@ -33,6 +33,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Task {
 
+    public function __construct() {
+        $this->executors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->curators = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->necessary = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sufficiently = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invNecessary = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->invSufficiently = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * 
      * @return int

@@ -33,6 +33,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 class User {
 
+    public function __construct() {
+        $this->executeTasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->curateTasks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * 
      * @return int
