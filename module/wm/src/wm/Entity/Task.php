@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace v1\Entity;
+namespace wm\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -243,13 +243,13 @@ class Task {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="datetime", length=255, nullable=false)
      */
     protected $startDateTime;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="datetime", length=255, nullable=false)
      */
     protected $finishDateTime;
 

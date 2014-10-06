@@ -1,26 +1,40 @@
 <?php
 
 /**
- * Конфиг модуля v1
+ * Конфиг модуля WorkflowManager
  *
  * @author cawa
  */
 
-namespace v1;
+namespace wm;
 
 return array(
     'router' => array(
         'routes' => array(
-            'api' => array(
-                'type' => 'Segment',
+            'task' => array(
+                'type' => 'segment',
                 'options' => array(
-                    'route' => '/api/v1/[:action][/:id]',
+                    'route' => '/task[/:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*/?',
                     ),
                     'defaults' => array(
-                        '__NAMESPACE__' => 'v1\Controller',
-                        'controller' => 'v1\Controller\Index',
+                        '__NAMESPACE__' => 'wm\Controller',
+                        'controller' => 'wm\Controller\Task',
+                        'action' => 'index'
+                    ),
+                ),
+            ),
+            'user' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route' => '/user[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*/?',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'wm\Controller',
+                        'controller' => 'wm\Controller\User',
                         'action' => 'index'
                     ),
                 ),
@@ -29,7 +43,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'v1\Controller\Index' => 'v1\Controller\IndexController',
+            'wm\Controller\Task' => 'wm\Controller\TaskController',
+            'wm\Controller\User' => 'wm\Controller\UserController',
         ),
     ),
     'view_manager' => array(
@@ -42,13 +57,13 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-            'v1_entity' => array(
+            'wm_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'paths' => array(__DIR__ . '/../src/v1/Entity')
+                'paths' => array(__DIR__ . '/../src/wm/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'v1\Entity' => 'v1_entity',
+                    'wm\Entity' => 'wm_entity',
                 )
             )
         )

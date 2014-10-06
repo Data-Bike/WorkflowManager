@@ -5,7 +5,7 @@
  * @author cawa
  */
 
-namespace v1;
+namespace wm;
 
 class Module
 {
