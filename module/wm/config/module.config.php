@@ -59,7 +59,7 @@ return array(
         'driver' => array(
             'wm_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'paths' => array(__DIR__ . '/../src/wm/Entity')
+                'paths' => array(__DIR__ . '/../src/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
