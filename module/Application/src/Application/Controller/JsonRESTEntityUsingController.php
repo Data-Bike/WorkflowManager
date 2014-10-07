@@ -2,7 +2,7 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use wm\Controller\AbstractRestfulJsonController;
 
 class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
 

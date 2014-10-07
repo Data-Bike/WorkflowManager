@@ -2,33 +2,56 @@
 
 namespace wm\Controller;
 
-use Application\Controller\EntityUsingController;
-use Zend\Mvc\Controller\AbstractRestfulController,
+use Application\Controller\JsonRESTEntityUsingController,
     Zend\View\Model\JsonModel;
+
 //use wm\Entity;
 
-class UserController extends AbstractRestfulJsonController {
+class UserController extends JsonRESTEntityUsingController {
 
-    public function addAction() {
-        
+    public function create($data) {
+        return $this->methodNotAllowed();
     }
 
-    public function updateAction() {
-        
+    public function delete($id) {
+        return $this->methodNotAllowed();
     }
 
-    public function deleteAction() {
-        
+    public function deleteList() {
+        return $this->methodNotAllowed();
     }
 
-    public function searchAction() {
-        $request = $this->getRequest();
-
-        if ($request->isXmlHttpRequest()) {
-            $data = $request->getPost('data');
-        }
-        
+    public function get($id) {
+        $array = array('proba' => 'OK');
         return new JsonModel($array);
+    }
+
+    public function getList() {
+        return $this->methodNotAllowed();
+    }
+
+    public function head($id = null) {
+        return $this->methodNotAllowed();
+    }
+
+    public function options() {
+        return $this->methodNotAllowed();
+    }
+
+    public function patch($id, $data) {
+        return $this->methodNotAllowed();
+    }
+
+    public function replaceList($data) {
+        return $this->methodNotAllowed();
+    }
+
+    public function patchList($data) {
+        return $this->methodNotAllowed();
+    }
+
+    public function update($id, $data) {
+        return $this->methodNotAllowed();
     }
 
     public function probaAction() {

@@ -14,28 +14,26 @@ return array(
             'task' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/task[/:action][/:id]',
+                    'route' => '/task[/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*/?',
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'wm\Controller',
-                        'controller' => 'wm\Controller\Task',
-                        'action' => 'index'
+                        'controller' => 'wm\Controller\Task'
                     ),
                 ),
             ),
             'user' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/user[/:action][/:id]',
+                    'route' => '/user[/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*/?',
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'wm\Controller',
-                        'controller' => 'wm\Controller\User',
-                        'action' => 'index'
+                        'controller' => 'wm\Controller\User'
                     ),
                 ),
             ),
@@ -76,23 +74,4 @@ return array(
         ),
     ),
 
-    'zfcuser' => array(
-        // telling ZfcUser to use our own class
-        'user_entity_class'       => 'wm\Entity\User',
-        // telling ZfcUserDoctrineORM to skip the entities it defines
-        'enable_default_entities' => false,
-    ),
-
-    'bjyauthorize' => array(
-        // Using the authentication identity provider, which basically reads the roles from the auth service's identity
-        'identity_provider' => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
-
-        'role_providers'        => array(
-            // using an object repository (entity repository) to load all roles into our ACL
-            'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
-                'object_manager'    => 'doctrine.entity_manager.orm_default',
-                'role_entity_class' => 'wm\Entity\Role',
-            ),
-        ),
-    ),
 );
