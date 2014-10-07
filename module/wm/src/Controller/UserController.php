@@ -1,12 +1,11 @@
 <?php
 
-
-
 namespace wm\Controller;
 
 use Application\Controller\EntityUsingController;
 use Zend\Mvc\Controller\AbstractRestfulController,
     Zend\View\Model\JsonModel;
+//use wm\Entity;
 
 class UserController extends EntityUsingController {
 
@@ -23,7 +22,12 @@ class UserController extends EntityUsingController {
     }
 
     public function searchAction() {
+        $request = $this->getRequest();
 
+        if ($request->isXmlHttpRequest()) {
+            $data = $request->getPost('data');
+        }
+        
         return new JsonModel($array);
     }
 

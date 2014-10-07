@@ -260,7 +260,7 @@ class Task {
     protected $about;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="executeTasks") 
+     * @ORM\ManyToMany(targetEntity="wm\Entity\User", inversedBy="executeTasks") 
      * @ORM\JoinTable(name="executors_tasks",
      *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="executor_task_id", referencedColumnName="id")}
@@ -269,7 +269,7 @@ class Task {
     protected $executors;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="curateTasks")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\User", inversedBy="curateTasks")
      * @ORM\JoinTable(name="curators_tasks",
      *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="curator_task_id", referencedColumnName="id")}
@@ -278,18 +278,18 @@ class Task {
     protected $curators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="invNecessary")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", mappedBy="invNecessary")
      * 
      * */
     protected $necessary;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="invSufficiently")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", mappedBy="invSufficiently")
      * */
     protected $sufficiently;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", inversedBy="necessary")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", inversedBy="necessary")
      * @ORM\JoinTable(name="necessarys",
      *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="necessary_task_id", referencedColumnName="id")}
@@ -298,7 +298,7 @@ class Task {
     protected $invNecessary;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", inversedBy="sufficiently")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", inversedBy="sufficiently")
      * @ORM\JoinTable(name="sufficientlys",
      *      joinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="sufficiently_task_id", referencedColumnName="id")}
