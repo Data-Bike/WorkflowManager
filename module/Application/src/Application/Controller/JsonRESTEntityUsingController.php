@@ -4,7 +4,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
-class EntityUsingController extends AbstractActionController {
+class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
 
     /**
      * @var EntityManager

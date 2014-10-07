@@ -7,7 +7,7 @@ use Zend\Mvc\Controller\AbstractRestfulController,
     Zend\View\Model\JsonModel;
 //use wm\Entity;
 
-class UserController extends EntityUsingController {
+class UserController extends AbstractRestfulJsonController {
 
     public function addAction() {
         

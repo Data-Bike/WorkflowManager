@@ -7,7 +7,7 @@ use Zend\Mvc\Controller\AbstractRestfulController,
     Zend\View\Model\JsonModel;
 //use wm\Entity;
 
-class TaskController extends EntityUsingController {
+class TaskController extends AbstractRestfulJsonController {
 
     public function addAction() {
         
