@@ -44,41 +44,65 @@ class User {
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    /*
+     * @return string
+     */
+
     public function getUsername() {
         return $this->username;
     }
 
-    public function getDisplayName() {
-        return $this->displayName;
-    }
+    /*
+     * @return string
+     */
 
     public function getPassword() {
         return $this->password;
     }
 
+    /*
+     * @return int
+     */
+
     public function getState() {
         return $this->state;
     }
+
+    /*
+     * @return wm\Entity\Role
+     */
 
     public function getRoles() {
         return $this->roles;
     }
 
+    /*
+     * @return string
+     */
+
     public function setUsername($username) {
         $this->username = $username;
     }
 
-    public function setDisplayName($displayName) {
-        $this->displayName = $displayName;
-    }
+    /*
+     * @return string
+     */
 
     public function setPassword($password) {
         $this->password = $password;
     }
 
+    /*
+     * @return string
+     */
+
     public function setState($state) {
         $this->state = $state;
     }
+
+    /*
+     * @return string
+     */
 
     public function setRoles(\Doctrine\Common\Collections\Collection $roles) {
         $this->roles = $roles;
@@ -201,12 +225,6 @@ class User {
      * @ORM\Column(type="string", unique=true,  length=255)
      */
     protected $email;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    protected $displayName;
 
     /**
      * @var string

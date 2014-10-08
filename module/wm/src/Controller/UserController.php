@@ -18,6 +18,16 @@ class UserController extends JsonRESTEntityUsingController {
         $user->setEmail($data['Email']);
         $user->setName($data['Name']);
         $user->setPosition($data['Position']);
+        $user->setPassword($data['Password']);
+        $user->setState($data['State']);
+
+        $roles = explode(",", $data['roles']);
+        foreach ($roles as $roleId) {
+            $role = $this->entityManager->getRepository('Entity\Role')->findOneById($id);
+            $Task->getRoles()->add($role);
+            $role->getUsers()->add($user);
+            $this->entityManager->persist($role);
+        }
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -45,7 +55,8 @@ class UserController extends JsonRESTEntityUsingController {
             'Email' => $user->getEmail(),
             'ExecuteTasks' => $user->getExecuteTasks(),
             'Name' => $user->getName(),
-            'Position' => $user->getPosition()
+            'Position' => $user->getPosition(),
+            'State' => $user->getState()
         );
         return new JsonModel($array);
     }
@@ -83,6 +94,16 @@ class UserController extends JsonRESTEntityUsingController {
         $user->setEmail($data['Email']);
         $user->setName($data['Name']);
         $user->setPosition($data['Position']);
+        $user->setPassword($data['Password']);
+        $user->setState($data['State']);
+
+        $roles = explode(",", $data['roles']);
+        foreach ($roles as $roleId) {
+            $role = $this->entityManager->getRepository('Entity\Role')->findOneById($id);
+            $Task->getRoles()->add($role);
+            $role->getUsers()->add($user);
+            $this->entityManager->persist($role);
+        }
 
         $this->entityManager->flush();
         return new JsonModel($data);
