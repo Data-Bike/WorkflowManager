@@ -7,8 +7,6 @@ use Application\Controller\JsonRESTEntityUsingController,
 
 class TaskController extends JsonRESTEntityUsingController {
 
-    
-
     public function create($data) {
 
         $Task = new \wm\Entity\Task();
@@ -83,7 +81,19 @@ class TaskController extends JsonRESTEntityUsingController {
     }
 
     public function getList() {
-        $array=array('content'=>'');
+        $params = $this->params()->fromQuery();
+        $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->findBy($params);
+        foreach ($tasks as $task) {
+            $array[] = array('about' => $task->getAbout(),
+                'curators' => $task->getCurators(),
+                'Executors' => $task->getExecutors(),
+                'FinishDateTime' => $task->getFinishDateTime(),
+                'Name' => $task->getName(),
+                'Necessary' => $task->getNecessary(),
+                'StartDateTime' => $task->getStartDateTime(),
+                'Sufficiently' => $task->getSufficiently()
+            );
+        }
         return new JsonModel($array);
     }
 
