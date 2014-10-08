@@ -7,9 +7,7 @@ use Application\Controller\JsonRESTEntityUsingController,
 
 class TaskController extends JsonRESTEntityUsingController {
 
-    public function __construct() {
-        $this->setEntityManager($this->getDoctrine()->getEntityManager());
-    }
+    
 
     public function create($data) {
 
@@ -85,7 +83,8 @@ class TaskController extends JsonRESTEntityUsingController {
     }
 
     public function getList() {
-        return $this->methodNotAllowed();
+        $array=array('content'=>'');
+        return new JsonModel($array);
     }
 
     public function head($id = null) {
@@ -150,7 +149,7 @@ class TaskController extends JsonRESTEntityUsingController {
             $sufficiently->getInvSufficiently()->add($Task);
             $this->entityManager->persist($sufficiently);
         }
-        
+
         $this->entityManager->flush();
         return new JsonModel($data);
     }

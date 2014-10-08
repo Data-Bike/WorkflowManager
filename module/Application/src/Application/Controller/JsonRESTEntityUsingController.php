@@ -9,7 +9,7 @@ class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
     /**
      * @var EntityManager
      */
-    protected $entityManager;
+    protected $entityManager = null;
 
     /**
      * @param EntityManager $em
@@ -27,7 +27,7 @@ class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
      */
     protected function getEntityManager() {
         if (null === $this->entityManager) {
-            $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+            $this->setEntityManager($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
         }
         return $this->entityManager;
     }
