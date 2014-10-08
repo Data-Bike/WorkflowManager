@@ -1,35 +1,91 @@
 <?php
 
-
-
 namespace wm\Controller;
 
-use Application\Controller\EntityUsingController;
-use Zend\Mvc\Controller\AbstractRestfulController,
+use Application\Controller\JsonRESTEntityUsingController,
     Zend\View\Model\JsonModel;
 
-class UserController extends EntityUsingController {
+//use wm\Entity;
 
-    public function addAction() {
-        
+class UserController extends JsonRESTEntityUsingController {
+
+    public function __construct() {
+        $this->setEntityManager($this->getDoctrine()->getEntityManager());
     }
 
-    public function updateAction() {
-        
-    }
+    public function create($data) {
+        $user = new \wm\Entity\User();
+        $user->setEmail($data['Email']);
+        $user->setName($data['Name']);
+        $user->setPosition($data['Position']);
 
-    public function deleteAction() {
-        
-    }
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
-    public function searchAction() {
-
+        $id = $user->getId();
+        $array = array('id' => $id);
         return new JsonModel($array);
     }
 
-    public function probaAction() {
-        $array = array('proba' => 'OK');
+    public function delete($id) {
+        $userToDelete = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $this->entityManager->remove($userToDelete);
+        $this->entityManager->flush();
+        return;
+    }
+
+    public function deleteList() {
+        return $this->methodNotAllowed();
+    }
+
+    public function get($id) {
+        $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $array = array('about' => $user->getAbout(),
+            'CurateTasks' => $user->getCurateTasks(),
+            'Email' => $user->getEmail(),
+            'ExecuteTasks' => $user->getExecuteTasks(),
+            'Name' => $user->getName(),
+            'Position' => $user->getPosition()
+        );
         return new JsonModel($array);
+    }
+
+    public function getList() {
+        return $this->methodNotAllowed();
+    }
+
+    public function head($id = null) {
+        $array = array('id' => $id);
+        return new JsonModel($array);
+    }
+
+    public function options() {
+        return $this->methodNotAllowed();
+    }
+
+    public function patch($id, $data) {
+        $array = array('id' => $id, 'data' => $data);
+        return new JsonModel($array);
+    }
+
+    public function replaceList($data) {
+        $array = array('data' => $data);
+        return new JsonModel($array);
+    }
+
+    public function patchList($data) {
+        $array = array('data' => $data);
+        return new JsonModel($array);
+    }
+
+    public function update($id, $data) {
+        $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $user->setEmail($data['Email']);
+        $user->setName($data['Name']);
+        $user->setPosition($data['Position']);
+
+        $this->entityManager->flush();
+        return new JsonModel($data);
     }
 
 }

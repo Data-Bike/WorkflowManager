@@ -14,28 +14,26 @@ return array(
             'task' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/task[/:action][/:id]',
+                    'route' => '/task[/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*/?',
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'wm\Controller',
-                        'controller' => 'wm\Controller\Task',
-                        'action' => 'index'
+                        'controller' => 'wm\Controller\Task'
                     ),
                 ),
             ),
             'user' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route' => '/user[/:action][/:id]',
+                    'route' => '/user[/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*/?',
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'wm\Controller',
-                        'controller' => 'wm\Controller\User',
-                        'action' => 'index'
+                        'controller' => 'wm\Controller\User'
                     ),
                 ),
             ),
@@ -75,4 +73,5 @@ return array(
             ),
         ),
     ),
+
 );

@@ -31,12 +31,57 @@ namespace wm\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/** @ORM\Entity */
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ *
+ */
 class User {
 
     public function __construct() {
         $this->executeTasks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->curateTasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getDisplayName() {
+        return $this->displayName;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getState() {
+        return $this->state;
+    }
+
+    public function getRoles() {
+        return $this->roles;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function setDisplayName($displayName) {
+        $this->displayName = $displayName;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
+    public function setState($state) {
+        $this->state = $state;
+    }
+
+    public function setRoles(\Doctrine\Common\Collections\Collection $roles) {
+        $this->roles = $roles;
     }
 
     /**
@@ -147,23 +192,56 @@ class User {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
-    protected $position;
+    protected $username;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", unique=true,  length=255)
+     */
+    protected $email;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $displayName;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=128)
+     */
+    protected $password;
+
+    /**
+     * @var int
+     */
+    protected $state;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Role")
+     * @ORM\JoinTable(name="users_roles",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
+     */
+    protected $roles;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    protected $email;
+    protected $position;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="executors")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", mappedBy="executors")
      * */
     protected $executeTasks;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Task", mappedBy="curators")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", mappedBy="curators")
      * */
     protected $curateTasks;
 
