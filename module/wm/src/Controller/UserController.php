@@ -19,14 +19,14 @@ class UserController extends JsonRESTEntityUsingController {
 
         $roles = explode(",", $data['roles']);
         foreach ($roles as $roleId) {
-            $role = $this->entityManager->getRepository('Entity\Role')->findOneById($id);
-            $Task->getRoles()->add($role);
+            $role = $this->getEntityManager()->getRepository('wm\Entity\Role')->findOneById($roleId);
+            $user->getRoles()->add($role);
             $role->getUsers()->add($user);
-            $this->entityManager->persist($role);
+            $this->getEntityManager()->persist($role);
         }
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
 
         $id = $user->getId();
         $array = array('id' => $id);
@@ -34,9 +34,9 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function delete($id) {
-        $userToDelete = $this->entityManager->getRepository('Entity\User')->findOneById($id);
-        $this->entityManager->remove($userToDelete);
-        $this->entityManager->flush();
+        $userToDelete = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($id);
+        $this->getEntityManager()->remove($userToDelete);
+        $this->getEntityManager()->flush();
         return;
     }
 
@@ -45,7 +45,7 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function get($id) {
-        $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $user = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($id);
         $array = array('about' => $user->getAbout(),
             'CurateTasks' => $user->getCurateTasks(),
             'Email' => $user->getEmail(),
@@ -86,7 +86,7 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function update($id, $data) {
-        $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $user = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($id);
         $user->setEmail($data['Email']);
         $user->setName($data['Name']);
         $user->setPosition($data['Position']);
@@ -95,13 +95,13 @@ class UserController extends JsonRESTEntityUsingController {
 
         $roles = explode(",", $data['roles']);
         foreach ($roles as $roleId) {
-            $role = $this->entityManager->getRepository('Entity\Role')->findOneById($id);
-            $Task->getRoles()->add($role);
+            $role = $this->getEntityManager()->getRepository('wm\Entity\Role')->findOneById($roleId);
+            $user->getRoles()->add($role);
             $role->getUsers()->add($user);
-            $this->entityManager->persist($role);
+            $this->getEntityManager()->persist($role);
         }
 
-        $this->entityManager->flush();
+        $this->getEntityManager()->flush();
         return new JsonModel($data);
     }
 

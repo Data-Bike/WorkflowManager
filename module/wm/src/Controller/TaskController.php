@@ -19,38 +19,38 @@ class TaskController extends JsonRESTEntityUsingController {
 
         $curators = explode(",", $data['curators']);
         foreach ($curators as $curatorId) {
-            $curator = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+            $curator = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($curatorId);
             $Task->getCurators()->add($curator);
             $curator->getCurateTasks()->add($Task);
-            $this->entityManager->persist($curator);
+            $this->getEntityManager()->persist($curator);
         }
 
         $executors = explode(",", $data['Executors']);
         foreach ($executors as $executorId) {
-            $executor = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+            $executor = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($executorId);
             $Task->getExecutors()->add($executor);
             $executor->getExecuteTasks()->add($Task);
-            $this->entityManager->persist($executor);
+            $this->getEntityManager()->persist($executor);
         }
 
         $necessarys = explode(",", $data['Necessary']);
         foreach ($necessarys as $necessaryId) {
-            $necessary = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
+            $necessary = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($necessaryId);
             $Task->getNecessary()->add($necessary);
             $necessary->getInvNecessary()->add($Task);
-            $this->entityManager->persist($necessary);
+            $this->getEntityManager()->persist($necessary);
         }
 
         $sufficientlys = explode(",", $data['Sufficiently']);
         foreach ($sufficientlys as $sufficientlyId) {
-            $sufficiently = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
+            $sufficiently = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($sufficientlyId);
             $Task->getSufficiently()->add($sufficiently);
             $sufficiently->getInvSufficiently()->add($Task);
-            $this->entityManager->persist($sufficiently);
+            $this->getEntityManager()->persist($sufficiently);
         }
 
-        $this->entityManager->persist($Task);
-        $this->entityManager->flush();
+        $this->getEntityManager()->persist($Task);
+        $this->getEntityManager()->flush();
 
         $id = $Task->getId();
         $array = array('id' => $id);
@@ -58,9 +58,9 @@ class TaskController extends JsonRESTEntityUsingController {
     }
 
     public function delete($id) {
-        $taskToDelete = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
-        $this->entityManager->remove($taskToDelete);
-        $this->entityManager->flush();
+        $taskToDelete = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($id);
+        $this->getEntityManager()->remove($taskToDelete);
+        $this->getEntityManager()->flush();
         return;
     }
 
@@ -69,7 +69,7 @@ class TaskController extends JsonRESTEntityUsingController {
     }
 
     public function get($id) {
-        $task = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
+        $task = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($id);
         $array = array('about' => $task->getAbout(),
             'curators' => $task->getCurators(),
             'Executors' => $task->getExecutors(),
@@ -112,7 +112,7 @@ class TaskController extends JsonRESTEntityUsingController {
     }
 
     public function update($id, $data) {
-        $task = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
+        $task = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($id);
         $task->setAbout($data['about']);
         $task->setFinishDateTime($data['FinishDateTime']);
         $task->setName($data['Name']);
@@ -120,37 +120,37 @@ class TaskController extends JsonRESTEntityUsingController {
 
         $curators = explode(",", $data['curators']);
         foreach ($curators as $curatorId) {
-            $curator = $this->entityManager->getRepository('Entity\User')->findOneById($id);
-            $Task->getCurators()->add($curator);
-            $curator->getCurateTasks()->add($Task);
-            $this->entityManager->persist($curator);
+            $curator = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($curatorId);
+            $task->getCurators()->add($curator);
+            $curator->getCurateTasks()->add($task);
+            $this->getEntityManager()->persist($curator);
         }
 
         $executors = explode(",", $data['Executors']);
         foreach ($executors as $executorId) {
-            $executor = $this->entityManager->getRepository('Entity\User')->findOneById($id);
-            $Task->getExecutors()->add($executor);
-            $executor->getExecuteTasks()->add($Task);
-            $this->entityManager->persist($executor);
+            $executor = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($executorId);
+            $task->getExecutors()->add($executor);
+            $executor->getExecuteTasks()->add($task);
+            $this->getEntityManager()->persist($executor);
         }
 
         $necessarys = explode(",", $data['Necessary']);
         foreach ($necessarys as $necessaryId) {
-            $necessary = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
-            $Task->getNecessary()->add($necessary);
-            $necessary->getInvNecessary()->add($Task);
-            $this->entityManager->persist($necessary);
+            $necessary = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($necessaryId);
+            $task->getNecessary()->add($necessary);
+            $necessary->getInvNecessary()->add($task);
+            $this->getEntityManager()->persist($necessary);
         }
 
         $sufficientlys = explode(",", $data['Sufficiently']);
         foreach ($sufficientlys as $sufficientlyId) {
-            $sufficiently = $this->entityManager->getRepository('Entity\Task')->findOneById($id);
-            $Task->getSufficiently()->add($sufficiently);
-            $sufficiently->getInvSufficiently()->add($Task);
-            $this->entityManager->persist($sufficiently);
+            $sufficiently = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($sufficientlyId);
+            $task->getSufficiently()->add($sufficiently);
+            $sufficiently->getInvSufficiently()->add($task);
+            $this->getEntityManager()->persist($sufficiently);
         }
 
-        $this->entityManager->flush();
+        $this->getEntityManager()->flush();
         return new JsonModel($data);
     }
 
