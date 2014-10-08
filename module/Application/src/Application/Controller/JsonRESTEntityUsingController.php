@@ -26,9 +26,7 @@ class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
      * @return EntityManager
      */
     protected function getEntityManager() {
-        if (null === $this->entityManager) {
-            $this->setEntityManager($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
-        }
+            $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         return $this->entityManager;
     }
 
