@@ -15,11 +15,10 @@ class UserController extends JsonRESTEntityUsingController {
 
     public function create($data) {
         $user = new \wm\Entity\User();
-        $user->setCurateTasks($data['CurateTasks']);
         $user->setEmail($data['Email']);
-        $user->setExecuteTasks($data['ExecuteTasks']);
         $user->setName($data['Name']);
         $user->setPosition($data['Position']);
+
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
@@ -81,11 +80,10 @@ class UserController extends JsonRESTEntityUsingController {
 
     public function update($id, $data) {
         $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
-        $user->setCurateTasks($data['CurateTasks']);
         $user->setEmail($data['Email']);
-        $user->setExecuteTasks($data['ExecuteTasks']);
         $user->setName($data['Name']);
         $user->setPosition($data['Position']);
+
         $this->entityManager->flush();
         return new JsonModel($data);
     }
