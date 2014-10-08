@@ -9,6 +9,10 @@ use Application\Controller\JsonRESTEntityUsingController,
 
 class UserController extends JsonRESTEntityUsingController {
 
+    public function __construct() {
+        $this->setEntityManager($this->getDoctrine()->getEntityManager());
+    }
+
     public function create($data) {
         $user = new \wm\Entity\User();
         $user->setCurateTasks($data['CurateTasks']);

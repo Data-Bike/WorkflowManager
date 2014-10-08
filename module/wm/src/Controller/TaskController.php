@@ -7,6 +7,10 @@ use Application\Controller\JsonRESTEntityUsingController,
 
 class TaskController extends JsonRESTEntityUsingController {
 
+    public function __construct() {
+        $this->setEntityManager($this->getDoctrine()->getEntityManager());
+    }
+
     public function create($data) {
         $Task = new \wm\Entity\Task();
         $Task->setAbout($data['about']);
