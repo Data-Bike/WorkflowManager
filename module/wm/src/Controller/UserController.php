@@ -10,11 +10,25 @@ use Application\Controller\JsonRESTEntityUsingController,
 class UserController extends JsonRESTEntityUsingController {
 
     public function create($data) {
-        return $this->methodNotAllowed();
+        $user = new \wm\Entity\User();
+        $user->setCurateTasks($data['CurateTasks']);
+        $user->setEmail($data['Email']);
+        $user->setExecuteTasks($data['ExecuteTasks']);
+        $user->setName($data['Name']);
+        $user->setPosition($data['Position']);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $id = $user->getId();
+        $array = array('id' => $id);
+        return new JsonModel($array);
     }
 
     public function delete($id) {
-        return $this->methodNotAllowed();
+        $userToDelete = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $this->entityManager->remove($userToDelete);
+        $this->entityManager->flush();
+        return;
     }
 
     public function deleteList() {
@@ -22,7 +36,14 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function get($id) {
-        $array = array('proba' => 'OK');
+        $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $array = array('about' => $user->getAbout(),
+            'CurateTasks' => $user->getCurateTasks(),
+            'Email' => $user->getEmail(),
+            'ExecuteTasks' => $user->getExecuteTasks(),
+            'Name' => $user->getName(),
+            'Position' => $user->getPosition()
+        );
         return new JsonModel($array);
     }
 
@@ -31,7 +52,8 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function head($id = null) {
-        return $this->methodNotAllowed();
+        $array = array('id' => $id);
+        return new JsonModel($array);
     }
 
     public function options() {
@@ -39,24 +61,29 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function patch($id, $data) {
-        return $this->methodNotAllowed();
+        $array = array('id' => $id, 'data' => $data);
+        return new JsonModel($array);
     }
 
     public function replaceList($data) {
-        return $this->methodNotAllowed();
+        $array = array('data' => $data);
+        return new JsonModel($array);
     }
 
     public function patchList($data) {
-        return $this->methodNotAllowed();
+        $array = array('data' => $data);
+        return new JsonModel($array);
     }
 
     public function update($id, $data) {
-        return $this->methodNotAllowed();
-    }
-
-    public function probaAction() {
-        $array = array('proba' => 'OK');
-        return new JsonModel($array);
+        $user = $this->entityManager->getRepository('Entity\User')->findOneById($id);
+        $user->setCurateTasks($data['CurateTasks']);
+        $user->setEmail($data['Email']);
+        $user->setExecuteTasks($data['ExecuteTasks']);
+        $user->setName($data['Name']);
+        $user->setPosition($data['Position']);
+        $this->entityManager->flush();
+        return new JsonModel($data);
     }
 
 }
