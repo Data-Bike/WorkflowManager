@@ -89,7 +89,7 @@ define([
             };
             this.ts.selectButton.on('click', function() {
                 self.selected = self.ts.value;
-                self.addJS({name: self.selected.name, position: self.selected.about, id: self.selected.id});
+                self.addJS({name: self.selected.Name, position: self.selected.about, id: self.selected.id});
                 self.taskStore.put(self.selected);
                 self.dialog.hide();
             });
