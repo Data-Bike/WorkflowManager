@@ -41,6 +41,8 @@ class Task {
         $this->sufficiently = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invNecessary = new \Doctrine\Common\Collections\ArrayCollection();
         $this->invSufficiently = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->finishDateTime = new \DateTime();
+        $this->startDateTime = new \DateTime();
     }
 
     /**
@@ -61,7 +63,7 @@ class Task {
 
     /**
      * 
-     * @return datetime
+     * @return DateTime
      */
     public function getStartDateTime() {
         return $this->startDateTime;
@@ -69,7 +71,7 @@ class Task {
 
     /**
      * 
-     * @return datetime
+     * @return DateTime
      */
     public function getFinishDateTime() {
         return $this->finishDateTime;
@@ -157,7 +159,7 @@ class Task {
 
     /**
      * 
-     * @param datetime $startDateTime
+     * @param DateTime $startDateTime
      */
     public function setStartDateTime($startDateTime) {
         $this->startDateTime = $startDateTime;
@@ -165,7 +167,7 @@ class Task {
 
     /**
      * 
-     * @param datetime $finishDateTime
+     * @param DateTime $finishDateTime
      */
     public function setFinishDateTime($finishDateTime) {
         $this->finishDateTime = $finishDateTime;
@@ -242,13 +244,13 @@ class Task {
     protected $name;
 
     /**
-     * @var string
+     * @var DateTime
      * @ORM\Column(type="datetime", length=255, nullable=false)
      */
     protected $startDateTime;
 
     /**
-     * @var string
+     * @var DateTime
      * @ORM\Column(type="datetime", length=255, nullable=false)
      */
     protected $finishDateTime;

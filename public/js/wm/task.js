@@ -42,9 +42,11 @@ define([
     "wm/userslist",
     "dojo/store/Memory",
     "dojo/store/Cache",
+    "dojo/date/stamp",
+    "dojo/date",
     "dojo/text!./templates/task.html"
 ], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, JsonRest, taskslist, userslist, Memory, Cache, template) {
+        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, JsonRest, taskslist, userslist, Memory, Cache, Stamp, Date, template) {
 
     return declare("task", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -53,6 +55,7 @@ define([
         code: 'задача не создана',
         name: 'укажите имя',
         about: 'укажите информацию о задаче',
+        taskId: 0,
         startDate: 0,
         startTime: 0,
         finishDate: 0,
@@ -64,19 +67,32 @@ define([
             return this.setJS();
         },
         getJS: function() {
+            var startDateTime = undefined;
+            var startDate = this.startDate.get('value');
+            if (startDate) {
+                startDateTime = Date.add(startDate, 'hour', this.startTime.get('value').getHours());
+                startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
+                startDateTime = startDateTime.toUTCString();
+            }
+            
+            var finishDateTime = undefined;
+            var finishDate = this.finishDate.get('value');
+            if (finishDate) {
+                var finishDateTime = Date.add(finishDate, 'hour', this.finishTime.get('value').getHours());
+                finishDateTime = Date.add(finishDateTime, 'minute', this.finishTime.get('value').getMinutes());
+                finishDateTime = finishDateTime.toUTCString();
+            }
             return {
                 name: this.name.get('value'),
                 about: this.about.get('value'),
-                startDate: this.startDate.get('value'),
-                startTime: this.startTime.get('value'),
-                finishDate: this.finishDate.get('value'),
-                finishTime: this.finishTime.get('value'),
+                startDateTime: startDateTime,
+                finishDateTime: finishDateTime,
                 executorsList: this.executorsList.get('value'),
                 curatorsList: this.curatorsList.get('value'),
                 necessaryList: this.necessaryList.get('value'),
                 sufficientlyList: this.sufficientlyList.get('value'),
                 consequenceList: this.consequenceList.get('value'),
-                code: this.code
+                id: this.id
             };
         },
         setJS: function(data) {
@@ -96,8 +112,8 @@ define([
         postCreate: function() {
             this.inherited(arguments);
 
-            var store = new JsonRest({target: '/api/v1/user'});
-            store.query('');
+            var store = new JsonRest({target: '/'});
+            store.query('user');
             this.executorsList.select.store = store;
             this.curatorsList.select.store = store;
         }

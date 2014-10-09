@@ -48,12 +48,15 @@ define([
     ], {
         templateString: template,
         userStore: '',
+        taskStore: {},
         postCreate: function() {
 
             this.inherited(arguments);
             var self = this;
-            var store = new JsonRestStore({target: '/api/v1/'});
+            var store = new JsonRestStore({target: '/'});
+            this.taskStore = store;
             this.dg.setStore(store);
+            this.dg.setQuery('task');
 
         }
     });
