@@ -11,12 +11,12 @@ class TaskController extends JsonRESTEntityUsingController {
 
         $Task = new \wm\Entity\Task();
         $Task->setAbout($data['about']);
-        $Task->setFinishDateTime($data['FinishDateTime']);
-        $Task->setName($data['Name']);
-        $Task->setStartDateTime($data['StartDateTime']);
+        $Task->setFinishDateTime(new \DateTime($data['finishDateTime']));
+        $Task->setName($data['name']);
+        $Task->setStartDateTime(new \DateTime($data['startDateTime']));
 
         $curators = explode(",", $data['curators']);
-        foreach ($curators as $curatorId) {
+        foreach ($curators as $curatorId) if($curatorId){
             $curator = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($curatorId);
             $Task->getCurators()->add($curator);
             $curator->getCurateTasks()->add($Task);
@@ -24,7 +24,7 @@ class TaskController extends JsonRESTEntityUsingController {
         }
 
         $executors = explode(",", $data['Executors']);
-        foreach ($executors as $executorId) {
+        foreach ($executors as $executorId) if($executorId){
             $executor = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($executorId);
             $Task->getExecutors()->add($executor);
             $executor->getExecuteTasks()->add($Task);
@@ -32,7 +32,7 @@ class TaskController extends JsonRESTEntityUsingController {
         }
 
         $necessarys = explode(",", $data['Necessary']);
-        foreach ($necessarys as $necessaryId) {
+        foreach ($necessarys as $necessaryId) if($necessaryId){
             $necessary = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($necessaryId);
             $Task->getNecessary()->add($necessary);
             $necessary->getInvNecessary()->add($Task);
@@ -40,7 +40,7 @@ class TaskController extends JsonRESTEntityUsingController {
         }
 
         $sufficientlys = explode(",", $data['Sufficiently']);
-        foreach ($sufficientlys as $sufficientlyId) {
+        foreach ($sufficientlys as $sufficientlyId) if($sufficientlyId){
             $sufficiently = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($sufficientlyId);
             $Task->getSufficiently()->add($sufficiently);
             $sufficiently->getInvSufficiently()->add($Task);

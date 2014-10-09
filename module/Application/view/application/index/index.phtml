@@ -65,8 +65,9 @@ POSSIBILITY OF SUCH DAMAGE.
             "wm/taskselector",
             "dojo/io-query",
             "dojo/dom",
-            "dojo/dom-construct"
-        ], function(parser, BorderContainer, ContentPane, task, user, tasksgrid, Tree, ListInput, Memory, userslist, taskselector, ioQuery, dom, domConstruct) {
+            "dojo/dom-construct",
+            "dojo/json"
+        ], function(parser, BorderContainer, ContentPane, task, user, tasksgrid, Tree, ListInput, Memory, userslist, taskselector, ioQuery, dom, domConstruct, JSON) {
 
             parser.parse();
 
@@ -74,10 +75,19 @@ POSSIBILITY OF SUCH DAMAGE.
             var taskForm = dijit.byId('taskForm');
             var taskGrid = dijit.byId('taskGrid');
             taskForm.viewButton.on('click', function() {
-                taskGrid.dg.setQuery('?'+ioQuery.objectToQuery(taskForm.getJS()));
+                taskGrid.dg.setQuery('task?' + ioQuery.objectToQuery(taskForm.getJS()));
             });
-            taskGrid.dg.on('SelectionChanged',function(){
-                taskForm.set('value',taskGrid.dg.selection.getSelected()[0].data);
+            taskForm.saveButton.on('click', function() {
+                console.log(taskGrid.taskStore);
+                console.log(taskForm.getJS());
+                if (!taskGrid.taskStore.taskId) {
+                    taskGrid.taskStore.service.post('task', JSON.stringify(taskForm.getJS()));
+                } else {
+                    taskGrid.taskStore.service.put('task', JSON.stringify(taskForm.getJS()));
+                }
+            });
+            taskGrid.dg.on('SelectionChanged', function() {
+                taskForm.set('value', taskGrid.dg.selection.getSelected()[0].data);
             });
 
         });

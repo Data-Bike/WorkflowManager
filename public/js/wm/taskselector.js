@@ -64,8 +64,9 @@ define([
         },
         startup: function() {
             this.inherited(arguments);
-            var store = new JsonRestStore({target: '/api/v1/'});
+            var store = new JsonRestStore({target: '/'});
             this.dg.setStore(store);
+            this.dg.setQuery('task');
         }
     });
     parser.parse();
