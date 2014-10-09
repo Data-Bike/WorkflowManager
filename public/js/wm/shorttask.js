@@ -37,9 +37,10 @@ define([
     "dijit/form/DateTextBox",
     "dijit/layout/ContentPane",
     "dijit/layout/BorderContainer",
+    "dojo/date",
     "dojo/text!./templates/shorttask.html"
 ], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, template) {
+        _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, Date, template) {
 
     return declare("shorttask", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -59,14 +60,27 @@ define([
             return this.setJS(value);
         },
         getJS: function() {
+            var startDateTime = undefined;
+            var startDate = this.startDate.get('value');
+            if (startDate) {
+                startDateTime = Date.add(startDate, 'hour', this.startTime.get('value').getHours());
+                startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
+                startDateTime = startDateTime.toUTCString();
+            }
+
+            var finishDateTime = undefined;
+            var finishDate = this.finishDate.get('value');
+            if (finishDate) {
+                var finishDateTime = Date.add(finishDate, 'hour', this.finishTime.get('value').getHours());
+                finishDateTime = Date.add(finishDateTime, 'minute', this.finishTime.get('value').getMinutes());
+                finishDateTime = finishDateTime.toUTCString();
+            }
             return {
                 name: this.name.get('value'),
                 about: this.about.get('value'),
-                startDate: this.startDate.get('value'),
-                startTime: this.startTime.get('value'),
-                finishDate: this.finishDate.get('value'),
-                finishTime: this.finishTime.get('value'),
-                code: this.code
+                startDate: this.startDateTime,
+                finishDate: this.finishDateTime,
+                id: this.taskId
             };
         },
         setJS: function(data) {
