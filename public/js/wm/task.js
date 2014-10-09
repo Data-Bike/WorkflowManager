@@ -55,7 +55,7 @@ define([
         code: 'задача не создана',
         name: 'укажите имя',
         about: 'укажите информацию о задаче',
-        taskId: 0,
+        taskId: undefined,
         startDate: 0,
         startTime: 0,
         finishDate: 0,
@@ -92,7 +92,7 @@ define([
                 necessaryList: this.necessaryList.get('value'),
                 sufficientlyList: this.sufficientlyList.get('value'),
                 consequenceList: this.consequenceList.get('value'),
-                id: this.id
+                id: this.taskId
             };
         },
         setJS: function(data) {
