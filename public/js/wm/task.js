@@ -60,11 +60,11 @@ define([
         startTime: 0,
         finishDate: 0,
         finishTime: 0,
-        __getAttrValue: function() {
+        _getValueAttr: function() {
             return this.getJS();
         },
-        __setAttrValue: function() {
-            return this.setJS();
+        _setValueAttr: function(value) {
+            return this.setJS(value);
         },
         getJS: function() {
             var startDateTime = undefined;
@@ -96,17 +96,18 @@ define([
             };
         },
         setJS: function(data) {
-            this.name.set('value', data.name);
+            console.log(data);
+            this.name.set('value', data.Name);
             this.about.set('value', data.about);
-            this.startDate.set('value', data.startDate);
-            this.startTime.set('value', data.startTime);
-            this.finishDate.set('value', data.finishDate);
-            this.finishTime.set('value', data.finishTime);
-            this.executorsList.set('value', data.executorsList);
-            this.curatorsList.set('value', data.curatorsList);
-            this.necessaryList.set('value', data.necessaryList);
-            this.sufficientlyList.set('value', data.sufficientlyList);
-            this.consequenceList.set('value', data.consequenceList);
+            this.startDate.set('value', data.StartDateTime);
+            this.startTime.set('value', data.StartDateTime);
+            this.finishDate.set('value', data.FinishDateTime);
+            this.finishTime.set('value', data.FinishDateTime);
+//            this.executorsList.set('value', data.executorsList);
+//            this.curatorsList.set('value', data.curatorsList);
+//            this.necessaryList.set('value', data.necessaryList);
+//            this.sufficientlyList.set('value', data.sufficientlyList);
+//            this.consequenceList.set('value', data.consequenceList);
             this.code = data.code;
         },
         postCreate: function() {

@@ -61,7 +61,6 @@ define([
             return value;
         },
         _setValueAttr: function (value) {
-            alert('overide');
             this.setJS(value);
         },
         setJS: function (js) {
