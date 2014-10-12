@@ -64,6 +64,9 @@ define([
             this.setJS(value);
         },
         setJS: function (js) {
+            while (this.list.domNode.firstChild) {
+                this.list.domNode.removeChild(this.list.domNode.firstChild);
+            }
             var self = this;
             for (var key in js) {
                 var obj = js[key];
