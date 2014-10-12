@@ -45,7 +45,7 @@ define([
     "dojo/date/stamp",
     "dojo/date",
     "dojo/text!./templates/task.html"
-], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, JsonRest, taskslist, userslist, Memory, Cache, Stamp, Date, template) {
 
     return declare("task", [_WidgetBase, _OnDijitClickMixin,
@@ -60,13 +60,13 @@ define([
         startTime: 0,
         finishDate: 0,
         finishTime: 0,
-        _getValueAttr: function() {
+        _getValueAttr: function () {
             return this.getJS();
         },
-        _setValueAttr: function(value) {
+        _setValueAttr: function (value) {
             return this.setJS(value);
         },
-        getJS: function() {
+        getJS: function () {
             var startDateTime = undefined;
             var startDate = this.startDate.get('value');
             if (startDate) {
@@ -74,7 +74,7 @@ define([
                 startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
                 startDateTime = startDateTime.toUTCString();
             }
-            
+
             var finishDateTime = undefined;
             var finishDate = this.finishDate.get('value');
             if (finishDate) {
@@ -95,22 +95,21 @@ define([
                 id: this.taskId
             };
         },
-        setJS: function(data) {
-            console.log(data);
+        setJS: function (data) {
             this.name.set('value', data.Name);
             this.about.set('value', data.about);
             this.startDate.set('value', data.StartDateTime);
             this.startTime.set('value', data.StartDateTime);
             this.finishDate.set('value', data.FinishDateTime);
             this.finishTime.set('value', data.FinishDateTime);
-//            this.executorsList.set('value', data.executorsList);
-//            this.curatorsList.set('value', data.curatorsList);
-//            this.necessaryList.set('value', data.necessaryList);
+            this.executorsList.set('value', data.Executors);
+            this.curatorsList.set('value', data.curators);
+            this.necessaryList.set('value', data.Necessary);
 //            this.sufficientlyList.set('value', data.sufficientlyList);
 //            this.consequenceList.set('value', data.consequenceList);
             this.code = data.code;
         },
-        postCreate: function() {
+        postCreate: function () {
             this.inherited(arguments);
 
             var store = new JsonRest({target: '/'});

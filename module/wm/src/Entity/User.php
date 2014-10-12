@@ -200,6 +200,17 @@ class User {
         $this->curateTasks = $curateTasks;
     }
 
+    public function toArray() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'username' => $this->username,
+            'state' => $this->state,
+            'position' => $this->position
+        ];
+    }
+
     /**
      * @var int
      * @ORM\Id

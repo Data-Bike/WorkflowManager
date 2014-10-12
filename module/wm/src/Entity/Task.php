@@ -229,12 +229,12 @@ class Task {
         $this->invSufficiently = $invSufficiently;
     }
 
-    public function getArray() {
+    public function toArray() {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'startDateTime' => $this->startDateTime,
-            'finishDateTime' => $this->finishDateTime,
+            'startDateTime' => $this->startDateTime->format(\DateTime::W3C),
+            'finishDateTime' => $this->finishDateTime->format(\DateTime::W3C),
             'about' => $this->about
         ];
     }

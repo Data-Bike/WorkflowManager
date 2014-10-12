@@ -99,13 +99,13 @@ class TaskController extends JsonRESTEntityUsingController {
                 '_StartDateTime' => $task->getStartDateTime() ? $task->getStartDateTime()->format(\DateTime::W3C) : "нет",
                 '_id' => $task->getId(),
                 'params' => array('data' => array('about' => $task->getAbout(),
-                        'curators' => $task->getCurators(),
-                        'Executors' => $task->getExecutors(),
-                        'FinishDateTime' => $task->getFinishDateTime(),
+                        'curators' => $this->entitysToArray($task->getCurators()),
+                        'Executors' => $this->entitysToArray($task->getExecutors()),
+                        'FinishDateTime' => $task->getFinishDateTime()->format(\DateTime::W3C),
                         'Name' => $task->getName(),
-                        'Necessary' => $task->getNecessary(),
-                        'StartDateTime' => $task->getStartDateTime(),
-                        'Sufficiently' => $task->getSufficiently(),
+                        'Necessary' => $this->entitysToArray($task->getNecessary()),
+                        'StartDateTime' => $task->getStartDateTime()->format(\DateTime::W3C),
+                        'Sufficiently' => $this->entitysToArray($task->getSufficiently()),
                         'id' => $task->getId()
                     )
                 )
