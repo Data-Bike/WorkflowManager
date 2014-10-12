@@ -38,7 +38,7 @@ define([
     "wm/user",
     "dijit/Dialog",
     "dojo/text!./templates/taskslist.html"
-], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, Dialog, template) {
 
     return declare("userslist", [_WidgetBase, _OnDijitClickMixin,
@@ -47,50 +47,60 @@ define([
         templateString: template,
         userStore: '',
         taskStore: '',
-        addUser: function() {
+        addUser: function () {
 
         },
-        __getValueAttr:function(){
-            return this.taskStore.data;
+        _getValueAttr: function () {
+            var value = '';
+            var obj = {};
+            for (var key in this.taskStore.data) {
+                obj = this.taskStore.data[key];
+                value += value ? ',' : '';
+                value += obj.id;
+            }
+            return value;
         },
-        __setValueAttr:function(value){
+        _setValueAttr: function (value) {
+            alert('overide');
             this.setJS(value);
         },
-        setJS: function(js) {
+        setJS: function (js) {
             var self = this;
             for (var key in js) {
                 var obj = js[key];
                 var usr = new user({label: obj.name, position: obj.position});
                 usr.data = obj;
-                usr.onDelete = function(data) {
+                usr.onDelete = function (data) {
                     self.taskStore.remove(data.id);
                 };
                 usr.setJS(obj);
                 this.list.appendChild(usr.domNode);
             }
         },
-        addJS: function(js) {
+        addJS: function (js) {
             var usr = new user({label: js.name, position: js.position});
-            usr.region='top';
+            usr.region = 'top';
             var self = this;
             usr.data = js;
-            usr.onDelete = function(data) {
+            usr.onDelete = function (data) {
                 self.taskStore.remove(data.id);
             };
             this.list.domNode.appendChild(usr.domNode);
         },
-        postCreate: function() {
+        postCreate: function () {
 
             this.inherited(arguments);
             this.taskStore = new Memory();
             var self = this;
-            this.selectButton.onClick = function() {
+            this.value = '';
+            this.selectButton.onClick = function () {
                 self.dialog.show();
             };
-            this.ts.selectButton.on('click', function() {
+            this.ts.selectButton.on('click', function () {
                 self.selected = self.ts.value;
                 self.addJS({name: self.selected.Name, position: self.selected.about, id: self.selected.id});
                 self.taskStore.put(self.selected);
+                self.value = self.value ? self.value + ',' + self.ts.value.id : self.value + self.ts.value.id;
                 self.dialog.hide();
             });
         }
