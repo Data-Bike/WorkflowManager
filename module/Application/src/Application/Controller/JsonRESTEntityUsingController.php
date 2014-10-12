@@ -26,8 +26,16 @@ class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
      * @return EntityManager
      */
     protected function getEntityManager() {
-            $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $this->setEntityManager($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
         return $this->entityManager;
+    }
+
+    protected function entityToArray($entitys) {
+        
+        foreach ($entitys as $entity) {
+            $array[]=$entity->toArray();
+        }
+        return $array;
     }
 
 }

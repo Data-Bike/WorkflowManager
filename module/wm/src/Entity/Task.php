@@ -229,6 +229,16 @@ class Task {
         $this->invSufficiently = $invSufficiently;
     }
 
+    public function getArray() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'startDateTime' => $this->startDateTime,
+            'finishDateTime' => $this->finishDateTime,
+            'about' => $this->about
+        ];
+    }
+
     /**
      * @var int
      * @ORM\Id

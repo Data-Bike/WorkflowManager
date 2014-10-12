@@ -87,7 +87,7 @@ POSSIBILITY OF SUCH DAMAGE.
                 }
             });
             taskGrid.dg.on('SelectionChanged', function() {
-                taskForm.set('value', taskGrid.dg.selection.getSelected()[0].data);
+                taskForm.set('value', taskGrid.dg.selection.getSelected()[0].params.data);
             });
 
         });
