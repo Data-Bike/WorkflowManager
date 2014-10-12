@@ -33,7 +33,7 @@ class TaskController extends JsonRESTEntityUsingController {
                 $this->getEntityManager()->persist($executor);
             }
 
-        $necessarys = explode(",", $data['Necessary']);
+        $necessarys = explode(",", $data['necessaryList']);
         foreach ($necessarys as $necessaryId)
             if ($necessaryId) {
                 $necessary = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($necessaryId);
@@ -42,7 +42,7 @@ class TaskController extends JsonRESTEntityUsingController {
                 $this->getEntityManager()->persist($necessary);
             }
 
-        $sufficientlys = explode(",", $data['Sufficiently']);
+        $sufficientlys = explode(",", $data['sufficientlyList']);
         foreach ($sufficientlys as $sufficientlyId)
             if ($sufficientlyId) {
                 $sufficiently = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($sufficientlyId);
@@ -97,7 +97,8 @@ class TaskController extends JsonRESTEntityUsingController {
                 'Name' => $task->getName(),
                 'Necessary' => $task->getNecessary(),
                 'StartDateTime' => $task->getStartDateTime(),
-                'Sufficiently' => $task->getSufficiently()
+                'Sufficiently' => $task->getSufficiently(),
+                'id' => $task->getId()
             );
         }
         return new JsonModel($array);
