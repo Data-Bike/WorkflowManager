@@ -90,52 +90,52 @@ class Task {
      * @return array
      */
     public function getExecutors() {
-        return $this->executors;
+        return $this->executors->toArray();
     }
 
     /**
      * 
-     * @return array
+     * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getCurators() {
-        return $this->curators;
+        return $this->curators->toArray();
     }
 
     /**
      * 
-     * @return array
+     * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getNecessary() {
-        return $this->necessary;
+        return $this->necessary->toArray();
     }
 
     /**
      * 
-     * @return array
+     * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getSufficiently() {
-        return $this->sufficiently;
+        return $this->sufficiently->toArray();
     }
 
     /**
      * 
-     * @return array
+     * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getInvNecessary() {
-        return $this->invNecessary;
+        return $this->invNecessary->toArray();
     }
 
     /**
      * 
-     * @return array
+     * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getInvSufficiently() {
-        return $this->invSufficiently;
+        return $this->invSufficiently->toArray();
     }
 
     /**
      * 
-     * @return array
+     * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getConsequence() {
         return array_merge($this->getInvNecessary(), $this->getInvSufficiently());
@@ -183,7 +183,7 @@ class Task {
 
     /**
      * 
-     * @param array $executors
+     * @param  \Doctrine\Common\Collections\ArrayCollection $executors
      */
     public function setExecutors($executors) {
         $this->executors = $executors;
@@ -191,7 +191,7 @@ class Task {
 
     /**
      * 
-     * @param array $curators
+     * @param  \Doctrine\Common\Collections\ArrayCollection $curators
      */
     public function setCurators($curators) {
         $this->curators = $curators;
@@ -199,7 +199,7 @@ class Task {
 
     /**
      * 
-     * @param array $necessary
+     * @param  \Doctrine\Common\Collections\ArrayCollection $necessary
      */
     public function setNecessary($necessary) {
         $this->necessary = $necessary;
@@ -207,7 +207,7 @@ class Task {
 
     /**
      * 
-     * @param array $sufficiently
+     * @param  \Doctrine\Common\Collections\ArrayCollection $sufficiently
      */
     public function setSufficiently($sufficiently) {
         $this->sufficiently = $sufficiently;
@@ -215,7 +215,7 @@ class Task {
 
     /**
      * 
-     * @param array $invNecessary
+     * @param  \Doctrine\Common\Collections\ArrayCollection $invNecessary
      */
     public function setInvNecessary($invNecessary) {
         $this->invNecessary = $invNecessary;
@@ -223,7 +223,7 @@ class Task {
 
     /**
      * 
-     * @param array $invSufficiently
+     * @param  \Doctrine\Common\Collections\ArrayCollection $invSufficiently
      */
     public function setInvSufficiently($invSufficiently) {
         $this->invSufficiently = $invSufficiently;
@@ -280,7 +280,7 @@ class Task {
     protected $curators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", mappedBy="invNecessary")
+     * @ORM\ManyToMany(targetEntity="wm\Entity\Task", mappedBy="invNecessary", fetch="EAGER")
      * 
      * */
     protected $necessary;
