@@ -112,8 +112,8 @@ define([
         postCreate: function () {
             this.inherited(arguments);
 
-            var store = new JsonRest({target: '/'});
-            store.query('user');
+            var store = new JsonRest({target: '/user'});
+            store.query('?name=');
             this.executorsList.select.store = store;
             this.curatorsList.select.store = store;
         }
