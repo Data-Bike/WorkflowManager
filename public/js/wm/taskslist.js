@@ -67,17 +67,16 @@ define([
             var self = this;
             for (var key in js) {
                 var obj = js[key];
-                var usr = new user({label: obj.name, position: obj.position});
+                var usr = new user({label: obj.name ? obj.name : '', position: obj.position ? obj.position : ''});
                 usr.data = obj;
                 usr.onDelete = function (data) {
                     self.taskStore.remove(data.id);
                 };
-                usr.setJS(obj);
-                this.list.appendChild(usr.domNode);
+                this.list.domNode.appendChild(usr.domNode);
             }
         },
         addJS: function (js) {
-            var usr = new user({label: js.name, position: js.position});
+            var usr = new user({label: js.name, position: js.position ? js.position : ''});
             usr.region = 'top';
             var self = this;
             usr.data = js;
@@ -97,7 +96,7 @@ define([
             };
             this.ts.selectButton.on('click', function () {
                 self.selected = self.ts.value;
-                self.addJS({name: self.selected.Name, position: self.selected.about, id: self.selected.id});
+                self.addJS({name: self.selected._Name, position: self.selected._about, id: self.selected._id});
                 self.taskStore.put(self.selected);
                 self.value = self.value ? self.value + ',' + self.ts.value.id : self.value + self.ts.value.id;
                 self.dialog.hide();

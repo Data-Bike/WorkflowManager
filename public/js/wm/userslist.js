@@ -48,10 +48,10 @@ define([
         addUser: function() {
 
         },
-        __getValueAttr: function() {
+        _getValueAttr: function() {
             return this.taskStore.data;
         },
-        __setValueAttr: function(value) {
+        _setValueAttr: function(value) {
             this.setJS(value);
         },
         setJS: function(js) {

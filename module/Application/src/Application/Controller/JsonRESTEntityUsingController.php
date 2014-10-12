@@ -30,7 +30,7 @@ class JsonRESTEntityUsingController extends AbstractRestfulJsonController {
         return $this->entityManager;
     }
 
-    protected function entityToArray($entitys) {
+    protected function entitysToArray($entitys) {
         
         foreach ($entitys as $entity) {
             $array[]=$entity->toArray();
