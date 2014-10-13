@@ -51,7 +51,6 @@ define([
         _getValueAttr: function() {
             var value = '';
             var obj = {};
-            console.log(this.userStore.data);
             for (var key in this.userStore.data) {
                 obj = this.userStore.data[key];
                 value += value ? ',' : '';
@@ -72,7 +71,7 @@ define([
                     self.taskStore.remove(data.id);
                 };
                 usr.setJS(obj);
-                this.list.appendChild(usr.domNode);
+                this.list.domNode.appendChild(usr.domNode);
             }
         },
         addJS: function(js) {
@@ -81,7 +80,7 @@ define([
             var self = this;
             usr.data = js;
             usr.onDelete = function(data) {
-                self.taskStore.remove(data.id);
+                self.userStore.remove(data.id);
             };
             this.list.domNode.appendChild(usr.domNode);
         },

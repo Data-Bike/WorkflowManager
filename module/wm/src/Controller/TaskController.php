@@ -15,7 +15,7 @@ class TaskController extends JsonRESTEntityUsingController {
         $Task->setName($data['name']);
         $Task->setStartDateTime(new \DateTime($data['startDateTime']));
 
-        $curators = explode(",", $data['curators']);
+        $curators = explode(",", $data['curatorsList']);
         foreach ($curators as $curatorId) {
             if ($curatorId) {
                 $curator = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($curatorId);
@@ -24,7 +24,7 @@ class TaskController extends JsonRESTEntityUsingController {
                 $this->getEntityManager()->persist($curator);
             }
         }
-        $executors = explode(",", $data['Executors']);
+        $executors = explode(",", $data['executorsList']);
         foreach ($executors as $executorId) {
             if ($executorId) {
                 $executor = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($executorId);
