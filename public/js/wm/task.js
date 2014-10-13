@@ -70,21 +70,25 @@ define([
             var startDateTime = undefined;
             var startDate = this.startDate.get('value');
             if (startDate) {
-                startDateTime = Date.add(startDate, 'hour', this.startTime.get('value').getHours());
-                startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
+                if (this.startTime.get('value')) {
+                    startDateTime = Date.add(startDate, 'hour', this.startTime.get('value').getHours());
+                    startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
+                }
                 startDateTime = startDateTime.toUTCString();
             }
 
             var finishDateTime = undefined;
             var finishDate = this.finishDate.get('value');
             if (finishDate) {
-                var finishDateTime = Date.add(finishDate, 'hour', this.finishTime.get('value').getHours());
-                finishDateTime = Date.add(finishDateTime, 'minute', this.finishTime.get('value').getMinutes());
+                if (this.finishTime.get('value')) {
+                    var finishDateTime = Date.add(finishDate, 'hour', this.finishTime.get('value').getHours());
+                    finishDateTime = Date.add(finishDateTime, 'minute', this.finishTime.get('value').getMinutes());
+                }
                 finishDateTime = finishDateTime.toUTCString();
             }
             return {
-                name: this.name.get('value'),
-                about: this.about.get('value'),
+                name: this.name.get('value') ? this.name.get('value') : undefined,
+                about: this.about.get('value') ? this.about.get('value') : undefined,
                 startDateTime: startDateTime,
                 finishDateTime: finishDateTime,
                 executorsList: this.executorsList.get('value'),
@@ -115,10 +119,10 @@ define([
             var storeRest = new JsonRest({target: '/user'});
             var storeMemory = new Memory();
             var userCache = new Cache(storeRest, storeMemory);
-            
-            this.executorsList.select.store=userCache;
-            this.curatorsList.select.store=userCache;
-            
+
+            this.executorsList.select.store = userCache;
+            this.curatorsList.select.store = userCache;
+
 //            store.query('?name=').then(function (data) {
 //                console.log(data);
 //                var memory = new Memory({data: data});

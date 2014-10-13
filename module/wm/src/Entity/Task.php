@@ -90,7 +90,7 @@ class Task {
      * @return array
      */
     public function getExecutors() {
-        return $this->executors->toArray();
+        return $this->executors;
     }
 
     /**
@@ -98,7 +98,7 @@ class Task {
      * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getCurators() {
-        return $this->curators->toArray();
+        return $this->curators;
     }
 
     /**
@@ -106,7 +106,7 @@ class Task {
      * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getNecessary() {
-        return $this->necessary->toArray();
+        return $this->necessary;
     }
 
     /**
@@ -114,7 +114,7 @@ class Task {
      * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getSufficiently() {
-        return $this->sufficiently->toArray();
+        return $this->sufficiently;
     }
 
     /**
@@ -122,7 +122,7 @@ class Task {
      * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getInvNecessary() {
-        return $this->invNecessary->toArray();
+        return $this->invNecessary;
     }
 
     /**
@@ -130,7 +130,7 @@ class Task {
      * @return  \Doctrine\Common\Collections\ArrayCollection
      */
     public function getInvSufficiently() {
-        return $this->invSufficiently->toArray();
+        return $this->invSufficiently;
     }
 
     /**
