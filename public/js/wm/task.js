@@ -112,10 +112,21 @@ define([
         postCreate: function () {
             this.inherited(arguments);
 
-            var store = new JsonRest({target: '/user'});
-            store.query('?name=');
-            this.executorsList.select.store = store;
-            this.curatorsList.select.store = store;
+            var storeRest = new JsonRest({target: '/user'});
+            var storeMemory = new Memory();
+            var userCache = new Cache(storeRest, storeMemory);
+            
+            this.executorsList.select.store=userCache;
+            this.curatorsList.select.store=userCache;
+            
+//            store.query('?name=').then(function (data) {
+//                console.log(data);
+//                var memory = new Memory({data: data});
+//                this.executorsList.select.store = memory;
+//                this.curatorsList.select.store = memory;
+//                this.executorsList.select.store.update();
+//            });
+
         }
     });
 

@@ -91,6 +91,8 @@ class TaskController extends JsonRESTEntityUsingController {
         unset($params['necessaryList']);
         unset($params['sufficientlyList']);
         unset($params['consequenceList']);
+        unset($params['executorsList']);
+        unset($params['curatorsList']);
         $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->findBy($params);
         foreach ($tasks as $task) {
             $row_grid = array('_about' => $task->getAbout(),

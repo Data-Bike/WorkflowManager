@@ -58,10 +58,9 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function getList() {
-        $params = $this->params()->fromQuery();
-        unset($params['name']);
-        $users = $this->getEntityManager()->getRepository('wm\Entity\User')->findBy($params);
-        return new JsonModel($this->entitysToArray($users));
+        $users = $this->getEntityManager()->getRepository('wm\Entity\User')->findAll();
+        $array = $this->entitysToArray($users);
+        return new JsonModel($array);
     }
 
     public function head($id = null) {
