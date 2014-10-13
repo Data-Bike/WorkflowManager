@@ -49,7 +49,15 @@ define([
 
         },
         _getValueAttr: function() {
-            return this.taskStore.data;
+            var value = '';
+            var obj = {};
+            console.log(this.userStore.data);
+            for (var key in this.userStore.data) {
+                obj = this.userStore.data[key];
+                value += value ? ',' : '';
+                value += obj.id;
+            }
+            return value;
         },
         _setValueAttr: function(value) {
             this.setJS(value);
@@ -80,12 +88,12 @@ define([
         postCreate: function() {
             this.inherited(arguments);
 
-            this.taskStore = new Memory();
+            this.userStore = new Memory();
             var self = this;
             this.select.store = this.userStore;
             this.addUserButton.onClick = function() {
                 self.addJS(self.select.item);
-                self.taskStore.put(self.select.item);
+                self.userStore.put(self.select.item);
             };
         }
     });
