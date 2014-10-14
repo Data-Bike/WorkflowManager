@@ -37,9 +37,13 @@ define([
     "dojo/store/Memory",
     "wm/user",
     "dijit/Dialog",
+    "dojo/store/Observable",
+    "dojo/data/ObjectStore",
+    "dijit/form/Button",
+    "dojox/grid/DataGrid",
     "dojo/text!./templates/taskslist.html"
 ], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, Dialog, template) {
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, Dialog, Observable, ObjectStore, Button, DataGrid, template) {
 
     return declare("userslist", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -53,8 +57,10 @@ define([
         _getValueAttr: function () {
             var value = '';
             var obj = {};
-            for (var key in this.taskStore.data) {
-                obj = this.taskStore.data[key];
+            var data = this.taskStore1.fetch().store._dirtyObjects;
+            console.log(data);
+            for (var key in data) {
+                obj = data[key].object;
                 value += value ? ',' : '';
                 value += obj.id;
             }
@@ -64,43 +70,41 @@ define([
             this.setJS(value);
         },
         setJS: function (js) {
-            while (this.list.domNode.firstChild) {
-                this.list.domNode.removeChild(this.list.domNode.firstChild);
-            }
+            this.taskStore = new Observable(new Memory({data:js}));
             var self = this;
-            for (var key in js) {
-                var obj = js[key];
-                var usr = new user({label: obj.name ? obj.name : '', position: obj.position ? obj.position : ''});
-                usr.data = obj;
-                usr.onDelete = function (data) {
-                    self.taskStore.remove(data.id);
-                };
-                this.list.domNode.appendChild(usr.domNode);
-            }
-        },
-        addJS: function (js) {
-            var usr = new user({label: js.name, position: js.position ? js.position : ''});
-            usr.region = 'top';
-            var self = this;
-            usr.data = js;
-            usr.onDelete = function (data) {
-                self.taskStore.remove(data.id);
-            };
-            this.list.domNode.appendChild(usr.domNode);
+            this.taskStore1 = new ObjectStore({objectStore: self.taskStore});
+            this.dg.setStore(this.taskStore1);
         },
         postCreate: function () {
 
             this.inherited(arguments);
-            this.taskStore = new Memory();
-            var self = this;
             this.value = '';
+
+            this.taskStore = new Observable(new Memory());
+            var self = this;
+            this.taskStore1 = new ObjectStore({objectStore: self.taskStore});
+            this.dg = new DataGrid({
+                store: self.taskStore1,
+                style: {width: '90%', height: '100px'},
+                structure: [
+                    {name: 'Название', field: 'Name'},
+                    {name: 'Описание', field: 'about'},
+                    {name: ' ', field: '_item', formatter: function (item) {
+                            return new Button({onClick: function () {
+                                    self.taskStore1.deleteItem(item);
+                                }});
+                        }}
+                ]
+            }).placeAt(this.grid);
+            this.dg.startup();
+
             this.selectButton.onClick = function () {
                 self.dialog.show();
             };
             this.ts.selectButton.on('click', function () {
                 self.selected = self.ts.value;
-                self.addJS({name: self.selected._Name, position: self.selected._about, id: self.selected._id});
-                self.taskStore.put(self.selected);
+                console.log(self.selected.params.data);
+                self.taskStore1.newItem(self.selected.params.data);
                 self.value = self.value ? self.value + ',' + self.ts.value.id : self.value + self.ts.value.id;
                 self.dialog.hide();
             });

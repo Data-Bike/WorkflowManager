@@ -67,17 +67,18 @@ POSSIBILITY OF SUCH DAMAGE.
             "dojo/dom",
             "dojo/dom-construct",
             "dojo/json"
-        ], function(parser, BorderContainer, ContentPane, task, user, tasksgrid, Tree, ListInput, Memory, userslist, taskselector, ioQuery, dom, domConstruct, JSON) {
+        ], function (parser, BorderContainer, ContentPane, task, user, tasksgrid, Tree, ListInput, Memory, userslist, taskselector, ioQuery, dom, domConstruct, JSON) {
 
+            
             parser.parse();
 
             var self = this;
             var taskForm = dijit.byId('taskForm');
             var taskGrid = dijit.byId('taskGrid');
-            taskForm.viewButton.on('click', function() {
+            taskForm.viewButton.on('click', function () {
                 taskGrid.dg.setQuery('task?' + ioQuery.objectToQuery(taskForm.getJS()));
             });
-            taskForm.saveButton.on('click', function() {
+            taskForm.saveButton.on('click', function () {
                 console.log(taskGrid.taskStore);
                 console.log(taskForm.getJS());
                 if (!taskGrid.taskStore.taskId) {
@@ -86,7 +87,7 @@ POSSIBILITY OF SUCH DAMAGE.
                     taskGrid.taskStore.service.put('task', JSON.stringify(taskForm.getJS()));
                 }
             });
-            taskGrid.dg.on('SelectionChanged', function() {
+            taskGrid.dg.on('SelectionChanged', function () {
                 taskForm.set('value', taskGrid.dg.selection.getSelected()[0].params.data);
             });
 

@@ -122,7 +122,7 @@ define([
 
             this.executorsList.select.store = userCache;
             this.curatorsList.select.store = userCache;
-
+//            this.executorsList.dg.setStore(userCache);
 //            store.query('?name=').then(function (data) {
 //                console.log(data);
 //                var memory = new Memory({data: data});

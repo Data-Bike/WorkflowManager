@@ -39,7 +39,7 @@ define([
     "dijit/layout/BorderContainer",
     "dojo/date",
     "dojo/text!./templates/shorttask.html"
-], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, Date, template) {
 
     return declare("shorttask", [_WidgetBase, _OnDijitClickMixin,
@@ -48,18 +48,18 @@ define([
         templateString: template,
         code: 'задача не создана',
         name: 'укажите имя',
-        about: 'укажите информация о задаче',
+        about: 'укажите информацию о задаче',
         startDate: 0,
         startTime: 0,
         finishDate: 0,
         finishTime: 0,
-        __getValueAttr: function() {
+        __getValueAttr: function () {
             return this.getJS();
         },
-        __setValueAttr: function(value) {
+        __setValueAttr: function (value) {
             return this.setJS(value);
         },
-        getJS: function() {
+        getJS: function () {
             var startDateTime = undefined;
             var startDate = this.startDate.get('value');
             if (startDate) {
@@ -76,14 +76,14 @@ define([
                 finishDateTime = finishDateTime.toUTCString();
             }
             return {
-                name: this.name.get('value'),
-                about: this.about.get('value'),
+                name: this.name.get('value') ? this.name.get('value') : undefined,
+                about: this.about.get('value') ? this.about.get('value') : undefined,
                 startDate: this.startDateTime,
                 finishDate: this.finishDateTime,
                 id: this.taskId
             };
         },
-        setJS: function(data) {
+        setJS: function (data) {
             this.name.set('value', data.name);
             this.about.set('value', data.about);
             this.startDate.set('value', data.startDate);
@@ -92,7 +92,7 @@ define([
             this.finishTime.set('value', data.finishTime);
             this.code = data.code;
         },
-        postCreate: function() {
+        postCreate: function () {
             this.inherited(arguments);
         }
     });

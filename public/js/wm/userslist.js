@@ -34,10 +34,14 @@ define([
     "dijit/layout/BorderContainer",
     "dijit/form/FilteringSelect",
     "dojo/store/Memory",
+    "dojo/store/Observable",
+    "dojo/data/ObjectStore",
+    "dijit/form/Button",
+    "dojox/grid/DataGrid",
     "wm/user",
     "dojo/text!./templates/userslist.html"
-], function(declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, template) {
+], function (declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, Observable, ObjectStore, Button, DataGrid, user, template) {
 
     return declare("userslist", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -45,56 +49,60 @@ define([
         templateString: template,
         userStore: '',
         taskStore: '',
-        addUser: function() {
+        formatter: function () {
+            var w = new dijit.form.Button();
+            w._destroyOnRemove = true;
+            return w;
+        },
+        addUser: function () {
 
         },
-        _getValueAttr: function() {
+        _getValueAttr: function () {
             var value = '';
             var obj = {};
-            for (var key in this.userStore.data) {
-                obj = this.userStore.data[key];
+            var data = this.userStore1.fetch().store._dirtyObjects;
+            console.log(data);
+            for (var key in data) {
+                obj = data[key].object;
                 value += value ? ',' : '';
                 value += obj.id;
             }
             return value;
         },
-        _setValueAttr: function(value) {
+        _setValueAttr: function (value) {
             this.setJS(value);
         },
-        setJS: function(js) {
+        setJS: function (js) {
+            this.userStore = new Observable(new Memory({data: js}));
             var self = this;
-            for (var key in js) {
-                var obj = js[key];
-                var usr = new user({label: obj.name, position: obj.position});
-                usr.data = obj;
-                usr.onDelete = function(data) {
-                    self.taskStore.remove(data.id);
-                };
-                usr.setJS(obj);
-                this.list.domNode.appendChild(usr.domNode);
-            }
+            this.userStore1 = new ObjectStore({objectStore: self.userStore});
+            this.dg.setStore(this.userStore1);
         },
-        addJS: function(js) {
-            var usr = new user({label: js.name, position: js.position});
-            usr.region = 'top';
-            var self = this;
-            usr.data = js;
-            usr.onDelete = function(data) {
-                self.userStore.remove(data.id);
-            };
-            this.list.domNode.appendChild(usr.domNode);
-        },
-        postCreate: function() {
+        postCreate: function () {
             this.inherited(arguments);
-
-            this.userStore = new Memory();
             var self = this;
+
+            this.userStore = new Observable(new Memory());
+            this.userStore1 = new ObjectStore({objectStore: self.userStore});
+            this.dg = new DataGrid({
+                store: self.userStore1,
+                style: {width: '90%', height: '100px'},
+                structure: [
+                    {name: 'ФИО', field: 'name'},
+                    {name: 'Должность', field: 'position'},
+                    {name: ' ', field: '_item', formatter: function (item) {
+                            return new Button({onClick: function () {
+                                    self.userStore1.deleteItem(item);
+                                }});
+                        }}
+                ]
+            }).placeAt(this.grid);
+            this.dg.startup();
+            this.dg.setStore(this.userStore1);
             this.select.store = this.userStore;
-            this.addUserButton.onClick = function() {
-                self.addJS(self.select.item);
-                self.userStore.put(self.select.item);
+            this.addUserButton.onClick = function () {
+                self.userStore1.newItem(self.select.item);
             };
         }
     });
-
 });
