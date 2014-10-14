@@ -35,14 +35,13 @@ define([
     "dijit/layout/BorderContainer",
     "dijit/form/FilteringSelect",
     "dojo/store/Memory",
-    "wm/user",
     "dojox/grid/DataGrid",
     "dojo/store/JsonRest",
     "dojo/data/ObjectStore",
     "dijit/Dialog",
     "dojo/text!./templates/tasksgrid.html"
 ], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, DataGrid, JsonRest, ObjectStore, Dialog, template) {
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, DataGrid, JsonRest, ObjectStore, Dialog, template) {
 
     return declare("tasksgrid", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
