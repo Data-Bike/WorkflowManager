@@ -37,11 +37,12 @@ define([
     "dojo/store/Memory",
     "wm/user",
     "dojox/grid/DataGrid",
-    "dojox/data/JsonRestStore",
+    "dojo/store/JsonRest",
+    "dojo/data/ObjectStore",
     "dijit/Dialog",
     "dojo/text!./templates/tasksgrid.html"
-], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, DataGrid, JsonRestStore, Dialog, template) {
+], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, DataGrid, JsonRest, ObjectStore, Dialog, template) {
 
     return declare("tasksgrid", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
@@ -49,14 +50,14 @@ define([
         templateString: template,
         userStore: '',
         taskStore: {},
-        postCreate: function() {
+        postCreate: function () {
 
             this.inherited(arguments);
             var self = this;
-            var store = new JsonRestStore({target: '/'});
+            var store = new ObjectStore({objectStore: new JsonRest({target: '/task'})});
+
             this.taskStore = store;
             this.dg.setStore(store);
-            this.dg.setQuery('task');
 
         }
     });

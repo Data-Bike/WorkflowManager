@@ -38,35 +38,35 @@ define([
     "dijit/layout/BorderContainer",
     "dijit/Dialog",
     "dijit/form/Button",
-    "dojox/data/JsonRestStore",
+    "dojo/store/JsonRest",
+    "dojo/data/ObjectStore",
     "dojo/io-query",
     "dojo/text!./templates/taskselector.html"
-], function(parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, ShortTask, ItemFileReadStore, DataGrid, lang, RadioSelector, BorderContainer, Dialog, Button, JsonRestStore, ioQuery, template) {
+], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
+        _WidgetsInTemplateMixin, ShortTask, ItemFileReadStore, DataGrid, lang, RadioSelector, BorderContainer, Dialog, Button, JsonRest, ObjectStore, ioQuery, template) {
 
     return declare("taskselector", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
         widgetInTemplate: true,
-        postCreate: function() {
+        postCreate: function () {
             this.inherited(arguments);
             var self = this;
-            this.selectButton.on('click', function() {
+            this.selectButton.on('click', function () {
 //                self.dg.setQuery('task?asd');
             });
-            this.dg.on('SelectionChanged', function() {
-                self.value=self.dg.selection.getSelected()[0];
+            this.dg.on('SelectionChanged', function () {
+                self.value = self.dg.selection.getSelected()[0];
             });
-            this.st.viewButton.on('click',function(){
-                self.dg.setQuery('task?'+ioQuery.objectToQuery(self.st.getJS()));
+            this.st.viewButton.on('click', function () {
+                self.dg.setQuery('?' + ioQuery.objectToQuery(self.st.getJS()));
             });
         },
-        startup: function() {
+        startup: function () {
             this.inherited(arguments);
-            var store = new JsonRestStore({target: '/'});
+            var store = ObjectStore({objectStore: new JsonRest({target: '/task'})});
             this.dg.setStore(store);
-            this.dg.setQuery('task');
         }
     });
     parser.parse();
