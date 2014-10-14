@@ -38,10 +38,9 @@ define([
     "dojo/data/ObjectStore",
     "dijit/form/Button",
     "dojox/grid/DataGrid",
-    "wm/user",
     "dojo/text!./templates/userslist.html"
 ], function (declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, Observable, ObjectStore, Button, DataGrid, user, template) {
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, Observable, ObjectStore, Button, DataGrid, template) {
 
     return declare("userslist", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
