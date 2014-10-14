@@ -35,7 +35,6 @@ define([
     "dijit/layout/BorderContainer",
     "dijit/form/FilteringSelect",
     "dojo/store/Memory",
-    "wm/user",
     "dijit/Dialog",
     "dojo/store/Observable",
     "dojo/data/ObjectStore",
@@ -43,7 +42,7 @@ define([
     "dojox/grid/DataGrid",
     "dojo/text!./templates/taskslist.html"
 ], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
-        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, user, Dialog, Observable, ObjectStore, Button, DataGrid, template) {
+        _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, Dialog, Observable, ObjectStore, Button, DataGrid, template) {
 
     return declare("userslist", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
