@@ -88,12 +88,42 @@ class TaskController extends JsonRESTEntityUsingController {
 
     public function getList() {
         $params = $this->params()->fromQuery();
-        unset($params['necessaryList']);
-        unset($params['sufficientlyList']);
-        unset($params['consequenceList']);
-        unset($params['executorsList']);
-        unset($params['curatorsList']);
-        $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->findBy($params);
+        if ($params['startDateTime']) {
+            $params['startDateTime'] = new \DateTime($params['startDateTime']);
+        }
+        if ($params['finishDateTime']) {
+            $params['finishDateTime'] = new \DateTime($params['finishDateTime']);
+        }
+//        if (strlen($params['curatorsList'])>0) {
+//            $params['curators'] = explode(',', $params['curatorsList']);
+//        }
+//        if (strlen($params['executorsList'])>0) {
+//            $params['executors'] = explode(',', $params['executorsList']);
+//        }
+//        if (strlen($params['sufficientlyList'])>0) {
+//            $params['sufficiently'] = explode(',', $params['sufficientlyList']);
+//        }
+//        if (strlen($params['necessaryList'])>0) {
+//            $params['necessary'] = explode(',', $params['necessaryList']);
+//        }
+        if (!$params['necessaryList']) {
+            unset($params['necessaryList']);
+        }
+        if (!$params['sufficientlyList']) {
+            unset($params['sufficientlyList']);
+        }
+        if (!$params['consequenceList']) {
+            unset($params['consequenceList']);
+        }
+        if (!$params['executorsList']) {
+            unset($params['executorsList']);
+        }
+        if (!$params['curatorsList']) {
+            unset($params['curatorsList']);
+        }
+//        return new JsonModel($params);
+        $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getTasksByParams($params);
+//        return new JsonModel($tasks);
         foreach ($tasks as $task) {
             $row_grid = array('_about' => $task->getAbout(),
                 '_FinishDateTime' => $task->getFinishDateTime() ? $task->getFinishDateTime()->format(\DateTime::W3C) : "нет",
@@ -123,7 +153,7 @@ class TaskController extends JsonRESTEntityUsingController {
 
             if (count($task->getExecutors()) > 0) {
                 foreach ($task->getExecutors() as $executor) {
-                    $row_grid['Executors'].=$executor->getName() . "\r\n";
+                    $row_grid['_Executors'].=$executor->getName() . "\r\n";
                 }
             } else {
                 $row_grid['_Executors'] = 'нет';

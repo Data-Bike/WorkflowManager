@@ -70,7 +70,7 @@ POSSIBILITY OF SUCH DAMAGE.
             var taskForm = dijit.byId('taskForm');
             var taskGrid = dijit.byId('taskGrid');
             taskForm.viewButton.on('click', function () {
-                taskGrid.dg.setQuery('task?' + ioQuery.objectToQuery(taskForm.getJS()));
+                taskGrid.dg.setQuery('?' + ioQuery.objectToQuery(taskForm.getJS()));
             });
             taskForm.saveButton.on('click', function () {
                 console.log(taskGrid.taskStore);
