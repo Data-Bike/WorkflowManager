@@ -62,9 +62,11 @@ define([
             var data = this.userStore1.fetch().store._dirtyObjects;
             console.log(data);
             for (var key in data) {
-                obj = data[key].object;
-                value += value ? ',' : '';
-                value += obj.id;
+                if (data[key].object.id) {
+                    obj = data[key].object;
+                    value += value ? ',' : '';
+                    value += obj.id;
+                }
             }
             return value;
         },

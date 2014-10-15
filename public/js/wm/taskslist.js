@@ -59,9 +59,11 @@ define([
             var data = this.taskStore1.fetch().store._dirtyObjects;
             console.log(data);
             for (var key in data) {
-                obj = data[key].object;
-                value += value ? ',' : '';
-                value += obj.id;
+                if (data[key].object.id) {
+                    obj = data[key].object;
+                    value += value ? ',' : '';
+                    value += obj.id;
+                }
             }
             return value;
         },
@@ -69,7 +71,7 @@ define([
             this.setJS(value);
         },
         setJS: function (js) {
-            this.taskStore = new Observable(new Memory({data:js}));
+            this.taskStore = new Observable(new Memory({data: js}));
             var self = this;
             this.taskStore1 = new ObjectStore({objectStore: self.taskStore});
             this.dg.setStore(this.taskStore1);
