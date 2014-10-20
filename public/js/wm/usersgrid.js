@@ -43,7 +43,7 @@ define([
 ], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, DataGrid, JsonRest, ObjectStore, Dialog, template) {
 
-    return declare("tasksgrid", [_WidgetBase, _OnDijitClickMixin,
+    return declare("usersgrid", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
