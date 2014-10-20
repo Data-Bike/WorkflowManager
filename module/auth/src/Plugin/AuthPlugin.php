@@ -61,7 +61,16 @@ class AuthPlugin extends AbstractPlugin
         $controller = $e->getTarget();
         $controllerClass = get_class($controller);
         $namespace = substr($controllerClass, 0, strpos($controllerClass, '\\'));
-//         echo $controllerClass;
+        $rqst=$e->getRequest();
+        $id=$rqst->getQuery('id');
+        $operation=$rqst->isGET()&&$id?'GET':
+                ($rqst->isGET()?'LIST':
+                ($rqst->isPUT()?'UPDATE':
+                ($rqst->isPOST()?'CREATE':
+                ($rqst->isDELETE()?'DELETE':''
+                        ))));
+        
+         echo $operation;
         $role = (! $this->getSessContainer()->role ) ? 'anonymous' : $this->getSessContainer()->role;
         if ( ! $acl->isAllowed($role, $namespace, 'view')){
             $router = $e->getRouter();
