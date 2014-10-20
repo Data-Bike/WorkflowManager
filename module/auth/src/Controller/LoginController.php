@@ -10,11 +10,12 @@
 
 namespace auth\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Application\Controller\AbstractEntityUsingController;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container;
+use wm\Entity\User;
 
-class LoginController extends AbstractActionController {
+class LoginController extends AbstractEntityUsingController {
 
     public function indexAction() {
         return new ViewModel();
@@ -23,7 +24,8 @@ class LoginController extends AbstractActionController {
     public function loginAction() {
         $login = $this->params()->fromPost('username');
         $pass = $this->params()->fromPost('password');
-        if ($login == 'admin' && $pass == 'admin') {
+        $user=$this->getEntityManager()->getRepository('wm\Entity\User')->findOneByUsername($login);
+        if ($user->getPassword()==md5($pass)) {
             $session = new Container('wm_user');
             $session->offsetSet('role', 'admin');
         }
