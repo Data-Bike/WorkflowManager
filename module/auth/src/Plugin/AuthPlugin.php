@@ -30,11 +30,11 @@ class AuthPlugin extends AbstractPlugin
         $acl->addRole(new Role('admin'), 'user');
          
         $acl->addResource(new Resource('Application'));
-        $acl->addResource(new Resource('Login'));
         $acl->addResource(new Resource('auth'));
+        $acl->addResource(new Resource('wm'));
          
         $acl->deny('anonymous', 'Application', 'view');
-        $acl->allow('anonymous', 'Login', 'view');
+        $acl->deny('anonymous', 'wm', 'view');
         $acl->allow('anonymous', 'auth', 'view');
          
         $acl->allow('user',
@@ -47,11 +47,15 @@ class AuthPlugin extends AbstractPlugin
             array('Application'),
             array('publish', 'edit')
         );
+        $acl->allow('admin',
+            array('wm'),
+            array('publish', 'view')
+        );
          
         $controller = $e->getTarget();
         $controllerClass = get_class($controller);
         $namespace = substr($controllerClass, 0, strpos($controllerClass, '\\'));
-         echo $e->getTarget();
+//         echo $controllerClass;
         $role = (! $this->getSessContainer()->role ) ? 'anonymous' : $this->getSessContainer()->role;
         if ( ! $acl->isAllowed($role, $namespace, 'view')){
             $router = $e->getRouter();
