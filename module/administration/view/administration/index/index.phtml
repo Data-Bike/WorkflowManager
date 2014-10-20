@@ -73,16 +73,16 @@ POSSIBILITY OF SUCH DAMAGE.
                 userGrid.dg.setQuery('?' + ioQuery.objectToQuery(userForm.getJS()));
             });
             userForm.saveButton.on('click', function () {
-                console.log(userGrid.taskStore);
+                console.log(userGrid.userStore);
                 console.log(userForm.getJS());
-                if (!userGrid.taskStore.taskId) {
-                    userGrid.taskStore.service.post('user', JSON.stringify(userForm.getJS()));
+                if (!userGrid.userStore.userId) {
+                    userGrid.userStore.objectStore.add(userForm.getJS());
                 } else {
-                    userGrid.taskStore.service.put('user', JSON.stringify(userForm.getJS()));
+                    userGrid.userStore.objectStore.put(JSON.stringify(userForm.getJS()),{id:userGrid.userStore.userId});
                 }
             });
             userGrid.dg.on('SelectionChanged', function () {
-                userForm.set('value', userGrid.dg.selection.getSelected()[0].params.data);
+                userForm.set('value', userGrid.dg.selection.getSelected()[0]);
             });
 
         });
