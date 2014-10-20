@@ -55,7 +55,7 @@ define([
             var self = this;
             var store = new ObjectStore({objectStore: new JsonRest({target: '/user'})});
 
-            this.taskStore = store;
+            this.userStore = store;
             this.dg.setStore(store);
 
         }

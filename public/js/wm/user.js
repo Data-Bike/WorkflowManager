@@ -58,6 +58,9 @@ define([
         position: '',
         bd: '',
         userId: undefined,
+        password: '',
+        username: '',
+        state: '',
         _getValueAttr: function () {
             return this.getJS();
         },
@@ -65,15 +68,10 @@ define([
             return this.setJS(value);
         },
         getJS: function () {
-            var bd = undefined;
-            var bd = this.bd.get('value');
-            if (bd) {
-                bd = bd.toUTCString();
-            }
-
 
             return {
                 username: this.username.get('value') ? this.username.get('value') : undefined,
+                password: this.password.get('value') ? this.password.get('value') : undefined,
                 name: this.name.get('value') ? this.name.get('value') : undefined,
                 email: this.email.get('value') ? this.email.get('value') : undefined,
                 position: this.position.get('value') ? this.position.get('value') : undefined,

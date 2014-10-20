@@ -76,9 +76,9 @@ POSSIBILITY OF SUCH DAMAGE.
                 console.log(taskGrid.taskStore);
                 console.log(taskForm.getJS());
                 if (!taskGrid.taskStore.taskId) {
-                    taskGrid.taskStore.service.post('task', JSON.stringify(taskForm.getJS()));
+                    taskGrid.taskStore.objectStore.add(taskForm.getJS());
                 } else {
-                    taskGrid.taskStore.service.put('task', JSON.stringify(taskForm.getJS()));
+                    taskGrid.taskStore.objectStore.put(JSON.stringify(userForm.getJS()),{id:userGrid.userStore.userId});
                 }
             });
             taskGrid.dg.on('SelectionChanged', function () {
