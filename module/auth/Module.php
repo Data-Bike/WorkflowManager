@@ -37,6 +37,11 @@ AutoloaderProviderInterface, ConfigProviderInterface {
                         ->doAuthorization($e); //pass to the plugin...    
             }, 2
             );
+            $sharedManager->attach('Zend\Mvc\Controller\AbstractRestfulController', 'dispatch', function($e) use ($sm) {
+                $sm->get('ControllerPluginManager')->get('AuthPlugin')
+                        ->doAuthorization($e); //pass to the plugin...    
+            }, 2
+            );
         }
     }
 
