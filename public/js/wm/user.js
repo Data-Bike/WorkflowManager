@@ -44,22 +44,20 @@ define([
     "dojo/store/Cache",
     "dojo/date/stamp",
     "dojo/date",
-    "dojo/text!./templates/task.html"
+    "dojo/text!./templates/user.html"
 ], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, Button, TextBox, Textarea, TimeTextBox, DateTextBox, ContentPane, BorderContainer, JsonRest, taskslist, userslist, Memory, Cache, Stamp, Date, template) {
 
-    return declare("task", [_WidgetBase, _OnDijitClickMixin,
+    return declare("user", [_WidgetBase, _OnDijitClickMixin,
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
-        code: 'задача не создана',
         name: 'укажите имя',
-        about: 'укажите информацию о задаче',
-        taskId: undefined,
-        startDate: 0,
-        startTime: 0,
-        finishDate: 0,
-        finishTime: 0,
+        login: '',
+        email: '',
+        position: '',
+        bd: '',
+        userId: undefined,
         _getValueAttr: function () {
             return this.getJS();
         },
@@ -67,55 +65,36 @@ define([
             return this.setJS(value);
         },
         getJS: function () {
-            var startDateTime = undefined;
-            var startDate = this.startDate.get('value');
-            if (startDate) {
-                if (this.startTime.get('value')) {
-                    startDateTime = Date.add(startDate, 'hour', this.startTime.get('value').getHours());
-                    startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
-                }
-                if (startDateTime) {
-                    startDateTime = startDateTime.toUTCString();
-                }
+            var bd = undefined;
+            var bd = this.bd.get('value');
+            if (bd) {
+                bd = bd.toUTCString();
             }
 
-            var finishDateTime = undefined;
-            var finishDate = this.finishDate.get('value');
-            if (finishDate) {
-                if (this.finishTime.get('value')) {
-                    var finishDateTime = Date.add(finishDate, 'hour', this.finishTime.get('value').getHours());
-                    finishDateTime = Date.add(finishDateTime, 'minute', this.finishTime.get('value').getMinutes());
-                }
-                if (finishDateTime) {
-                    finishDateTime = finishDateTime.toUTCString();
-                }
-            }
+
             return {
+                login: this.login.get('value') ? this.login.get('value') : undefined,
                 name: this.name.get('value') ? this.name.get('value') : undefined,
-                about: this.about.get('value') ? this.about.get('value') : undefined,
-                startDateTime: startDateTime,
-                finishDateTime: finishDateTime,
-                executorsList: this.executorsList.get('value'),
-                curatorsList: this.curatorsList.get('value'),
-                necessaryList: this.necessaryList.get('value'),
-                sufficientlyList: this.sufficientlyList.get('value'),
-                consequenceList: this.consequenceList.get('value'),
-                id: this.taskId
+                email: this.email.get('value') ? this.email.get('value') : undefined,
+                position: this.position.get('value') ? this.position.get('value') : undefined,
+                bd: bd,
+                chefList: this.chefList.get('value'),
+                memberList: this.memberList.get('value'),
+                executeList: this.executeList.get('value'),
+                curateList: this.curateList.get('value'),
+                id: this.userId
             };
         },
         setJS: function (data) {
-            this.name.set('value', data.Name);
-            this.about.set('value', data.about);
-            this.startDate.set('value', data.StartDateTime);
-            this.startTime.set('value', data.StartDateTime);
-            this.finishDate.set('value', data.FinishDateTime);
-            this.finishTime.set('value', data.FinishDateTime);
-            this.executorsList.set('value', data.Executors);
-            this.curatorsList.set('value', data.curators);
-            this.necessaryList.set('value', data.Necessary);
-//            this.sufficientlyList.set('value', data.sufficientlyList);
-//            this.consequenceList.set('value', data.consequenceList);
-            this.code = data.code;
+            this.login.set('value', data.login);
+            this.name.set('value', data.name);
+            this.email.set('value', data.email);
+            this.position.set('value', data.position);
+            this.bd.set('value', data.bd);
+            this.chefList.set('value', data.chefList);
+            this.memberList.set('value', data.memberList);
+            this.executeList.set('value', data.executeList);
+            this.curateList.set('value', data.curateList);
         },
         postCreate: function () {
             this.inherited(arguments);
@@ -124,16 +103,8 @@ define([
             var storeMemory = new Memory();
             var userCache = new Cache(storeRest, storeMemory);
 
-            this.executorsList.select.store = userCache;
-            this.curatorsList.select.store = userCache;
-//            this.executorsList.dg.setStore(userCache);
-//            store.query('?name=').then(function (data) {
-//                console.log(data);
-//                var memory = new Memory({data: data});
-//                this.executorsList.select.store = memory;
-//                this.curatorsList.select.store = memory;
-//                this.executorsList.select.store.update();
-//            });
+            this.chefList.select.store = userCache;
+            this.memberList.select.store = userCache;
 
         }
     });
