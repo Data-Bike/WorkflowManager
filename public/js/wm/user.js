@@ -73,11 +73,11 @@ define([
 
 
             return {
-                login: this.login.get('value') ? this.login.get('value') : undefined,
+                username: this.username.get('value') ? this.username.get('value') : undefined,
                 name: this.name.get('value') ? this.name.get('value') : undefined,
                 email: this.email.get('value') ? this.email.get('value') : undefined,
                 position: this.position.get('value') ? this.position.get('value') : undefined,
-                bd: bd,
+                state: this.state.get('value') ? this.state.get('value') : undefined,
                 chefList: this.chefList.get('value'),
                 memberList: this.memberList.get('value'),
                 executeList: this.executeList.get('value'),
@@ -86,11 +86,11 @@ define([
             };
         },
         setJS: function (data) {
-            this.login.set('value', data.login);
+            this.username.set('value', data.username);
+            this.state.set('value', data.state);
             this.name.set('value', data.name);
             this.email.set('value', data.email);
             this.position.set('value', data.position);
-            this.bd.set('value', data.bd);
             this.chefList.set('value', data.chefList);
             this.memberList.set('value', data.memberList);
             this.executeList.set('value', data.executeList);
