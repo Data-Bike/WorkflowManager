@@ -39,7 +39,7 @@ define([
     "dojo/store/JsonRest",
     "dojo/data/ObjectStore",
     "dijit/Dialog",
-    "dojo/text!./templates/tasksgrid.html"
+    "dojo/text!./templates/usersgrid.html"
 ], function (parser, declare, _WidgetBase, _OnDijitClickMixin, _TemplatedMixin,
         _WidgetsInTemplateMixin, AccordionContainer, ContentPane, BorderContainer, FilteringSelect, Memory, DataGrid, JsonRest, ObjectStore, Dialog, template) {
 
@@ -53,7 +53,7 @@ define([
 
             this.inherited(arguments);
             var self = this;
-            var store = new ObjectStore({objectStore: new JsonRest({target: '/task'})});
+            var store = new ObjectStore({objectStore: new JsonRest({target: '/user'})});
 
             this.taskStore = store;
             this.dg.setStore(store);
