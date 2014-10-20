@@ -2,7 +2,7 @@
 
 namespace Application\Controller;
 
-use wm\Controller\AbstractActionController;
+use Zend\Mvc\Controller\AbstractActionController;
 
 class AbstractEntityUsingController extends AbstractActionController {
 
