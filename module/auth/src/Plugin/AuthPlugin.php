@@ -32,9 +32,11 @@ class AuthPlugin extends AbstractPlugin
         $acl->addResource(new Resource('Application'));
         $acl->addResource(new Resource('auth'));
         $acl->addResource(new Resource('wm'));
+        $acl->addResource(new Resource('administration'));
          
         $acl->deny('anonymous', 'Application', 'view');
         $acl->deny('anonymous', 'wm', 'view');
+        $acl->deny('anonymous', 'administration', 'view');
         $acl->allow('anonymous', 'auth', 'view');
          
         $acl->allow('user',
@@ -49,6 +51,10 @@ class AuthPlugin extends AbstractPlugin
         );
         $acl->allow('admin',
             array('wm'),
+            array('publish', 'view')
+        );
+        $acl->allow('admin',
+            array('administration'),
             array('publish', 'view')
         );
          

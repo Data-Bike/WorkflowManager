@@ -8,6 +8,7 @@ return array(
         'ZendDeveloperTools',
         'Application',
         'wm',
+        'administration',
         'auth'
     ),
     // These are various options for the listeners attached to the ModuleManager
