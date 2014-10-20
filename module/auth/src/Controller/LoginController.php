@@ -25,7 +25,7 @@ class LoginController extends AbstractEntityUsingController {
         $login = $this->params()->fromPost('username');
         $pass = $this->params()->fromPost('password');
         $user=$this->getEntityManager()->getRepository('wm\Entity\User')->findOneByUsername($login);
-        if ($user->getPassword()==md5($pass)) {
+        if ($user->getPassword()===md5($pass)) {
             $session = new Container('wm_user');
             $session->offsetSet('role', 'admin');
         }
