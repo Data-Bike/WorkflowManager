@@ -28,6 +28,26 @@ class UserController extends JsonRESTEntityUsingController {
             }
         }
 
+        $chefList = explode(",", $data['chefList']);
+        foreach ($chefList as $userId) {
+            $chef = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($userId);
+            if ($chef) {
+                $user->getBosses()->add($chef);
+                $chef->getMembers()->add($user);
+                $this->getEntityManager()->persist($chef);
+            }
+        }
+
+        $memberList = explode(",", $data['memberList']);
+        foreach ($memberList as $userId) {
+            $member = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($userId);
+            if ($member) {
+                $user->getMembers()->add($member);
+                $member->getBosses()->add($user);
+                $this->getEntityManager()->persist($member);
+            }
+        }
+
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
 
@@ -91,22 +111,49 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function update($id, $data) {
-        $user = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($id);
-        $user->setEmail($data['Email']);
-        $user->setName($data['Name']);
-        $user->setPosition($data['Position']);
-        $user->setPassword($data['Password']);
-        $user->setState($data['State']);
+        $user = new \wm\Entity\User();
+        $user->setEmail($data['email']);
+        $user->setName($data['name']);
+        $user->setPosition($data['position']);
+        $user->setPassword(md5($data['password']));
+        $user->setState($data['state']);
+        $user->setUsername($data['username']);
 
         $roles = explode(",", $data['roles']);
         foreach ($roles as $roleId) {
             $role = $this->getEntityManager()->getRepository('wm\Entity\Role')->findOneById($roleId);
-            $user->getRoles()->add($role);
-            $role->getUsers()->add($user);
-            $this->getEntityManager()->persist($role);
+            if ($role) {
+                $user->getRoles()->add($role);
+                $role->getUsers()->add($user);
+                $this->getEntityManager()->persist($role);
+            }
         }
 
+        $chefList = explode(",", $data['chefList']);
+        foreach ($chefList as $userId) {
+            $chef = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($userId);
+            if ($chef) {
+                $user->getBosses()->add($chef);
+                $chef->getMembers()->add($user);
+                $this->getEntityManager()->persist($chef);
+            }
+        }
+
+        $memberList = explode(",", $data['memberList']);
+        foreach ($memberList as $userId) {
+            $member = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($userId);
+            if ($member) {
+                $user->getMembers()->add($member);
+                $member->getUsers()->add($user);
+                $this->getEntityManager()->persist($member);
+            }
+        }
+
+        $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+
+        $id = $user->getId();
+        $array = array('id' => $id);
         return new JsonModel($data);
     }
 

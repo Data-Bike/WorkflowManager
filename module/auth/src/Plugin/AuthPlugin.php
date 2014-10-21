@@ -10,6 +10,7 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin,
 use auth\Role\UserRole;
 use auth\Resource\TaskResource;
 use auth\Assertion\TaskAssertion;
+use auth\Assertion\UserAssertion;
 
 class AuthPlugin extends AbstractPlugin {
 
@@ -34,6 +35,7 @@ class AuthPlugin extends AbstractPlugin {
         $acl->addResource(new Resource('auth'));
         $acl->addResource(new Resource('wm'));
         $acl->addResource(new Resource('administration'));
+        $acl->addResource(new Resource('user'));
 
         $acl->deny('anonymous', 'Application', 'view');
         $acl->deny('anonymous', 'wm', 'view');
@@ -50,6 +52,8 @@ class AuthPlugin extends AbstractPlugin {
         );
         $acl->allow('admin', array('administration'), array('publish', 'view')
         );
+        $acl->allow('admin', array('user'), array('publish', 'view')
+        );
 
         $controller = $e->getTarget();
         $controllerClass = get_class($controller);
@@ -63,20 +67,25 @@ class AuthPlugin extends AbstractPlugin {
                                         ($rqst->isDELETE() ? 'DELETE' : ''
                                         ))));
 //       print_r($rqst);
-        if($namespace=='auth'){
-            $operation=$namespace;
+        if ($namespace == 'auth') {
+            $operation = $namespace;
         }
-        
-        $em=$this->getController()->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-        $acl2=new Acl();
-        $userRole = new UserRole($this->getSessContainer()->id ? $this->getSessContainer()->id : '0',$em);
+
+        $em = $this->getController()->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        $acl2 = new Acl();
+        $userRole = new UserRole($this->getSessContainer()->id ? $this->getSessContainer()->id : '0', $em);
         $acl2->addRole($userRole);
         $resource = new TaskResource($rqst);
         $acl2->addResource($resource);
         $role = (!$this->getSessContainer()->role ) ? 'anonymous' : $this->getSessContainer()->role;
 //        echo $acl->allow($userRole, $resource, $operation, new TaskAssertion());
-        $acl2->allow(NULL, NULL, NULL, new TaskAssertion());
-        if (!$acl->isAllowed($role, $namespace, 'view') || !$acl2->isAllowed($userRole, $resource, $operation)) {
+        if ($controllerClass == 'wm\Controller\UserController') {
+            $acl2->allow(NULL, NULL, NULL, new UserAssertion());
+        } elseif ($controllerClass == 'wm\Controller\TaskController') {
+            $acl2->allow(NULL, NULL, NULL, new TaskAssertion());            
+        }
+//        echo $controllerClass;
+        if (!$acl->isAllowed($role, $namespace, 'view') || (!$acl2->isAllowed($userRole, $resource, $operation) && $namespace != 'user')) {
             $router = $e->getRouter();
             $url = $router->assemble(array(), array('name' => 'login'));
 
