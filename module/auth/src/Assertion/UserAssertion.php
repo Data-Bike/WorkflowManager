@@ -30,11 +30,11 @@ namespace auth\Assertion;
 
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
 
-class UserAssertion implements AbstractEntityUsingAssertion {
+class UserAssertion implements AssertionInterface {
 
-    public function assert(Zend\Permissions\Acl\Acl $acl, auth\Role\UserRole $role = null, auth\Resource\UserResource $resource = null, $privilege = null) {
+    public function assert(\Zend\Permissions\Acl\Acl $acl, \Zend\Permissions\Acl\Role\RoleInterface $role = null, \Zend\Permissions\Acl\Resource\ResourceInterface $resource = null, $privilege = null) {
 
-        return;
+        return TRUE;
     }
 
 }

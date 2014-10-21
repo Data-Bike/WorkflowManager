@@ -42,6 +42,11 @@ class User {
         $this->executeTasks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->curateTasks = new \Doctrine\Common\Collections\ArrayCollection();
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->bosses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->curateTasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->executeTasks = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->members = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myTasks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /*
@@ -198,6 +203,54 @@ class User {
      */
     public function setCurateTasks($curateTasks) {
         $this->curateTasks = $curateTasks;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    function getMembers() {
+        return $this->members;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    function getBosses() {
+        return $this->bosses;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    function getMyTasks() {
+        return $this->myTasks;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    function setMembers($members) {
+        $this->members = $members;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    function setBosses($bosses) {
+        $this->bosses = $bosses;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    function setMyTasks($myTasks) {
+        $this->myTasks = $myTasks;
     }
 
     public function toArray() {
