@@ -29,11 +29,66 @@
 namespace auth\Assertion;
 
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
+use Zend\Session\Container;
+use Doctrine;
 
-class TaskAssertion implements AbstractEntityUsingAssertion {
+class TaskAssertion implements AssertionInterface {
 
-    public function assert(Zend\Permissions\Acl\Acl $acl, auth\Role\UserRole $role = null, auth\Resource\TaskResource $resource = null, $privilege = null) {
-        return;
+    public function assert(\Zend\Permissions\Acl\Acl $acl, \Zend\Permissions\Acl\Role\RoleInterface $role = null, \Zend\Permissions\Acl\Resource\ResourceInterface $resource = null, $privilege = null) {
+        $sessContainer = new Container('wm_user');
+        $id = $role->getRoleId();
+        $em = $role->getEntityManager();
+        if (!$id) {
+//            return FALSE;
+        }
+        if ($privilege == 'LIST') {
+            return TRUE;
+        } elseif ($privilege == 'GET') {
+            return TRUE;
+        } elseif ($privilege == 'auth') {
+            return TRUE;
+        } elseif ($privilege == 'UPDATE') {
+            $curators = $resource->getRequest()->getPost('curatorsList');
+            $executors = $resource->getRequest()->getPost('executorsList');
+            print($executors);
+            $users = $curators . ',' . $executors;
+            $q = $em->createQuery("SELECT m.id FROM wm\Entity\User u INNER JOIN u.myTasks m WITH u.id=$id");
+            foreach ($q->getResult() as $value) {
+                $tasks[] = $value['id'];
+            }
+            $q = $em->createQuery("SELECT m.id FROM wm\Entity\User u INNER JOIN u.members m WITH u.id=$id");
+            foreach ($q->getResult() as $value) {
+                $members[] = $value['id'];
+            }
+
+            return count(array_diff(explode(',', $users), $members)) == 0;
+        } elseif ($privilege == 'CREATE') {
+            $content = $resource->getRequest()->getContent();
+            $rqst = \Zend\Json\Json::decode($content, \Zend\Json\Json::TYPE_OBJECT);
+            $curators = $rqst->curatorsList;
+            $executors = $rqst->executorsList;
+            $users = $curators . ($curators && $executors ? ',' : '') . $executors;
+            $q = $em->createQuery("SELECT t.id FROM wm\Entity\User u INNER JOIN u.myTasks t WITH u.id=$id");
+            foreach ($q->getResult() as $value) {
+                $tasks[] = $value['id'];
+            }
+            $q = $em->createQuery("SELECT m.id FROM wm\Entity\User u INNER JOIN u.members m WITH u.id=$id");
+            $members = array();
+            foreach ($q->getResult() as $value) {
+                $members[] = $value['id'];
+            }
+            return count(array_diff(explode(',', $users), $members)) == 0;
+        } elseif ($privilege == 'DELETE') {
+
+            $taskId = $resource->getRequest()->getQuery('id');
+            $q = $em->createQuery("SELECT m.id FROM wm\Entity\User u INNER JOIN u.members m WITH u.id=$id");
+
+            $members = implode(',', $q->getResult());
+            $q = $em->createQuery("SELECT t.id FROM wm\Entity\Task t INNER JOIN t.owner o WHERE o.id IN ($members)");
+            return count($q->getResult()) > 0;
+        }
+
+        return FALSE;
     }
 
 }

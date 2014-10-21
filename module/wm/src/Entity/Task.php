@@ -32,7 +32,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\Entity 
- *@ORM\Entity (repositoryClass="wm\Repository\TaskRepository") 
+ * @ORM\Entity (repositoryClass="wm\Repository\TaskRepository") 
  */
 class Task {
 
@@ -45,6 +45,10 @@ class Task {
         $this->invSufficiently = new \Doctrine\Common\Collections\ArrayCollection();
         $this->finishDateTime = new \DateTime();
         $this->startDateTime = new \DateTime();
+    }
+
+    public function canYouChange() {
+        return TRUE;
     }
 
     /**
@@ -231,6 +235,22 @@ class Task {
         $this->invSufficiently = $invSufficiently;
     }
 
+    /**
+     * 
+     * @return  wm\Entity\User
+     */
+    function getOwner() {
+        return $this->owner;
+    }
+
+    /**
+     * 
+     * @param  wm\Entity\User $owner
+     */
+    function setOwner($owner) {
+        $this->owner = $owner;
+    }
+
     public function toArray() {
         return [
             'id' => $this->id,
@@ -272,6 +292,12 @@ class Task {
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $about;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="wm\Entity\User", inversedBy="myTasks")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * */
+    protected $owner;
 
     /**
      * @ORM\ManyToMany(targetEntity="wm\Entity\User", inversedBy="executeTasks") 

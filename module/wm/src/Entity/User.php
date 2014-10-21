@@ -274,4 +274,24 @@ class User {
      * */
     protected $curateTasks;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="wm\Entity\User", mappedBy="bosses", fetch="EAGER")
+     * 
+     * */
+    protected $members;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="wm\Entity\User", inversedBy="members")
+     * @ORM\JoinTable(name="bosses_members",
+     *      joinColumns={@ORM\JoinColumn(name="boss_user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="member_user_id", referencedColumnName="id")}
+     *      )
+     * */
+    protected $bosses;
+
+    /**
+     * @ORM\OneToMany(targetEntity="wm\Entity\Task", mappedBy="owner")
+     * */
+    protected $myTasks;
+
 }

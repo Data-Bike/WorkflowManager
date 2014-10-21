@@ -32,18 +32,24 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 
 class UserRole implements RoleInterface {
 
-    private $username;
-
-    public function __construct($login) {
-        $this->username = $login;
+    private $id;
+    private $em;
+    
+    public function __construct($id,$em) {
+        $this->id = $id;
+        $this->em = $em;
     }
 
     public function getUsername() {
-        return $this->username;
+        return $this->id;
     }
     
     public function getRoleId() {
-        return $this->username;
+        return $this->id;
+    }
+    
+    public function getEntityManager() {
+        return $this->em;
     }
 
 }

@@ -32,7 +32,8 @@ use Zend\Permissions\Acl\Assertion\AssertionInterface;
 
 class UserAssertion implements AbstractEntityUsingAssertion {
 
-    public function assert(Zend\Permissions\Acl\Acl $acl, auth\Role\UserRole $role = null, Zauth\Resource\UserResource $resource = null, $privilege = null) {
+    public function assert(Zend\Permissions\Acl\Acl $acl, auth\Role\UserRole $role = null, auth\Resource\UserResource $resource = null, $privilege = null) {
+
         return;
     }
 

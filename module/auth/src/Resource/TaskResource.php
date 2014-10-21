@@ -34,7 +34,7 @@ class TaskResource implements ResourceInterface {
 
     private $request;
 
-    function __construct(Zend\Http\Request $request) {
+    function __construct(\Zend\Http\PhpEnvironment\Request $request) {
         $this->request = $request;
     }
 
