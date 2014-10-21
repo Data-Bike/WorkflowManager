@@ -4,16 +4,24 @@ namespace wm\Controller;
 
 use Application\Controller\JsonRESTEntityUsingController,
     Zend\View\Model\JsonModel;
+use Zend\Session\Container;
 
 class TaskController extends JsonRESTEntityUsingController {
 
     public function create($data) {
-
+        $session = new Container('wm_user');
+        $id = $session->id;
+        $q = $this->getEntityManager()->createQuery("SELECT m.id FROM wm\Entity\User u INNER JOIN u.myTasks m WITH u.id=$id");
+        foreach ($q->getResult() as $value) {
+            $array[] = $value['id'];
+        }
+        print_r($array);
         $Task = new \wm\Entity\Task();
         $Task->setAbout($data['about']);
         $Task->setFinishDateTime(new \DateTime($data['finishDateTime']));
         $Task->setName($data['name']);
         $Task->setStartDateTime(new \DateTime($data['startDateTime']));
+        $Task->setOwner($task = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($session->id));
 
         $curators = explode(",", $data['curatorsList']);
         foreach ($curators as $curatorId) {

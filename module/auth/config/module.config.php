@@ -63,6 +63,19 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+    'doctrine' => array(
+        'driver' => array(
+            'wm_entity' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'paths' => array(__DIR__ . '/../src/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'wm\Entity' => 'wm_entity',
+                )
+            )
+        )
+    ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(
