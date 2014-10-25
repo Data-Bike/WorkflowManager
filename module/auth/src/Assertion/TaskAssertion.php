@@ -34,6 +34,12 @@ use Doctrine;
 
 class TaskAssertion implements AssertionInterface {
 
+    private $errorIds;
+    
+    public function getErrorIds() {
+        return $this->errorIds;
+    }
+
     public function assert(\Zend\Permissions\Acl\Acl $acl, \Zend\Permissions\Acl\Role\RoleInterface $role = null, \Zend\Permissions\Acl\Resource\ResourceInterface $resource = null, $privilege = null) {
         $sessContainer = new Container('wm_user');
         $id = $role->getRoleId();
@@ -77,7 +83,10 @@ class TaskAssertion implements AssertionInterface {
             foreach ($q->getResult() as $value) {
                 $members[] = $value['id'];
             }
-            return count(array_diff(explode(',', $users), $members)) == 0;
+//            print_r($members);
+//            print_r(explode(',', $users));
+            $this->errorIds=array_diff(explode(',', $users), $members);
+            return count($this->errorIds) == 0;
         } elseif ($privilege == 'DELETE') {
 
             $taskId = $resource->getRequest()->getQuery('id');

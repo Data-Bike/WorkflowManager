@@ -11,6 +11,7 @@ use auth\Role\UserRole;
 use auth\Resource\TaskResource;
 use auth\Assertion\TaskAssertion;
 use auth\Assertion\UserAssertion;
+use Zend\View\Model\JsonModel;
 
 class AuthPlugin extends AbstractPlugin {
 
@@ -79,21 +80,29 @@ class AuthPlugin extends AbstractPlugin {
         $acl2->addResource($resource);
         $role = (!$this->getSessContainer()->role ) ? 'anonymous' : $this->getSessContainer()->role;
 //        echo $acl->allow($userRole, $resource, $operation, new TaskAssertion());
+        $userAssertion = new UserAssertion();
+        $taskAssertion = new TaskAssertion();
         if ($controllerClass == 'wm\Controller\UserController') {
-            $acl2->allow(NULL, NULL, NULL, new UserAssertion());
+            $acl2->allow(NULL, NULL, NULL, $userAssertion);
         } elseif ($controllerClass == 'wm\Controller\TaskController') {
-            $acl2->allow(NULL, NULL, NULL, new TaskAssertion());            
+            $acl2->allow(NULL, NULL, NULL, $taskAssertion);
         }
 //        echo $controllerClass;
-        if (!$acl->isAllowed($role, $namespace, 'view') || (!$acl2->isAllowed($userRole, $resource, $operation) && $namespace != 'user')) {
+        if (!$acl->isAllowed($role, $namespace, 'view')) {
             $router = $e->getRouter();
             $url = $router->assemble(array(), array('name' => 'login'));
 
             $response = $e->getResponse();
             $response->setStatusCode(302);
-            //redirect to login route...
-            /* change with header('location: '.$url); if code below not working */
             $response->getHeaders()->addHeaderLine('Location', $url);
+            $e->stopPropagation();
+        }elseif(!$acl2->isAllowed($userRole, $resource, $operation)){
+            
+            $response = $e->getResponse();
+            $response->setStatusCode(403);
+            $model=new JsonModel($taskAssertion->getErrorIds());
+            $response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+            $e->setViewModel($model);
             $e->stopPropagation();
         }
     }

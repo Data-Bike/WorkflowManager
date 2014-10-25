@@ -15,7 +15,6 @@ class TaskController extends JsonRESTEntityUsingController {
         foreach ($q->getResult() as $value) {
             $array[] = $value['id'];
         }
-        print_r($array);
         $Task = new \wm\Entity\Task();
         $Task->setAbout($data['about']);
         $Task->setFinishDateTime(new \DateTime($data['finishDateTime']));
