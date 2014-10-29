@@ -44,6 +44,9 @@ class LoginController extends AbstractEntityUsingController {
             $session = new Container('wm_user');
             $session->offsetSet('role', 'admin');
             $session->offsetSet('id', $user->getId());
+        }else
+        {
+            new \Exception('Нет прав', 403);
         }
         return new ViewModel();
     }
