@@ -90,7 +90,7 @@ define([
                     {name: 'Название', field: 'name'},
                     {name: 'Описание', field: 'about'},
                     {name: 'Удалить из списка', field: '_item', formatter: function (item) {
-                            return new Button({label:'Удалить',onClick: function () {
+                            return new Button({label: 'Удалить', onClick: function () {
                                     self.taskStore1.deleteItem(item);
                                 }});
                         }}
@@ -100,6 +100,12 @@ define([
 
             this.selectButton.onClick = function () {
                 self.dialog.show();
+            };
+            this.ts.cancelButton.onClick = function () {
+                self.dialog.hide();
+            };
+            this.ts.st.cancelButton.onClick = function () {
+                self.dialog.hide();
             };
             this.ts.selectButton.on('click', function () {
                 self.selected = self.ts.value;
