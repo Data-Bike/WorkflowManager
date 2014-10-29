@@ -60,7 +60,6 @@ define([
             var value = '';
             var obj = {};
             var data = this.userStore1.fetch().store._dirtyObjects;
-            console.log(data);
             for (var key in data) {
                 if (data[key] && data[key].object && data[key].object.id) {
                     obj = data[key].object;
@@ -91,8 +90,8 @@ define([
                 structure: [
                     {name: 'ФИО', field: 'name'},
                     {name: 'Должность', field: 'position'},
-                    {name: ' ', field: '_item', formatter: function (item) {
-                            return new Button({onClick: function () {
+                    {name: 'Удалить из списка', field: '_item', styles: "text-align:right;", formatter: function (item) {
+                            return new Button({label: 'Удалить', onClick: function () {
                                     self.userStore1.deleteItem(item);
                                 }});
                         }}

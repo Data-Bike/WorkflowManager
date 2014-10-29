@@ -43,49 +43,67 @@ POSSIBILITY OF SUCH DAMAGE.
                 margin: 0;
             }
         </style>
-    </style>
-</head>
-<body class="claro" style="width: 100%; height: 100%; margin:0px;">
-    <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true,liveSplitters:true" style="width: 100%; height: 100%; margin:0px;">
-        <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'leading',splitter:true" style="width:45%; height: 90%; margin:0px;"><div data-dojo-type="wm/task"  id="taskForm" style="width: 100%; height: 100%; margin:0px;"></div></div>
-        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center',splitter:true"><div data-dojo-type="wm/tasksgrid"  id="taskGrid" style="width: 100%; height: 100%; margin:0px;"></div></div>
-    </div>
-    <script>
-        require([
-            "dojo/parser",
-            "dijit/layout/BorderContainer",
-            "dijit/layout/ContentPane",
-            "wm/task",
-            "wm/tasksgrid",
-            "wm/userslist",
-            "wm/taskselector",
-            "dojo/io-query",
-            "dojo/json"
-        ], function (parser, BorderContainer, ContentPane, task, tasksgrid, userslist, taskselector, ioQuery, JSON) {
+    </head>
+    <body class="claro" style="width: 100%; height: 100%; margin:0px;">
+        <div data-dojo-type="dijit/layout/BorderContainer" id="bc" style="width: 100%; height: 100%; margin:0px;">
+            <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'leading',splitter:true" style="width:45%; height: 90%; margin:0px;"><div data-dojo-type="wm/task"  id="taskForm" style="width: 100%; height: 100%; margin:0px;"></div></div>
+            <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"><div data-dojo-type="wm/tasksgrid"  id="taskGrid" style="width: 100%; height: 100%; margin:0px;"></div></div>
+        </div>
+        <div data-dojo-type="dojox/widget/Toaster" data-dojo-props="positionDirection:'br-left'"
+             id="first_toaster">
+        </div>
+        <script>
+            require([
+                "dojo/parser",
+                "dijit/layout/BorderContainer",
+                "dijit/layout/ContentPane",
+                "wm/task",
+                "wm/tasksgrid",
+                "wm/userslist",
+                "wm/taskselector",
+                "dojo/io-query",
+                "dojo/json",
+                "dojox/widget/Toaster",
+                "dojo/aspect",
+                "dijit/registry"
+            ], function (parser, BorderContainer, ContentPane, task, tasksgrid, userslist, taskselector, ioQuery, JSON, Toaster, aspect, registry) {
 
-            
-            parser.parse();
 
-            var self = this;
-            var taskForm = dijit.byId('taskForm');
-            var taskGrid = dijit.byId('taskGrid');
-            taskForm.viewButton.on('click', function () {
-                taskGrid.dg.setQuery('?' + ioQuery.objectToQuery(taskForm.getJS()));
-            });
-            taskForm.saveButton.on('click', function () {
-                console.log(taskGrid.taskStore);
-                console.log(taskForm.getJS());
-                if (!taskGrid.taskStore.taskId) {
-                    taskGrid.taskStore.objectStore.add(taskForm.getJS());
-                } else {
-                    taskGrid.taskStore.objectStore.put(JSON.stringify(userForm.getJS()),{id:userGrid.userStore.userId});
-                }
-            });
-            taskGrid.dg.on('SelectionChanged', function () {
-                taskForm.set('value', taskGrid.dg.selection.getSelected()[0].params.data);
-            });
+                parser.parse();
 
-        });
-    </script>
-</body>
+                var self = this;
+                var taskForm = dijit.byId('taskForm');
+                var taskGrid = dijit.byId('taskGrid');
+                var bc = registry.byId('bc').getSplitter("leading");
+                aspect.after(bc, "resize", function () {
+                    taskForm.bc.resize();
+                });
+                taskForm.viewButton.on('click', function () {
+                    taskGrid.dg.setQuery('?' + ioQuery.objectToQuery(taskForm.getJS()));
+                });
+                taskForm.saveButton.on('click', function () {
+                    if (!taskGrid.taskStore.taskId) {
+                        taskGrid.taskStore.objectStore.add(taskForm.getJS()).then(function (result) {
+                            dijit.byId('first_toaster').setContent('Задача создана', 'message');
+                            dijit.byId('first_toaster').show();
+                        }, function (result) {
+                            if (result.response.status == '403') {
+                                dijit.byId('first_toaster').setContent('Увас нет прав. Задача не создана.', 'error');
+                            } else {
+                                dijit.byId('first_toaster').setContent('Произошла ошибка. Задача не создана.', 'error');
+                            }
+                            dijit.byId('first_toaster').show();
+
+                        });
+                    } else {
+                        taskGrid.taskStore.objectStore.put(JSON.stringify(userForm.getJS()), {id: userGrid.userStore.userId});
+                    }
+                });
+                taskGrid.dg.on('SelectionChanged', function () {
+                    taskForm.set('value', taskGrid.dg.selection.getSelected()[0].params.data);
+                });
+
+            });
+        </script>
+    </body>
 </html>

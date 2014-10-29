@@ -474,4 +474,48 @@ class User extends \wm\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         return parent::toArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getMembersArray()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMembersArray', array());
+
+        return parent::getMembersArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBossesArray()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getBossesArray', array());
+
+        return parent::getBossesArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getexecuteTasksArray()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getexecuteTasksArray', array());
+
+        return parent::getexecuteTasksArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getcurateTasksArray()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getcurateTasksArray', array());
+
+        return parent::getcurateTasksArray();
+    }
+
 }

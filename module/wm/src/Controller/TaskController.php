@@ -61,8 +61,7 @@ class TaskController extends JsonRESTEntityUsingController {
         $this->getEntityManager()->persist($Task);
         $this->getEntityManager()->flush();
 
-        $id = $Task->getId();
-        $array = array('id' => $id);
+        $array = array('id' => $Task->getId());
         return new JsonModel($array);
     }
 

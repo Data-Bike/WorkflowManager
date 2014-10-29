@@ -57,7 +57,6 @@ define([
             var value = '';
             var obj = {};
             var data = this.taskStore1.fetch().store._dirtyObjects;
-            console.log(data);
             for (var key in data) {
                 if (data[key].object.id) {
                     obj = data[key].object;
@@ -88,10 +87,10 @@ define([
                 store: self.taskStore1,
                 style: {width: '90%', height: '100px'},
                 structure: [
-                    {name: 'Название', field: 'Name'},
+                    {name: 'Название', field: 'name'},
                     {name: 'Описание', field: 'about'},
-                    {name: ' ', field: '_item', formatter: function (item) {
-                            return new Button({onClick: function () {
+                    {name: 'Удалить из списка', field: '_item', formatter: function (item) {
+                            return new Button({label:'Удалить',onClick: function () {
                                     self.taskStore1.deleteItem(item);
                                 }});
                         }}
@@ -104,7 +103,6 @@ define([
             };
             this.ts.selectButton.on('click', function () {
                 self.selected = self.ts.value;
-                console.log(self.selected.params.data);
                 self.taskStore1.newItem(self.selected.params.data);
                 self.value = self.value ? self.value + ',' + self.ts.value.id : self.value + self.ts.value.id;
                 self.dialog.hide();
