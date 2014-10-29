@@ -52,9 +52,9 @@ define([
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
-        code: 'задача не создана',
-        name: 'укажите имя',
-        about: 'укажите информацию о задаче',
+        code: '',
+        name: '',
+        about: '',
         taskId: undefined,
         startDate: 0,
         startTime: 0,
@@ -126,14 +126,6 @@ define([
 
             this.executorsList.select.store = userCache;
             this.curatorsList.select.store = userCache;
-//            this.executorsList.dg.setStore(userCache);
-//            store.query('?name=').then(function (data) {
-//                console.log(data);
-//                var memory = new Memory({data: data});
-//                this.executorsList.select.store = memory;
-//                this.curatorsList.select.store = memory;
-//                this.executorsList.select.store.update();
-//            });
 
         }
     });

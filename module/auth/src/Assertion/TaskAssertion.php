@@ -83,10 +83,9 @@ class TaskAssertion implements AssertionInterface {
             foreach ($q->getResult() as $value) {
                 $members[] = $value['id'];
             }
-//            print_r($members);
-//            print_r(explode(',', $users));
-            $this->errorIds=array_diff(explode(',', $users), $members);
-            return count($this->errorIds) == 0;
+            
+            $this->errorIds=[users=>$users?array_diff(explode(',', $users), $members):[]];
+            return count($this->errorIds['users']) == 0;
         } elseif ($privilege == 'DELETE') {
 
             $taskId = $resource->getRequest()->getQuery('id');

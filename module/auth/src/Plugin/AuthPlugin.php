@@ -82,9 +82,14 @@ class AuthPlugin extends AbstractPlugin {
 //        echo $acl->allow($userRole, $resource, $operation, new TaskAssertion());
         $userAssertion = new UserAssertion();
         $taskAssertion = new TaskAssertion();
+        
         if ($controllerClass == 'wm\Controller\UserController') {
             $acl2->allow(NULL, NULL, NULL, $userAssertion);
         } elseif ($controllerClass == 'wm\Controller\TaskController') {
+            $acl2->allow(NULL, NULL, NULL, $taskAssertion);
+        } elseif ($controllerClass == 'auth\Controller\LoginController') {
+            $acl2->allow(NULL, NULL, NULL, $taskAssertion);
+        }else{
             $acl2->allow(NULL, NULL, NULL, $taskAssertion);
         }
 //        echo $controllerClass;

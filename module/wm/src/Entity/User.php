@@ -28,11 +28,11 @@
 
 namespace wm\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity (repositoryClass="wm\Repository\UserRepository")
  * @ORM\Table(name="users")
  *
  */
@@ -260,8 +260,52 @@ class User {
             'email' => $this->email,
             'username' => $this->username,
             'state' => $this->state,
-            'position' => $this->position
+            'position' => $this->position,
+            'memberList' => $this->getMembersArray(),
+            'chefList' => $this->getBossesArray(),
+            'executeList' => $this->getexecuteTasksArray(),
+            'curateList' => $this->getcurateTasksArray(),
         ];
+    }
+
+    public function getMembersArray() {
+        $result = [];
+        foreach ($this->members as $member) {
+            $memberObj = [];
+            $memberObj['name'] = $member->getName();
+            $memberObj['position'] = $member->getPosition();
+            $memberObj['id'] = $member->getId();
+            $result[] = $memberObj;
+        }
+        return $result;
+    }
+
+    public function getBossesArray() {
+        $result = [];
+        foreach ($this->bosses as $boss) {
+            $bossObj = [];
+            $bossObj['name'] = $boss->getName();
+            $bossObj['position'] = $boss->getPosition();
+            $bossObj['id'] = $boss->getId();
+            $result[] = $bossObj;
+        }
+        return $result;
+    }
+
+    protected function entitysToArray($entitys) {
+        $array = array();
+        foreach ($entitys as $entity) {
+            $array[] = $entity->toArray();
+        }
+        return $array;
+    }
+
+    public function getexecuteTasksArray() {
+        return $this->entitysToArray($this->getexecuteTasks());
+    }
+
+    public function getcurateTasksArray() {
+        return $this->entitysToArray($this->getcurateTasks());
     }
 
     /**

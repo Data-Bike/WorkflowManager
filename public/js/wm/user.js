@@ -52,7 +52,7 @@ define([
         _TemplatedMixin, _WidgetsInTemplateMixin
     ], {
         templateString: template,
-        name: 'укажите имя',
+        name: '',
         login: '',
         email: '',
         position: '',
