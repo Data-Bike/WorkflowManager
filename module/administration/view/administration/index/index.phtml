@@ -76,6 +76,7 @@ POSSIBILITY OF SUCH DAMAGE.
             var bc = registry.byId('bc').getSplitter("leading");
             aspect.after(bc, "resize", function () {
                 userForm.bc.resize();
+                userGrid.dg.resize();
             });
             userForm.viewButton.on('click', function () {
                 console.log(bc);

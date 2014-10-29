@@ -77,6 +77,7 @@ POSSIBILITY OF SUCH DAMAGE.
                 var bc = registry.byId('bc').getSplitter("leading");
                 aspect.after(bc, "resize", function () {
                     taskForm.bc.resize();
+                    taskGrid.dg.resize();
                 });
                 taskForm.viewButton.on('click', function () {
                     taskGrid.dg.setQuery('?' + ioQuery.objectToQuery(taskForm.getJS()));
