@@ -46,7 +46,7 @@ class LoginController extends AbstractEntityUsingController {
             $session->offsetSet('id', $user->getId());
         }else
         {
-            new \Exception('Нет прав', 403);
+            $this->response->setStatusCode(401);
         }
         return new ViewModel();
     }
