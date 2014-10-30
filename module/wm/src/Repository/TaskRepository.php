@@ -33,20 +33,43 @@ use wm\Entity;
 
 class TaskRepository extends EntityRepository {
 
-    public function getTasksByParams($params) {
-        $q=$this->_em->createQuery("SELECT t FROM wm\Entity\Task t "
-                . ($params['executorsList']?"INNER JOIN t.executors e WITH e.id IN (:executorsList) ":' ')
-                . ($params['curatorsList']?"INNER JOIN t.curators c WITH c.id IN (:curatorsList) ":' ')
-                . ($params['necessaryList']?"INNER JOIN t.necessary n WITH n.id IN (:necessaryList) ":' ')
-                . ($params['sufficientlyList']?"INNER JOIN t.sufficiently s WITH s.id IN (:sufficientlyList) ":' ')
-                . ($params['name']||$params['about']||$params['startDateTime']||$params['finishDateTime']?"WHERE ":'')
-                . ($params['name']?"t.name LIKE :name ":'')
-                . ($params['about']?(($params['name']?"AND":'')." t.about LIKE :about "):'')
-                . ($params['startDateTime']?(($params['about']||$params['name']?"AND":'')." t.startDateTime = :startDateTime "):'')
-                . ($params['finishDateTime']?(($params['startDateTime']||$params['about']||$params['name']?"AND":'')." t.finishDateTime = :finishDateTime "):'')
+    public function getTasksByParams($params, $from, $to) {
+
+        $q = $this->_em->createQuery("SELECT t FROM wm\Entity\Task t "
+                        . ($params['executorsList'] ? "INNER JOIN t.executors e WITH e.id IN (:executorsList) " : ' ')
+                        . ($params['curatorsList'] ? "INNER JOIN t.curators c WITH c.id IN (:curatorsList) " : ' ')
+                        . ($params['necessaryList'] ? "INNER JOIN t.necessary n WITH n.id IN (:necessaryList) " : ' ')
+                        . ($params['sufficientlyList'] ? "INNER JOIN t.sufficiently s WITH s.id IN (:sufficientlyList) " : ' ')
+                        . ($params['name'] || $params['about'] || $params['startDateTime'] || $params['finishDateTime'] ? "WHERE " : '')
+                        . ($params['name'] ? "t.name LIKE :name " : '')
+                        . ($params['about'] ? (($params['name'] ? "AND" : '') . " t.about LIKE :about ") : '')
+                        . ($params['startDateTime'] ? (($params['about'] || $params['name'] ? "AND" : '') . " t.startDateTime = :startDateTime ") : '')
+                        . ($params['finishDateTime'] ? (($params['startDateTime'] || $params['about'] || $params['name'] ? "AND" : '') . " t.finishDateTime = :finishDateTime ") : '')
+                        
                 )->setParameters($params);
+        $q->setFirstResult($from);
+        $q->setMaxResults($to);
         return $q->getResult();
-        
     }
+    
+    public function getCountTasksByParams($params, $from, $to) {
+
+        $q = $this->_em->createQuery("SELECT count(t.id) FROM wm\Entity\Task t "
+                        . ($params['executorsList'] ? "INNER JOIN t.executors e WITH e.id IN (:executorsList) " : ' ')
+                        . ($params['curatorsList'] ? "INNER JOIN t.curators c WITH c.id IN (:curatorsList) " : ' ')
+                        . ($params['necessaryList'] ? "INNER JOIN t.necessary n WITH n.id IN (:necessaryList) " : ' ')
+                        . ($params['sufficientlyList'] ? "INNER JOIN t.sufficiently s WITH s.id IN (:sufficientlyList) " : ' ')
+                        . ($params['name'] || $params['about'] || $params['startDateTime'] || $params['finishDateTime'] ? "WHERE " : '')
+                        . ($params['name'] ? "t.name LIKE :name " : '')
+                        . ($params['about'] ? (($params['name'] ? "AND" : '') . " t.about LIKE :about ") : '')
+                        . ($params['startDateTime'] ? (($params['about'] || $params['name'] ? "AND" : '') . " t.startDateTime = :startDateTime ") : '')
+                        . ($params['finishDateTime'] ? (($params['startDateTime'] || $params['about'] || $params['name'] ? "AND" : '') . " t.finishDateTime = :finishDateTime ") : '')
+                        
+                )->setParameters($params);
+        
+        return $q->getSingleScalarResult();
+    }
+    
+    
 
 }
