@@ -52,7 +52,7 @@ class TaskRepository extends EntityRepository {
         return $q->getResult();
     }
     
-    public function getCountTasksByParams($params, $from, $to) {
+    public function getCountTasksByParams($params) {
 
         $q = $this->_em->createQuery("SELECT count(t.id) FROM wm\Entity\Task t "
                         . ($params['executorsList'] ? "INNER JOIN t.executors e WITH e.id IN (:executorsList) " : ' ')

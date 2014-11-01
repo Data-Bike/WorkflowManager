@@ -120,9 +120,9 @@ class TaskController extends JsonRESTEntityUsingController {
         $rangeValue = explode('-', $rangeTypeValue[1]);
         $rangeFrom = $rangeValue[0];
         $rangeTo = $rangeValue[1];
-        $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getTasksByParams($params,$rangeFrom,$rangeTo-$rangeFrom+1);
+        $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getTasksByParams($params, $rangeFrom, $rangeTo - $rangeFrom + 1);
         $countAllTasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getCountTasksByParams($params);
-        $countTasks=count($tasks);
+        $countTasks = count($tasks);
         $rangeStr = $this->getResponse()->getHeaders()->addHeaderLine("Content-Range: items $rangeFrom-$rangeTo/$countAllTasks");
         foreach ($tasks as $task) {
             $row_grid = array('_about' => $task->getAbout(),
@@ -204,14 +204,27 @@ class TaskController extends JsonRESTEntityUsingController {
         return new JsonModel($array);
     }
 
-    public function update($id, $data) {
+    public function update($id, $json) {
+        $data = json_decode($json);
+//        print_r($id);
         $Task = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($id);
-        $Task->setAbout($data['about']);
-        $Task->setFinishDateTime(new \DateTime($data['finishDateTime']));
-        $Task->setName($data['name']);
-        $Task->setStartDateTime(new \DateTime($data['startDateTime']));
+        $session = new Container('wm_user');
+        $id = $session->id;
+        $q = $this->getEntityManager()->createQuery("SELECT m.id FROM wm\Entity\User u INNER JOIN u.myTasks m WITH u.id=$id");
+        foreach ($q->getResult() as $value) {
+            $array[] = $value['id'];
+        }
+        $Task->setAbout($data->about);
+        if ($data->finishDateTime) {
+            $Task->setFinishDateTime(new \DateTime($data->finishDateTime));
+        }
+        $Task->setName($data->name);
+        if ($data->startDateTime) {
+            $Task->setStartDateTime(new \DateTime($data->startDateTime));
+        }
+        $Task->setOwner($task = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($session->id));
 
-        $curators = explode(",", $data['curatorsList']);
+        $curators = explode(",", $data->curatorsList);
         foreach ($curators as $curatorId) {
             if ($curatorId) {
                 $curator = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($curatorId);
@@ -220,7 +233,7 @@ class TaskController extends JsonRESTEntityUsingController {
                 $this->getEntityManager()->persist($curator);
             }
         }
-        $executors = explode(",", $data['executorsList']);
+        $executors = explode(",", $data->executorsList);
         foreach ($executors as $executorId) {
             if ($executorId) {
                 $executor = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($executorId);
@@ -229,7 +242,7 @@ class TaskController extends JsonRESTEntityUsingController {
                 $this->getEntityManager()->persist($executor);
             }
         }
-        $necessarys = explode(",", $data['necessaryList']);
+        $necessarys = explode(",", $data->necessaryList);
         foreach ($necessarys as $necessaryId) {
             if ($necessaryId) {
                 $necessary = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($necessaryId);
@@ -238,7 +251,7 @@ class TaskController extends JsonRESTEntityUsingController {
                 $this->getEntityManager()->persist($necessary);
             }
         }
-        $sufficientlys = explode(",", $data['sufficientlyList']);
+        $sufficientlys = explode(",", $data->sufficientlyList);
         foreach ($sufficientlys as $sufficientlyId) {
             if ($sufficientlyId) {
                 $sufficiently = $this->getEntityManager()->getRepository('wm\Entity\Task')->findOneById($sufficientlyId);
@@ -249,7 +262,10 @@ class TaskController extends JsonRESTEntityUsingController {
         }
         $this->getEntityManager()->persist($Task);
         $this->getEntityManager()->flush();
-        return new JsonModel($data);
+
+        $array = array('id' => $Task->getId());
+
+        return new JsonModel($array);
     }
 
 }

@@ -74,9 +74,14 @@ define([
                     startDateTime = Date.add(startDate, 'hour', this.startTime.get('value').getHours());
                     startDateTime = Date.add(startDateTime, 'minute', this.startTime.get('value').getMinutes());
                 }
+                else
+                {
+                    startDateTime = startDate;
+                }
                 if (startDateTime) {
                     startDateTime = startDateTime.toUTCString();
                 }
+                console.log(startDateTime);
             }
 
             var finishDateTime = undefined;
@@ -85,6 +90,10 @@ define([
                 if (this.finishTime.get('value')) {
                     var finishDateTime = Date.add(finishDate, 'hour', this.finishTime.get('value').getHours());
                     finishDateTime = Date.add(finishDateTime, 'minute', this.finishTime.get('value').getMinutes());
+                }
+                else
+                {
+                    finishDateTime = finishDate;
                 }
                 if (finishDateTime) {
                     finishDateTime = finishDateTime.toUTCString();

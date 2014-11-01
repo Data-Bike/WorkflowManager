@@ -87,6 +87,8 @@ POSSIBILITY OF SUCH DAMAGE.
                         taskGrid.taskStore.objectStore.add(taskForm.getJS()).then(function (result) {
                             dijit.byId('first_toaster').setContent('Задача создана', 'message');
                             dijit.byId('first_toaster').show();
+                            taskGrid.taskStore.taskId = result.id;
+                            console.log("created task: id=", taskGrid.taskStore.taskId);
                         }, function (result) {
                             if (result.response.status == '403') {
                                 dijit.byId('first_toaster').setContent('Увас нет прав. Задача не создана.', 'error');
@@ -97,11 +99,14 @@ POSSIBILITY OF SUCH DAMAGE.
 
                         });
                     } else {
-                        taskGrid.taskStore.objectStore.put(JSON.stringify(userForm.getJS()), {id: userGrid.userStore.userId});
+                        taskGrid.taskStore.objectStore.put(JSON.stringify(taskForm.getJS()), {id: taskGrid.taskStore.taskId});
+                            console.log("updated task: id=", taskGrid.taskStore.taskId);
                     }
                 });
                 taskGrid.dg.on('SelectionChanged', function () {
+                    console.log("selected task: id=", taskGrid.dg.selection.getSelected()[0].params.data.id);
                     taskForm.set('value', taskGrid.dg.selection.getSelected()[0].params.data);
+                    taskGrid.taskStore.taskId = taskGrid.dg.selection.getSelected()[0].params.data.id;
                 });
 
             });
