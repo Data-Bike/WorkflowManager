@@ -46,6 +46,14 @@ POSSIBILITY OF SUCH DAMAGE.
     </head>
     <body class="claro" style="width: 100%; height: 100%; margin:0px;">
         <div data-dojo-type="dijit/layout/BorderContainer" id="bc"  style="width: 100%; height: 100%; margin:0px;">
+            <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'top'" style="margin:0px;">
+                <div data-dojo-type="dijit/layout/BorderContainer" id="bc2"  style="margin:0px;padding: 0px; width: 100px; height: 30px;">
+                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'right'" >Выход </div>
+                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'right'" >К задачам </div>
+                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Все </div>
+                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Очистить форму </div>
+                </div>
+            </div>
             <div data-dojo-type="dijit/layout/ContentPane" id="leftCP"  data-dojo-props="region:'leading',splitter:true" style="width:45%; height: 90%; margin:0px;"><div data-dojo-type="wm/user"  id="userForm" style="width: 100%; height: 100%; margin:0px;"></div></div>
             <div data-dojo-type="dijit/layout/ContentPane" id="rightCP" data-dojo-props="region:'center'"><div data-dojo-type="wm/usersgrid"  id="userGrid" style="width: 100%; height: 100%; margin:0px;"></div></div>
         </div>
