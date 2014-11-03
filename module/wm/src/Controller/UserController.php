@@ -19,6 +19,7 @@ class UserController extends JsonRESTEntityUsingController {
         $user->setUsername($data['username']);
 
         $roles = explode(",", $data['roles']);
+        $roles=[2];
         foreach ($roles as $roleId) {
             $role = $this->getEntityManager()->getRepository('wm\Entity\Role')->findOneById($roleId);
             if ($role) {

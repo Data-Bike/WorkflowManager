@@ -4,28 +4,37 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/WorkflowManager/public/js/wm/templates/taskselector.html</file>
+            <file>file:/var/www/WorkflowManager/module/administration/view/administration/index/index.phtml</file>
+            <file>file:/var/www/WorkflowManager/module/Application/view/application/index/index.phtml</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/usersgrid.js</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/templates/tasksgrid.html</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/task.js</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/templates/task.html</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/shorttask.js</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/user.js</file>
+            <file>file:/var/www/WorkflowManager/module/auth/src/Resource/UserResource.php</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/templates/usersgrid.html</file>
             <file>file:/var/www/WorkflowManager/public/js/wm/templates/user.html</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/taskslist.js</file>
+            <file>file:/var/www/WorkflowManager/module/wm/src/Entity/Role.php</file>
             <file>file:/var/www/WorkflowManager/module/wm/src/Controller/UserController.php</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/taskslist.js</file>
+            <file>file:/var/www/WorkflowManager/module/auth/src/Assertion/TaskAssertion.php</file>
             <file>file:/var/www/WorkflowManager/module/wm/src/Controller/TaskController.php</file>
+            <file>file:/var/www/WorkflowManager/module/auth/src/Assertion/UserAssertion.php</file>
             <file>file:/var/www/WorkflowManager/module/auth/src/Controller/LoginController.php</file>
             <file>file:/var/www/WorkflowManager/module/wm/src/Entity/Task.php</file>
             <file>file:/var/www/WorkflowManager/module/Application/src/Application/Controller/JsonRESTEntityUsingController.php</file>
-            <file>file:/var/www/WorkflowManager/module/administration/view/administration/index/index.phtml</file>
             <file>file:/var/www/WorkflowManager/module/wm/src/Entity/User.php</file>
             <file>file:/var/www/WorkflowManager/public/js/wm/templates/taskslist.html</file>
             <file>file:/var/www/WorkflowManager/module/wm/src/Repository/TaskRepository.php</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/templates/tasksgrid.html</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/usersgrid.js</file>
-            <file>file:/var/www/WorkflowManager/module/Application/view/application/index/index.phtml</file>
+            <file>file:/var/www/WorkflowManager/module/wm/src/Controller/AbstractRestfulJsonController.php</file>
+            <file>file:/var/www/WorkflowManager/public/js/wm/tasksgrid.js</file>
             <file>file:/var/www/WorkflowManager/public/js/wm/taskselector.js</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/templates/task.html</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/task.js</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/shorttask.js</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/user.js</file>
+            <file>file:/var/www/WorkflowManager/module/auth/view/auth/login/login.phtml</file>
+            <file>file:/var/www/WorkflowManager/module/auth/src/Plugin/AuthPlugin.php</file>
             <file>file:/var/www/WorkflowManager/module/wm/src/Repository/UserRepository.php</file>
+            <file>file:/var/www/WorkflowManager/module/auth/src/Resource/TaskResource.php</file>
             <file>file:/var/www/WorkflowManager/public/js/wm/templates/shorttask.html</file>
-            <file>file:/var/www/WorkflowManager/public/js/wm/templates/usersgrid.html</file>
         </group>
     </open-files>
 </project-private>

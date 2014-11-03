@@ -37,15 +37,22 @@ class UserRepository extends EntityRepository {
     public function getMyMembers() {
         $session = new Container('wm_user');
         $userId = $session->id;
-        $q = $this->_em->createQuery("SELECT u FROM wm\Entity\User u "
-                        . "where u.id=$userId");
-        return $q->getResult()[0]->getMembers();
+        if ($session->role != 'administrator') {
+            $q = $this->_em->createQuery("SELECT u FROM wm\Entity\User u "
+                    . "where u.id=$userId");
+            $result = $q->getResult()[0]->getMembers();
+        }else{
+            $q = $this->_em->createQuery("SELECT u FROM wm\Entity\User u");
+            $result = $q->getResult();
+        }
+        return $result;
     }
+
     public function getMyMembersByName($name) {
         $session = new Container('wm_user');
         $userId = $session->id;
         $q = $this->_em->createQuery("SELECT u FROM wm\Entity\User u "
-                        . "INNER JOIN u.members m on u.id=$userId");
+                . "INNER JOIN u.members m on u.id=$userId");
         return $q->getResult()[0]->getMembers();
     }
 
