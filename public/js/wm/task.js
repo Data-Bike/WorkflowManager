@@ -126,6 +126,22 @@ define([
 //            this.consequenceList.set('value', data.consequenceList);
             this.code = data.code;
         },
+        clear: function () {
+            this.name.set('value', '');
+            this.about.set('value',  '');
+            this.startDate.set('value', '');
+            this.startTime.set('value',  '');
+            this.finishDate.set('value',  '');
+            this.finishTime.set('value',  '')
+            this.startDate.set('displayedValue ', '');
+            this.startTime.set('displayedValue ',  '');
+            this.finishDate.set('displayedValue ',  '');
+            this.finishTime.set('displayedValue ',  '');
+            this.executorsList.set('value',  []);
+            this.curatorsList.set('value', []);
+            this.necessaryList.set('value', []);
+            
+        },
         postCreate: function () {
             this.inherited(arguments);
 
