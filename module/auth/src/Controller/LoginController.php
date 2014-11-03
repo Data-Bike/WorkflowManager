@@ -43,13 +43,18 @@ class LoginController extends AbstractEntityUsingController {
         $user = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneByUsername($login);
         if ($user && ($user->getPassword() === md5($pass))) {
             $session = new Container('wm_user');
-            $session->offsetSet('role', 'admin');
+            if (count($user->getRoles()->toArray())>0) {
+                $role = $user->getRoles()->toArray()[0]->getRoleId();
+            } else {
+                $role='anonymous';
+            }
+
+            $session->offsetSet('role', $role);
             $session->offsetSet('id', $user->getId());
-        }else
-        {
+        } else {
             $this->response->setStatusCode(401);
         }
-        return new JsonModel([id=>$user->getId()]);
+        return new JsonModel([id => $user->getId()]);
     }
 
     public function logoutAction() {

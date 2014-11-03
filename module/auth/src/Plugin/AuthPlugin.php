@@ -30,7 +30,7 @@ class AuthPlugin extends AbstractPlugin {
         //add role ..
         $acl->addRole(new Role('anonymous'));
         $acl->addRole(new Role('user'), 'anonymous');
-        $acl->addRole(new Role('admin'), 'user');
+        $acl->addRole(new Role('administrator'), 'user');
 
         $acl->addResource(new Resource('Application'));
         $acl->addResource(new Resource('auth'));
@@ -47,13 +47,13 @@ class AuthPlugin extends AbstractPlugin {
         );
 
         //admin is child of user, can publish, edit, and view too !
-        $acl->allow('admin', array('Application'), array('publish', 'edit')
+        $acl->allow('administrator', array('Application'), array('publish', 'edit')
         );
-        $acl->allow('admin', array('wm'), array('publish', 'view')
+        $acl->allow('administrator', array('wm'), array('publish', 'view')
         );
-        $acl->allow('admin', array('administration'), array('publish', 'view')
+        $acl->allow('administrator', array('administration'), array('publish', 'view')
         );
-        $acl->allow('admin', array('user'), array('publish', 'view')
+        $acl->allow('administrator', array('user'), array('publish', 'view')
         );
 
         $controller = $e->getTarget();
