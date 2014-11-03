@@ -141,6 +141,7 @@ POSSIBILITY OF SUCH DAMAGE.
             "dijit/form/ValidationTextBox",
             "dijit/form/Button",
             "dojo/request/xhr",
+            "dojo/cookie",
             "dojo/domReady!"
         ], function (
                 declare,
@@ -157,7 +158,8 @@ POSSIBILITY OF SUCH DAMAGE.
                 Form,
                 ValidationTextBox,
                 Button,
-                xhr
+                xhr,
+                cookie
                 ) {
 
             var LoginDialog = declare([Dialog, Evented], {
@@ -217,7 +219,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
                     var auth = this.controller.login(data);
                     var self=this;
-                    auth.then(function(){self.onLoginSuccess();},function(){self.onLoginError();});
+                    auth.then(function(result){self.onLoginSuccess(result);},function(){self.onLoginError();});
 //                    Deferred.when(auth, lang.hitch(this, function (loginSuccess) {
 //                        if (loginSuccess === true) {
 //                            this.onLoginSuccess();
@@ -226,10 +228,13 @@ POSSIBILITY OF SUCH DAMAGE.
 //                        this.onLoginError();
 //                    }));
                 },
-                onLoginSuccess: function () {
+                onLoginSuccess: function (result) {
                     this.set("readyState", this.READY);
                     this.set("message", "Аутентификация успешно завершена!");
                     this.emit("success");
+                    result=JSON.parse(result);
+//                    console.log(result);
+                    cookie('wm_id',result.id, { expires: 5 });
                     setTimeout("document.location.href='/'", 1000);
                 },
                 onLoginError: function () {

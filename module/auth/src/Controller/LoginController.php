@@ -11,6 +11,7 @@
 namespace auth\Controller;
 
 use Application\Controller\AbstractEntityUsingController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container;
 use wm\Entity\User;
@@ -48,7 +49,7 @@ class LoginController extends AbstractEntityUsingController {
         {
             $this->response->setStatusCode(401);
         }
-        return new ViewModel();
+        return new JsonModel([id=>$user->getId()]);
     }
 
     public function logoutAction() {

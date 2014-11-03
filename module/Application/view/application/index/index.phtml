@@ -48,13 +48,13 @@ POSSIBILITY OF SUCH DAMAGE.
         <div data-dojo-type="dijit/layout/BorderContainer" id="bc" style="width: 100%; height: 100%; margin:0px;">
             <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'top'" style="margin:0px;">
                 <div data-dojo-type="dijit/layout/BorderContainer" id="bc2"  style="margin:0px;padding: 0px; width: 100px; height: 30px;">
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'right'" >Выход </div>
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'right'" >Администрирование </div>
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Я выполняю </div>
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Я курирую </div>
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Я создал </div>
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Все </div>
-                    <div data-dojo-type="dijit/form/Button" data-dojo-props="region:'leading'" >Очистить форму </div>
+                    <div data-dojo-type="dijit/form/Button" id='exitButton' data-dojo-props="region:'right'" >Выход </div>
+                    <div data-dojo-type="dijit/form/Button" id='adminButton' data-dojo-props="region:'right'" >Администрирование </div>
+                    <div data-dojo-type="dijit/form/Button" id='executeButton' data-dojo-props="region:'leading'" >Я выполняю </div>
+                    <div data-dojo-type="dijit/form/Button" id='curateButton' data-dojo-props="region:'leading'" >Я курирую </div>
+                    <div data-dojo-type="dijit/form/Button" id='createButton' data-dojo-props="region:'leading'" >Я создал </div>
+                    <div data-dojo-type="dijit/form/Button" id='allButton' data-dojo-props="region:'leading'" >Все </div>
+                    <div data-dojo-type="dijit/form/Button" id='clearButton' data-dojo-props="region:'leading'" >Очистить форму </div>
                 </div>
             </div>
             <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props="region:'leading',splitter:true" style="width:45%; height: 90%; margin:0px;"><div data-dojo-type="wm/task"  id="taskForm" style="width: 100%; height: 100%; margin:0px;"></div></div>
@@ -76,23 +76,64 @@ POSSIBILITY OF SUCH DAMAGE.
                 "dojo/json",
                 "dojox/widget/Toaster",
                 "dojo/aspect",
-                "dijit/registry"
-            ], function (parser, BorderContainer, ContentPane, task, tasksgrid, userslist, taskselector, ioQuery, JSON, Toaster, aspect, registry) {
+                "dijit/registry",
+                "dojo/cookie"
+            ], function (parser, BorderContainer, ContentPane, task, tasksgrid, userslist, taskselector, ioQuery, JSON, Toaster, aspect, registry, cookie) {
 
 
                 parser.parse();
 
+                var userId = cookie("wm_id");
+
                 var self = this;
                 var taskForm = dijit.byId('taskForm');
                 var taskGrid = dijit.byId('taskGrid');
+                var exitButton = dijit.byId('exitButton');
+                var adminButton = dijit.byId('adminButton');
+                var executeButton = dijit.byId('executeButton');
+                var curateButton = dijit.byId('curateButton');
+                var createButton = dijit.byId('createButton');
+                var allButton = dijit.byId('allButton');
+                var clearButton = dijit.byId('clearButton');
                 var bc = registry.byId('bc').getSplitter("leading");
+
                 aspect.after(bc, "resize", function () {
                     taskForm.bc.resize();
                     taskGrid.dg.resize();
                 });
+
+                exitButton.on('click', function () {
+                    document.location.href = '/logout';
+                });
+
+                adminButton.on('click', function () {
+                    document.location.href = '/administration';
+                });
+
+                executeButton.on('click', function () {
+                    taskGrid.dg.setQuery('?' + 'executorsList='+cookie("wm_id"));
+                });
+
+                curateButton.on('click', function () {
+                    taskGrid.dg.setQuery('?' + 'curatorsList='+cookie("wm_id"));
+                });
+
+                createButton.on('click', function () {
+                    taskGrid.dg.setQuery('?' + 'owner='+cookie("wm_id"));
+                });
+
+                allButton.on('click', function () {
+                    taskGrid.dg.setQuery('');
+                });
+
+                clearButton.on('click', function () {
+                    taskForm.clear();
+                });
+
                 taskForm.viewButton.on('click', function () {
                     taskGrid.dg.setQuery('?' + ioQuery.objectToQuery(taskForm.getJS()));
                 });
+
                 taskForm.saveButton.on('click', function () {
                     if (!taskGrid.taskStore.taskId) {
                         taskGrid.taskStore.objectStore.add(taskForm.getJS()).then(function (result) {

@@ -115,15 +115,18 @@ class TaskController extends JsonRESTEntityUsingController {
         if (!$params['curatorsList']) {
             unset($params['curatorsList']);
         }
+        
         $rangeStr = $this->getRequest()->getHeaders()->get('Range')->getFieldValue();
         $rangeTypeValue = explode('=', $rangeStr);
         $rangeValue = explode('-', $rangeTypeValue[1]);
         $rangeFrom = $rangeValue[0];
         $rangeTo = $rangeValue[1];
+        
         $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getTasksByParams($params, $rangeFrom, $rangeTo - $rangeFrom + 1);
         $countAllTasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getCountTasksByParams($params);
         $countTasks = count($tasks);
         $rangeStr = $this->getResponse()->getHeaders()->addHeaderLine("Content-Range: items $rangeFrom-$rangeTo/$countAllTasks");
+        
         foreach ($tasks as $task) {
             $row_grid = array('_about' => $task->getAbout(),
                 '_FinishDateTime' => $task->getFinishDateTime() ? $task->getFinishDateTime()->format(\DateTime::W3C) : "нет",
