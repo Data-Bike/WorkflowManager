@@ -250,7 +250,7 @@ class Task {
     function setOwner($owner) {
         $this->owner = $owner;
     }
-
+    
     public function toArray() {
         return [
             'id' => $this->id,

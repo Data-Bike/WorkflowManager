@@ -115,18 +115,20 @@ class TaskController extends JsonRESTEntityUsingController {
         if (!$params['curatorsList']) {
             unset($params['curatorsList']);
         }
-        
+
+        unset($params['consequenceList']);
+
         $rangeStr = $this->getRequest()->getHeaders()->get('Range')->getFieldValue();
         $rangeTypeValue = explode('=', $rangeStr);
         $rangeValue = explode('-', $rangeTypeValue[1]);
         $rangeFrom = $rangeValue[0];
         $rangeTo = $rangeValue[1];
-        
+
         $tasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getTasksByParams($params, $rangeFrom, $rangeTo - $rangeFrom + 1);
         $countAllTasks = $this->getEntityManager()->getRepository('wm\Entity\Task')->getCountTasksByParams($params);
         $countTasks = count($tasks);
         $rangeStr = $this->getResponse()->getHeaders()->addHeaderLine("Content-Range: items $rangeFrom-$rangeTo/$countAllTasks");
-        
+
         foreach ($tasks as $task) {
             $row_grid = array('_about' => $task->getAbout(),
                 '_FinishDateTime' => $task->getFinishDateTime() ? $task->getFinishDateTime()->format(\DateTime::W3C) : "нет",
@@ -141,6 +143,7 @@ class TaskController extends JsonRESTEntityUsingController {
                         'Necessary' => $this->entitysToArray($task->getNecessary()),
                         'StartDateTime' => $task->getStartDateTime()->format(\DateTime::W3C),
                         'Sufficiently' => $this->entitysToArray($task->getSufficiently()),
+                        'Сonsequence' => array_merge($this->entitysToArray($task->getInvNecessary()), $this->entitysToArray($task->getInvSufficiently())),
                         'id' => $task->getId()
                     )
                 )
@@ -176,6 +179,14 @@ class TaskController extends JsonRESTEntityUsingController {
                 }
             } else {
                 $row_grid['_Sufficiently'] = 'нет';
+            }
+
+            if (count(array_merge($this->entitysToArray($task->getInvNecessary()), $this->entitysToArray($task->getInvSufficiently()))) > 0) {
+                foreach (array_merge($this->entitysToArray($task->getInvNecessary()), $this->entitysToArray($task->getInvSufficiently())) as $сonsequence) {
+                    $row_grid['_Сonsequence'].=$сonsequence['name'] . "\r\n";
+                }
+            } else {
+                $row_grid['_Сonsequence'] = 'нет';
             }
 
             $row_array[] = $row_grid;
