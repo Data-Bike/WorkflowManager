@@ -93,6 +93,8 @@ class AuthPlugin extends AbstractPlugin {
             $acl2->allow(NULL, NULL, NULL, $taskAssertion);
         }
 //        echo $controllerClass;
+//        echo "role: $role namespace: $namespace allow";
+//        echo $acl->isAllowed($role, $namespace, 'view');
         if (!$acl->isAllowed($role, $namespace, 'view')) {
             $router = $e->getRouter();
             $url = $router->assemble(array(), array('name' => 'login'));

@@ -19,7 +19,7 @@ class UserController extends JsonRESTEntityUsingController {
         $user->setUsername($data['username']);
 
         $roles = explode(",", $data['roles']);
-        $roles=[2];
+        $roles = [2];
         foreach ($roles as $roleId) {
             $role = $this->getEntityManager()->getRepository('wm\Entity\Role')->findOneById($roleId);
             if ($role) {
@@ -112,7 +112,7 @@ class UserController extends JsonRESTEntityUsingController {
     }
 
     public function update($id, $json) {
-        $data = json_decode($json,TRUE);
+        $data = json_decode($json, TRUE);
         $user = $this->getEntityManager()->getRepository('wm\Entity\User')->findOneById($id);
         $user->setEmail($data['email']);
         $user->setName($data['name']);

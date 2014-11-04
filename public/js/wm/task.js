@@ -122,8 +122,8 @@ define([
             this.executorsList.set('value', data.Executors);
             this.curatorsList.set('value', data.curators);
             this.necessaryList.set('value', data.Necessary);
-//            this.sufficientlyList.set('value', data.sufficientlyList);
-//            this.consequenceList.set('value', data.consequenceList);
+            this.sufficientlyList.set('value', data.Sufficiently);
+            this.consequenceList.set('value', data.Сonsequence);
             this.code = data.code;
         },
         clear: function () {
